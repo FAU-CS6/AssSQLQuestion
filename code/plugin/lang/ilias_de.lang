@@ -1,0 +1,6 @@
+// German Language File for QpiSQL Plugin
+<!-- language file start -->
+assSQLQuestion#:#Interaktive SQL Frage
+label_value1#:#Text stored for this answer (any text)
+label_value2#:#Points entered for this answer (any number)
+any_text#:#any text or empty
