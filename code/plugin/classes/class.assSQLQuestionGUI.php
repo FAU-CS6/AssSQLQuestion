@@ -105,6 +105,13 @@ class assSQLQuestionGUI extends assQuestionGUI
     $pattern_solution_code_textarea->setInfo($this->plugin->txt('pattern_solution_code_info'));
 		$form->addItem($pattern_solution_code_textarea);
 
+    // Input field for the completion code
+		$completion_code_textarea = new ilCustomInputGUI($this->plugin->txt('completion_code'));
+		$completion_code_textarea->setHTML($this->createCodeEditorInput("completion_code", ""));
+    $completion_code_textarea->setRequired(false);
+    $completion_code_textarea->setInfo($this->plugin->txt('completion_code_info'));
+		$form->addItem($completion_code_textarea);
+
 		// Execute button
     // Helper function executeEditQuestion can be found in ../js/main.js
     // The hidden filed executed_bool is important as the code has to be executed at least once before submitting the question

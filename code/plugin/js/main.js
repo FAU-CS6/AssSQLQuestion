@@ -98,7 +98,7 @@ function executeSolution(db_preparation_code, solution_code)
   }
   catch(err)
   {
-    throw "Error while executing the solution code: \"" + err.message + "\"";
+    throw "Error while executing the solution or the completion code: \"" + err.message + "\"";
   }
 
   return output;
@@ -124,6 +124,9 @@ function executeSolution(db_preparation_code, solution_code)
    // Get the latest pattern solution code
    const pattern_solution_code = editor_pattern_solution_code.getValue();
 
+   // Get the latest completion_code
+   const completion_code = editor_completion_code.getValue();
+
    // If no errors are found this will be false atherwise it will be true
    var error_bool = false;
 
@@ -133,7 +136,7 @@ function executeSolution(db_preparation_code, solution_code)
    // Execute the code
    try
    {
-     output = executeSolution(db_preparation_code, pattern_solution_code);
+     output = executeSolution(db_preparation_code, pattern_solution_code + " " + completion_code);
    }
    catch(err)
    {
