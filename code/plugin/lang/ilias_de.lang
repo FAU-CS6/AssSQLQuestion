@@ -1,6 +1,13 @@
 // German Language File for QpiSQL Plugin
 <!-- language file start -->
 assSQLQuestion#:#Interaktive SQL Frage
+question_edit_info#:#Dieser Fragentyp ermöglicht interaktive Fragen zum Thema SQL.
+db_preparation_code#:#Initialisierungs Code
+db_preparation_code_info#:#Obiger Block muss alle SQL Statements enthalten, die dazu benötigt werden die Datenbank auf den für die Frage gewünschten Ausgangszustand zu bringen.
+pattern_solution_code#:#Musterlösung
+pattern_solution_code_info#:#Dieser Block muss eine (beispielhafte) Musterlösung für die Frage enthalten.
+
+
 label_value1#:#Text stored for this answer (any text)
 label_value2#:#Points entered for this answer (any number)
 any_text#:#any text or empty

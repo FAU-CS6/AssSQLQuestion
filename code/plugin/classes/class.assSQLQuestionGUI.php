@@ -12,6 +12,11 @@
 class assSQLQuestionGUI extends assQuestionGUI
 {
 	/**
+ 	 * @const	string URL base path for including used javascript and css files
+ 	 */
+ 	const URL_PATH = "./Customizing/global/plugins/Modules/TestQuestionPool/Questions/assSQLQuestion";
+
+	/**
 	 * @var ilassSQLQuestionPlugin The plugin object
 	 */
 	var $plugin = null;
@@ -41,6 +46,97 @@ class assSQLQuestionGUI extends assQuestionGUI
 	}
 
 	/**
+	 * Private helper function to prepare the different GUIs by adding required
+	 * Javascript and CSS files
+	 *
+	 * @access private
+	 */
+	 private function prepareTemplate()
+	 {
+			// Add CSS files
+
+				// Custom css
+				$this->tpl->addCss(self::URL_PATH.'/css/custom.css');
+
+				// Codemirror
+				$this->tpl->addCss(self::URL_PATH.'/js/codemirror/lib/codemirror.css');
+
+		  // Add JS files
+
+				// Custom Files
+        $this->tpl->addJavascript(self::URL_PATH.'/js/main.js');
+				$this->tpl->addJavascript(self::URL_PATH.'/js/sqlDatabase.js');
+
+			  // Codemirror
+				$this->tpl->addJavascript(self::URL_PATH.'/js/codemirror/lib/codemirror.js');
+				$this->tpl->addJavascript(self::URL_PATH.'/js/codemirror/mode/sql/sql.js');
+
+				// SQL.js
+				$this->tpl->addJavascript(self::URL_PATH.'/js/sql.js/sql.js');
+
+			// Add custom js code
+
+				// Nothing to do here (until now)
+
+	 }
+
+	 /**
+	  * Private helper function to keep editQuestion more clean
+		* Implements the addition of question specific fields used in editQuestion
+		*
+		* @param ilPropertyFormGUI $form The form the fields should be added to
+		* @access private
+		*/
+	private function addSpecificQuestionFormProperties(\ilPropertyFormGUI $form)
+	{
+		global $lng;
+
+		// Input field for the preparation code of the database
+		$db_preparation_code_textarea= new ilCustomInputGUI($this->plugin->txt('db_preparation_code'));
+		$db_preparation_code_textarea->setHTML($this->createCodeEditorInput("db_preparation_code", ""));
+    $db_preparation_code_textarea->setRequired(true);
+    $db_preparation_code_textarea->setInfo($this->plugin->txt('db_preparation_code_info'));
+		$form->addItem($db_preparation_code_textarea);
+
+		// Input field for the pattern solution code
+		$pattern_solution_code_textarea = new ilCustomInputGUI($this->plugin->txt('pattern_solution_code'));
+		$pattern_solution_code_textarea->setHTML($this->createCodeEditorInput("pattern_solution_code", ""));
+    $pattern_solution_code_textarea->setRequired(true);
+    $pattern_solution_code_textarea->setInfo($this->plugin->txt('pattern_solution_code_info'));
+		$form->addItem($pattern_solution_code_textarea);
+
+		// Execute button
+    // Helper function executeEditQuestion can be found in ../js/main.js
+		$execute_button = new ilCustomInputGUI('');
+		$execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="btn-exec" value="Execute" onclick="executeEditQuestion()">');
+		$form->addItem($execute_button);
+
+    // Output
+		$output_div = new ilCustomInputGUI('');
+		$output_div->setHTML('<div id="output"></div>');
+		$form->addItem($output_div);
+
+	}
+
+	/**
+	 * Helper function to generate a single code editor element
+	 *
+	 * @param string $name The name of the code editor element
+	 * @param string $value The default value of the field
+	 * @access private
+	 */
+	private function createCodeEditorInput($name, $value)
+	{
+		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_edit_code.html');
+		$tpl->setVariable("CONTENT", ilUtil::prepareFormOutput($value));
+		$tpl->setVariable("NAME", $name);
+		$tpl->setVariable("QUESTION_ID", $this->object->getId());
+		$item = new ilCustomInputGUI('');
+
+		return $tpl->get();
+	}
+
+	/**
 	 * Creates an output of the edit form for the question
 	 *
 	 * @param bool $checkonly
@@ -48,39 +144,50 @@ class assSQLQuestionGUI extends assQuestionGUI
 	 */
 	public function editQuestion($checkonly = false)
 	{
+		// Initialize the Language module
 		global $DIC;
 		$lng = $DIC->language();
 
+		// Prepare the template by loading css and javascript files
+		$this->prepareTemplate();
+
+		// Initialize the form
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
+		$form->setDescription($this->plugin->txt('question_edit_info'));
 		$form->setMultipart(TRUE);
 		$form->setTableWidth("100%");
 		$form->setId("qpisql");
 
-		// Title, author, description, question, working time
+		// Add basic fields (title, author, description, question and working time)
 		$this->addBasicQuestionFormProperties($form);
 
-		// Here you can add question type specific form properties
-		// We only add an input field for the maximum points
-		// NOTE: in complex question types the maximum points are summed up by partial points
-		$points = new ilNumberInputGUI($lng->txt('maximum_points'),'points');
-		$points->setSize(3);
-		$points->setMinValue(1);
-		$points->allowDecimals(0);
-		$points->setRequired(true);
-		$points->setValue($this->object->getPoints());
-		$form->addItem($points);
+		// Add question specific fields
+		// As we have to add a bunch of them we created a separate function for this
+		$this->addSpecificQuestionFormProperties($form);
 
+		// Add the final form buttons
 		$this->populateTaxonomyFormSection($form);
 		$this->addQuestionFormCommandButtons($form);
 
+		// There should not be any errors until now
 		$errors = false;
+
+		// If the question is to be saved
 		if ($this->isSaveCommand())
 		{
+			// Set the values to the ones send by POST
 			$form->setValuesByPost();
+
+			// checkInput() checks and transforms the input
+			// If there are errors set errors to true
 			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+
+			// Set the values to the ones send by POST because checkInput
+			// may have changed something
+			$form->setValuesByPost();
+
 			if ($errors)
 			{
 				$checkonly = false;
