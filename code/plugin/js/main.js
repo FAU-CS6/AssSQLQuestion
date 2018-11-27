@@ -3,7 +3,7 @@
  **/
 
 /**
- * sqlDatabase output array to JSON string
+ * executeSolution() output array to JSON string
  *
  * @var mixed output The original output array of sqlDatabase
  * @returns string The JSON string
@@ -11,6 +11,97 @@
 function outputToJSON(output)
 {
   return JSON.stringify(output);
+}
+
+/**
+ * executeSolution() output array to a HTML table
+ *
+ * @var mixed output The original output array of sqlDatabase
+ * @returns string The HTML code of the table
+ */
+function outputToHTMLTable(output)
+{
+  // Begin the table
+  var html = "<table class='il_as_qpl_qpisql_output_table'>";
+
+  // Insert attribute names as header row
+  html += "<tr class='il_as_qpl_qpisql_output_table_header'>";
+
+  for(var i = 0; i < output["columns"].length; i++)
+  {
+    // Insert a new column
+    html += "<td><b>" + output["columns"][i] + "</b></td>";
+  }
+
+  html += "</tr>";
+
+  // Insert the single tuples
+  for(var i = 0; i < output["values"].length; i++)
+  {
+    html += "<tr class='il_as_qpl_qpisql_output_table_tuple'>";
+
+    for(var ii = 0; ii < output["values"][i].length; ii++)
+    {
+      html += "<td>" + output["values"][i][ii] + "</td>";
+    }
+
+    html += "</tr>";
+  }
+
+  // End the table
+  html += "</table>";
+
+  return html;
+}
+
+/**
+ * Execute a solution
+ * Includes creating the database, running the preparation statements and executing the solution
+ *
+ * @var string db_preparation_code The preparation code for the database
+ * @var string solution_code The solution code
+ * @returns mixed The output array
+ */
+function executeSolution(db_preparation_code, solution_code)
+{
+  // Initialize the db variable to be available outside of the try catch block
+  var db;
+
+  try
+  {
+    // Setup the database (new database for every execution)
+    // This is important as the db_prepation_code might have been changed between to executions
+    db = new sqlDatabase();
+  }
+  catch(err)
+  {
+    throw "Database could not be created";
+  }
+
+  try
+  {
+    // Run the preparation code
+    db.runStatement(db_preparation_code);
+  }
+  catch(err)
+  {
+    throw "Error while executing the preparation code: \"" + err.message + "\"";
+  }
+
+  // Initialize the output variable to be available outside of the try catch block
+  var output;
+
+  try
+  {
+    // Execute the pattern solution code
+    output = db.executeStatement(solution_code);
+  }
+  catch(err)
+  {
+    throw "Error while executing the solution code: \"" + err.message + "\"";
+  }
+
+  return output;
 }
 
 
@@ -25,7 +116,7 @@ function outputToJSON(output)
  function executeEditQuestion()
  {
    // At first disable the execute button
-   document.getElementById("btn-exec").disabled = true;
+   document.getElementById("il_as_qpl_qpisql_execution_button").disabled = true;
 
    // Get the latest database preparation code
    const db_preparation_code = editor_db_preparation_code.getValue();
@@ -33,71 +124,37 @@ function outputToJSON(output)
    // Get the latest pattern solution code
    const pattern_solution_code = editor_pattern_solution_code.getValue();
 
-   // Initialize the db variable to be available outside of the try catch block
-   var db;
-
-   try
-   {
-     // Setup the database (new database for every execution)
-     // This is important as the db_prepation_code might have been changed between to executions
-     db = new sqlDatabase();
-   }
-   catch(err)
-   {
-     writeErrorsEditQuestion("Database could not be created", "true");
-
-     // If this failed the execution has to be aborted
-     // This includes enableing the execute button again to be ready for another try
-     document.getElementById("btn-exec").disabled = false;
-     return;
-   }
-
-   try
-   {
-     // Run the preparation code
-     db.runStatement(db_preparation_code);
-   }
-   catch(err)
-   {
-     writeErrorsEditQuestion("Error while executing the preparation code: \"" + err.message + "\"", "true");
-
-     // If this failed the execution has to be aborted
-     // This includes enableing the execute button again to be ready for another try
-     document.getElementById("btn-exec").disabled = false;
-     return;
-   }
+   // If no errors are found this will be false atherwise it will be true
+   var error_bool = false;
 
    // Initialize the output variable to be available outside of the try catch block
    var output;
 
+   // Execute the code
    try
    {
-     // Execute the pattern solution code
-     output = db.executeStatement(pattern_solution_code);
+     output = executeSolution(db_preparation_code, pattern_solution_code);
    }
    catch(err)
    {
-     writeErrorsEditQuestion("Error while executing the solution code: \"" + err.message + "\"", "true");
-
-     // If this failed the execution has to be aborted
-     // This includes enableing the execute button again to be ready for another try
-     document.getElementById("btn-exec").disabled = false;
-     return;
+     error_bool = true;
+     writeErrorsEditQuestion(err, "true");
    }
 
-   console.log(output);
+   // Inform the user about no errors being found if error_bool is false
+   if(!error_bool)
+   {
+     writeErrorsEditQuestion("No errors found", "false");
 
-   // Create an outputJsonString for easier transport
-   const outputJsonString = JSON.stringify(output);
-
-   // Inform the user about no errors being found
-   writeErrorsEditQuestion("No errors found", "false");
+     // Display the output
+     outputDisplayEditQuestion(output);
+   }
 
    // Set the executed bool to be true
-   document.getElementById('executed_bool').value = "true";
+   document.getElementById('il_as_qpl_qpisql_executed_bool').value = "true";
 
    // Enable the execute button again
-   document.getElementById("btn-exec").disabled = false;
+   document.getElementById("il_as_qpl_qpisql_execution_button").disabled = false;
  }
 
  /**
@@ -109,7 +166,7 @@ function outputToJSON(output)
   */
  function writeErrorsEditQuestion(error_message, error_bool)
  {
-   document.getElementById('error_log').innerHTML = error_message;
+   document.getElementById('il_as_qpl_qpisql_error_log').innerHTML = error_message;
  }
 
  /**
@@ -119,5 +176,6 @@ function outputToJSON(output)
   */
  function outputDisplayEditQuestion(output)
  {
-   document.getElementById('error_log').innerHTML = error_message;
+   document.getElementById('il_as_qpl_qpisql_output_div').innerHTML = outputToHTMLTable(output);
+   document.getElementById('il_as_qpl_qpisql_statement_output').value = outputToJSON(output);
  }

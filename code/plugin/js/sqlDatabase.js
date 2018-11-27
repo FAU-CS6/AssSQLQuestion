@@ -34,6 +34,11 @@ class sqlDatabase
   {
     const output = this.db.exec(statement);
 
+    if(output.length == 0)
+    {
+        throw "No query/A query without output has been executed";
+    }
+
     // We only want the result of the last query - so we have to shorten this
     return output[output.length - 1];
   }

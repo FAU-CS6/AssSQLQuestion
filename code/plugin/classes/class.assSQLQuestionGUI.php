@@ -109,19 +109,20 @@ class assSQLQuestionGUI extends assQuestionGUI
     // Helper function executeEditQuestion can be found in ../js/main.js
     // The hidden filed executed_bool is important as the code has to be executed at least once before submitting the question
 		$execute_button = new ilCustomInputGUI('');
-		$execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="btn-exec" value="Execute" onclick="executeEditQuestion()"><input type="hidden" name="executed_bool" id="executed_bool" value="false" />');
+		$execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="il_as_qpl_qpisql_execution_button" value="Execute" onclick="executeEditQuestion()"><input type="hidden" name="executed_bool" id="il_as_qpl_qpisql_executed_bool" value="false" />');
 		$form->addItem($execute_button);
 
     // Error log
     // The hidden field error_bool (true for errors found - false for no errors found) will be written by javascript
     // It is important as no question with errors should be able to be created
 		$error_log = new ilCustomInputGUI($this->plugin->txt('error_log'));
-		$error_log->setHTML('<div id="error_log"></div><input type="hidden" name="error_bool" id="error_bool" value="false" />');
+		$error_log->setHTML('<div id="il_as_qpl_qpisql_error_log"></div><input type="hidden" name="error_bool" id="il_as_qpl_qpisql_error_bool" value="false" />');
 		$form->addItem($error_log);
 
     // Output
+    // The hidden field statement_output contains the output of the last executed statement
 		$output_div = new ilCustomInputGUI($this->plugin->txt('output'));
-		$output_div->setHTML('<div id="output"></div>');
+		$output_div->setHTML('<div id="il_as_qpl_qpisql_output_div"></div><input type="hidden" name="statement_output" id="il_as_qpl_qpisql_statement_output" value="false" />');
 		$form->addItem($output_div);
 
 	}
