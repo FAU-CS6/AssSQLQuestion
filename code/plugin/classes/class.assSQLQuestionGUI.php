@@ -94,7 +94,6 @@ class assSQLQuestionGUI extends assQuestionGUI
 		// Input field for the preparation code of the database
 		$db_preparation_code_textarea= new ilCustomInputGUI($this->plugin->txt('db_preparation_code'));
 		$db_preparation_code_textarea->setHTML($this->createCodeEditorInput("db_preparation_code", ""));
-    $db_preparation_code_textarea->setRequired(true);
     $db_preparation_code_textarea->setInfo($this->plugin->txt('db_preparation_code_info'));
 		$form->addItem($db_preparation_code_textarea);
 
