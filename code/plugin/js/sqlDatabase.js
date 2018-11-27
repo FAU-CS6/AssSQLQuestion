@@ -8,30 +8,10 @@ class sqlDatabase
    *
    * @var string db_preparation_code The preparation code of the database instance
    */
-  constructor(db_preparation_code)
+  constructor()
   {
-    try
-    {
-      // Create a new database instance
-      this.db = new SQL.Database();
-    }
-    catch(err)
-    {
-      console.log("Error creating a new database instance");
-      throw err;
-    }
-
-    try
-    {
-      // Run the preparation code
-      this.db.run(db_preparation_code);
-    }
-    catch(err)
-    {
-      console.log("Error running the preparation code of the database");
-      throw err;
-    }
-
+    // Create a new database instance
+    this.db = new SQL.Database();
   }
 
   /**
@@ -41,34 +21,21 @@ class sqlDatabase
    */
   runStatement(statement)
   {
-    try
-    {
-      this.db.run(statement);
-    }
-    catch(err)
-    {
-      console.log("Error running a statement");
-      throw err;
-    }
+    this.db.run(statement);
   }
 
   /**
    * Execute (with a return value) a single SQl statement
    *
    * @var string statement The statement to be executed
-   * @returns mixed An complex array containing the result of the query
+   * @returns mixed An complex array containing the result of the last query
    */
   executeStatement(statement)
   {
-    try
-    {
-      return this.db.exec(statement);
-    }
-    catch(err)
-    {
-      console.log("Error executing a statement");
-      throw err;
-    }
+    const output = this.db.exec(statement);
+
+    // We only want the result of the last query - so we have to shorten this
+    return output[output.length - 1];
   }
 
 

@@ -5,8 +5,9 @@ question_edit_info#:#This question type enables interactive SQL questions.
 db_preparation_code#:#Initialization Statements
 db_preparation_code_info#:#The above block must contain all the SQL statements required to lead the database to the initial state desired for the question.
 pattern_solution_code#:#Sample Solution
-pattern_solution_code_info#:#This block must contain an (exemplary) solution to the question.
-
+pattern_solution_code_info#:#This block must contain an (exemplary) solution to the question. Only the output of the last statement will be analysed by the plugin, so it is recommended to use only one statement as sample solution
+error_log#:#Error Log
+output#:#Output
 
 label_value1#:#Text stored for this answer (any text)
 label_value2#:#Points entered for this answer (any number)

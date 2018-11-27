@@ -5,8 +5,9 @@ question_edit_info#:#Dieser Fragentyp ermöglicht interaktive Fragen zum Thema S
 db_preparation_code#:#Initialisierungs Code
 db_preparation_code_info#:#Obiger Block muss alle SQL Statements enthalten, die dazu benötigt werden die Datenbank auf den für die Frage gewünschten Ausgangszustand zu bringen.
 pattern_solution_code#:#Musterlösung
-pattern_solution_code_info#:#Dieser Block muss eine (beispielhafte) Musterlösung für die Frage enthalten.
-
+pattern_solution_code_info#:#Dieser Block muss eine (beispielhafte) Musterlösung für die Frage enthalten. Dabei ist zu beachten, dass nur die Ausgabe der letzten Anfrage vom Plugin für die Analyse in Betracht gezogen wird. Empfohlen ist hierbei daher nur ein Statement zu verwenden.
+error_log#:#Fehlerprotokoll
+output#:#Ausgabe
 
 label_value1#:#Text stored for this answer (any text)
 label_value2#:#Points entered for this answer (any number)

@@ -107,12 +107,20 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		// Execute button
     // Helper function executeEditQuestion can be found in ../js/main.js
+    // The hidden filed executed_bool is important as the code has to be executed at least once before submitting the question
 		$execute_button = new ilCustomInputGUI('');
-		$execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="btn-exec" value="Execute" onclick="executeEditQuestion()">');
+		$execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="btn-exec" value="Execute" onclick="executeEditQuestion()"><input type="hidden" name="executed_bool" id="executed_bool" value="false" />');
 		$form->addItem($execute_button);
 
+    // Error log
+    // The hidden field error_bool (true for errors found - false for no errors found) will be written by javascript
+    // It is important as no question with errors should be able to be created
+		$error_log = new ilCustomInputGUI($this->plugin->txt('error_log'));
+		$error_log->setHTML('<div id="error_log"></div><input type="hidden" name="error_bool" id="error_bool" value="false" />');
+		$form->addItem($error_log);
+
     // Output
-		$output_div = new ilCustomInputGUI('');
+		$output_div = new ilCustomInputGUI($this->plugin->txt('output'));
 		$output_div->setHTML('<div id="output"></div>');
 		$form->addItem($output_div);
 

@@ -1,6 +1,26 @@
 /**
+ * Multi-Use Javascript functions
+ **/
+
+/**
+ * sqlDatabase output array to JSON string
+ *
+ * @var mixed output The original output array of sqlDatabase
+ * @returns string The JSON string
+ */
+function outputToJSON(output)
+{
+  return JSON.stringify(output);
+}
+
+
+/**
+ * Javascript functions tailored for editQuestion page
+ * see ../classes/class.assSQLQuestionGUI.php for corresponding editQuestion function
+ **/
+
+/**
  * SQL execution helper tailored for the editQuestion page
- * (see assSQLQuestionGUI for more information)
  */
  function executeEditQuestion()
  {
@@ -13,39 +33,91 @@
    // Get the latest pattern solution code
    const pattern_solution_code = editor_pattern_solution_code.getValue();
 
-   // Execute the queries
-   const output = executeCode(db_preparation_code, pattern_solution_code);
+   // Initialize the db variable to be available outside of the try catch block
+   var db;
+
+   try
+   {
+     // Setup the database (new database for every execution)
+     // This is important as the db_prepation_code might have been changed between to executions
+     db = new sqlDatabase();
+   }
+   catch(err)
+   {
+     writeErrorsEditQuestion("Database could not be created", "true");
+
+     // If this failed the execution has to be aborted
+     // This includes enableing the execute button again to be ready for another try
+     document.getElementById("btn-exec").disabled = false;
+     return;
+   }
+
+   try
+   {
+     // Run the preparation code
+     db.runStatement(db_preparation_code);
+   }
+   catch(err)
+   {
+     writeErrorsEditQuestion("Error while executing the preparation code: \"" + err.message + "\"", "true");
+
+     // If this failed the execution has to be aborted
+     // This includes enableing the execute button again to be ready for another try
+     document.getElementById("btn-exec").disabled = false;
+     return;
+   }
+
+   // Initialize the output variable to be available outside of the try catch block
+   var output;
+
+   try
+   {
+     // Execute the pattern solution code
+     output = db.executeStatement(pattern_solution_code);
+   }
+   catch(err)
+   {
+     writeErrorsEditQuestion("Error while executing the solution code: \"" + err.message + "\"", "true");
+
+     // If this failed the execution has to be aborted
+     // This includes enableing the execute button again to be ready for another try
+     document.getElementById("btn-exec").disabled = false;
+     return;
+   }
+
+   console.log(output);
 
    // Create an outputJsonString for easier transport
    const outputJsonString = JSON.stringify(output);
+
+   // Inform the user about no errors being found
+   writeErrorsEditQuestion("No errors found", "false");
+
+   // Set the executed bool to be true
+   document.getElementById('executed_bool').value = "true";
 
    // Enable the execute button again
    document.getElementById("btn-exec").disabled = false;
  }
 
-
-/**
- * Simple execution helper
- * e.g. used by executeEditQuestion()
- *
- * @var string db_preparation_code The initialization code of the database
- * @var string execution_code The code that has to be executed
- * @returns mixed An complex array containing the result of the query
- */
- function executeCode(db_preparation_code, execution_code)
+ /**
+  * Error log function for editQuestion page
+  * Error_Messages will be displayed directly on page
+  *
+  * @var string error_message The message to be displayed
+  * @var string error_bool The error status - "true" for error found, "false" for no error found
+  */
+ function writeErrorsEditQuestion(error_message, error_bool)
  {
-   try
-   {
-     // Setup the database (new database for every execution)
-     // This is important as the db_prepation_code might have been changed between to executions
-     const db = new sqlDatabase(db_preparation_code);
+   document.getElementById('error_log').innerHTML = error_message;
+ }
 
-     // Execute the statement
-    return db.executeStatement(execution_code);
-   }
-   catch(err)
-   {
-     console.log(err.message);
-     throw err;
-   }
+ /**
+  * Output display function for editQuestion page
+  *
+  * @var mixed output The Output array to be displayed
+  */
+ function outputDisplayEditQuestion(output)
+ {
+   document.getElementById('error_log').innerHTML = error_message;
  }
