@@ -2,12 +2,9 @@
 <!-- language file start -->
 assSQLQuestion#:#Interaktive SQL Frage
 question_edit_info#:#Dieser Fragentyp ermöglicht Fragen, bei denen die Prüflinge selbst SQL Code schreiben müssen und diesen mit Hilfe von sql.js - einer Javascript Implementierung von SQL Lite - auch direkt ausführen können.
-db_preparation_code#:#Initialisierende Statements
-db_preparation_code_info#:#Dieser Block muss alle SQL Statements enthalten, die dazu benötigt werden die Datenbank auf den für die Frage gewünschten Ausgangszustand zu bringen.
-pattern_solution_code#:#Musterlösung
-pattern_solution_code_info#:#Dieser Block muss eine (beispielhafte) Musterlösung für die Frage enthalten. Wenn keine abschließenden Statements angegeben sind, wird die Ausgabe des letzten Statements aus diesem Block angezeigt und zum Vergleich der Lösungen herangezogen.
-completion_code#:#Abschließende Statements
-completion_code_info#:#Um nicht nur SELECT Anfragen bewerten zu können, können in den abschließenden Statements noch SELECT Anfragen angebenen werden, wobei die Ausgabe des letzten Statements aus diesem Block angezeigt und zum Vergleich der Lösungen herangezogen wird.
+sequence_a#:#A
+sequence_b#:#B
+sequence_c#:#C
 error_log#:#Fehlerprotokoll
 output#:#Ausgabe
 

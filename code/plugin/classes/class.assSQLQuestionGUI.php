@@ -64,8 +64,9 @@ class assSQLQuestionGUI extends assQuestionGUI
 		  // Add JS files
 
 				// Custom Files
-        $this->tpl->addJavascript(self::URL_PATH.'/js/main.js');
-				$this->tpl->addJavascript(self::URL_PATH.'/js/sqlDatabase.js');
+        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlResult.js');
+				$this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRun.js');
+        $this->tpl->addJavascript(self::URL_PATH.'/js/pages/editQuestion.js');
 
 			  // Codemirror
 				$this->tpl->addJavascript(self::URL_PATH.'/lib/codemirror/lib/codemirror.js');
@@ -91,25 +92,22 @@ class assSQLQuestionGUI extends assQuestionGUI
 	{
 		global $lng;
 
-		// Input field for the preparation code of the database
-		$db_preparation_code_textarea= new ilCustomInputGUI($this->plugin->txt('db_preparation_code'));
-		$db_preparation_code_textarea->setHTML($this->createCodeEditorInput("db_preparation_code", ""));
-    $db_preparation_code_textarea->setInfo($this->plugin->txt('db_preparation_code_info'));
-		$form->addItem($db_preparation_code_textarea);
+    // Input fields for the sql sequences A, B and C
 
-		// Input field for the pattern solution code
-		$pattern_solution_code_textarea = new ilCustomInputGUI($this->plugin->txt('pattern_solution_code'));
-		$pattern_solution_code_textarea->setHTML($this->createCodeEditorInput("pattern_solution_code", ""));
-    $pattern_solution_code_textarea->setRequired(true);
-    $pattern_solution_code_textarea->setInfo($this->plugin->txt('pattern_solution_code_info'));
-		$form->addItem($pattern_solution_code_textarea);
+		// Sequence A
+		$sequence_a_textarea= new ilCustomInputGUI($this->plugin->txt('sequence_a'));
+		$sequence_a_textarea->setHTML($this->createCodeEditorInput("sequence_a", ""));
+		$form->addItem($sequence_a_textarea);
 
-    // Input field for the completion code
-		$completion_code_textarea = new ilCustomInputGUI($this->plugin->txt('completion_code'));
-		$completion_code_textarea->setHTML($this->createCodeEditorInput("completion_code", ""));
-    $completion_code_textarea->setRequired(false);
-    $completion_code_textarea->setInfo($this->plugin->txt('completion_code_info'));
-		$form->addItem($completion_code_textarea);
+    // Sequence B
+		$sequence_b_textarea= new ilCustomInputGUI($this->plugin->txt('sequence_b'));
+		$sequence_b_textarea->setHTML($this->createCodeEditorInput("sequence_b", ""));
+		$form->addItem($sequence_b_textarea);
+
+    // Sequence C
+		$sequence_c_textarea= new ilCustomInputGUI($this->plugin->txt('sequence_c'));
+		$sequence_c_textarea->setHTML($this->createCodeEditorInput("sequence_c", ""));
+		$form->addItem($sequence_c_textarea);
 
 		// Execute button
     // Helper function executeEditQuestion can be found in ../js/main.js
