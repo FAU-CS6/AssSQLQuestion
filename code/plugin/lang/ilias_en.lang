@@ -11,6 +11,7 @@ completion_code_info#:#In order to be able to evaluate not only SELECT queries, 
 error_log#:#Error Log
 output#:#Output
 
+
 label_value1#:#Text stored for this answer (any text)
 label_value2#:#Points entered for this answer (any number)
 any_text#:#any text or empty
