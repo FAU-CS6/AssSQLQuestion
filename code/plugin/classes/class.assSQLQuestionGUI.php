@@ -109,22 +109,21 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$sequence_c_textarea->setHTML($this->createCodeEditorInput("sequence_c", ""));
 		$form->addItem($sequence_c_textarea);
 
+    // Checkbox to activate and deaktivate the integrity check
+    $integrity_check = new ilCheckboxInputGUI($this->plugin->txt('integrity_check'), 'integrity_check');
+		$form->addItem($integrity_check);
+
 		// Execute button
-    // Helper function executeEditQuestion can be found in ../js/main.js
-    // The hidden filed executed_bool is important as the code has to be executed at least once before submitting the question
 		$execute_button = new ilCustomInputGUI('');
 		$execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="il_as_qpl_qpisql_execution_button" value="Execute" onclick="executeEditQuestion()"><input type="hidden" name="executed_bool" id="il_as_qpl_qpisql_executed_bool" value="false" />');
 		$form->addItem($execute_button);
 
     // Error log
-    // The hidden field error_bool (true for errors found - false for no errors found) will be written by javascript
-    // It is important as no question with errors should be able to be created
 		$error_log = new ilCustomInputGUI($this->plugin->txt('error_log'));
 		$error_log->setHTML('<div id="il_as_qpl_qpisql_error_log"></div><input type="hidden" name="error_bool" id="il_as_qpl_qpisql_error_bool" value="false" />');
 		$form->addItem($error_log);
 
     // Output
-    // The hidden field statement_output contains the output of the last executed statement
 		$output_div = new ilCustomInputGUI($this->plugin->txt('output'));
 		$output_div->setHTML('<div id="il_as_qpl_qpisql_output_div"></div><input type="hidden" name="statement_output" id="il_as_qpl_qpisql_statement_output" value="false" />');
 		$form->addItem($output_div);

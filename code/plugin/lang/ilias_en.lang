@@ -5,6 +5,7 @@ question_edit_info#:#This type of question allows questions where the examinees 
 sequence_a#:#A
 sequence_b#:#B
 sequence_c#:#C
+integrity_check#:#Integrity Check
 error_log#:#Error Log
 output#:#Output
 

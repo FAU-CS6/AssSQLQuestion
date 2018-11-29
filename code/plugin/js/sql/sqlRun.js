@@ -24,7 +24,13 @@ const errorRunningSequence = "Error while running sequence";
  * Error message for no SELECT or visible result in the sequences
  * @type {string}
  */
-const errorNoVisibleResult = "There is no visible result in the sequence (This might be due to a missing SELECT statement)";
+const errorNoVisibleResult = "There is no visible result in the sequence. (This might be due to a missing SELECT statement)";
+
+/**
+ * Error message for failed integrity check
+ * @type {string}
+ */
+const errorIntegrityCheck = "Changes to the database noticed. This is not allowed. If you are the questioner you might want to deactivate the integrity check.";
 
 /**
  * A single database run through (based on sql.js)
@@ -67,7 +73,12 @@ class sqlRun
     }
 
     // If checkIntegrity is set to be true, we have to check the hash value of the database now for the first time
-    // TODO
+    var hashValueAfterA;
+
+    if(checkIntegrity)
+    {
+      hashValueAfterA = this.computeHashValueOfDatabase();
+    }
 
     // Execute sequence b
     try
@@ -80,7 +91,17 @@ class sqlRun
     }
 
     // If checkIntegrity is set to be true, we have to check the hash value of the database now for the second time
-    // TODO
+    var hashValueBeforeC;
+
+    if(checkIntegrity)
+    {
+      hashValueBeforeC = this.computeHashValueOfDatabase();
+
+      if(hashValueAfterA != hashValueBeforeC)
+      {
+        throw errorIntegrityCheck;
+      }
+    }
 
     // Execute sequence c
     try
@@ -140,18 +161,98 @@ class sqlRun
   }
 
   /**
-   * Computes a hash value of the current Database
+   * Computes a simple hash value of the current database
    *
-   * @return {string} The computed hash value
+   * @return {number} The computed hash value
    */
   computeHashValueOfDatabase()
   {
+    // Initialize hash
+    var hash = 0;
+
     // Get all current tables by executing the suiting SQL query
     var currentTables = this.executeStatement("SELECT name FROM sqlite_master WHERE type = \"table\"");
 
-    // TODO
+    // Check if there was a result (no result if there are no tables until now)
+    if(currentTables.length < 1)
+    {
+      // Return hash as there simply is an empty database
+      return hash;
+    }
 
+    // Iterate through the tables
+    for(var i = 0; i < currentTables[0]["values"].length; i++)
+    {
+      // Add it to the hash value
+      hash = (hash + this.computeHashValueOfTable(currentTables[0]["values"][i][0])) % Number.MAX_SAFE_INTEGER;
+    }
+
+    return hash;
   }
+
+  /**
+   * Computes a simple hash value of a single table in the current database
+   * (This is a helper function for computeHashValueOfDatabase())
+   *
+   * @param {string} tableName The Name of the table that should be checked
+   * @return {number} The computed hash value
+   */
+   computeHashValueOfTable(tableName)
+   {
+     // Initialize hash
+     var hash = 0;
+
+     // Get the content of the table
+     var currentContent = this.executeStatement("SELECT * FROM " + tableName);
+
+     // Check if there was a result (no result if table is empty)
+     if(currentContent.length < 1)
+     {
+       // Return hash as there simply is an empty table
+       return hash;
+     }
+
+     // We only use the table values for computation of the hash - the names of the columns are not checked
+     // First iterate through the tuples
+     for(var i = 0; i < currentContent[0]["values"].length; i++)
+     {
+       // Now iterate through the single values
+       for(var ii = 0; ii < currentContent[0]["values"][i].length; ii++)
+       {
+         hash = (hash + this.computeHashValueOfString(currentContent[0]["values"][i][ii])) % Number.MAX_SAFE_INTEGER;
+       }
+     }
+
+     return hash;
+   }
+
+   /**
+    * Computes a simple hash value of a single string
+    * (This is a helper function for computeHashValueOfDatabase() and computeHashValueOfTable())
+    *
+    * @param {string} string The string that should be checked
+    * @return {number} The computed hash value
+    */
+   computeHashValueOfString(string)
+   {
+     // Initialize hash
+     var hash = 0;
+
+     // Check if the string is longer than 0
+     if(string.length < 1)
+     {
+       // Return hash as there simply none existent string
+       return hash;
+     }
+
+     for(var i = 0; i < string.length; i++)
+     {
+       hash = (hash + string.charCodeAt(i)) % Number.MAX_SAFE_INTEGER;
+     }
+
+     return hash;
+   }
+
 
   /**
    * Getter for the last result

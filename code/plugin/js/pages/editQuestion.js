@@ -21,6 +21,9 @@
    // Get sequence c
    const sequenceC = editor_sequence_c.getValue();
 
+   // Get the state of the integrity_check checkbox
+   const integrity_check = document.getElementById('integrity_check').checked;
+
    // If no errors are found this will be false atherwise it will be true
    var error_bool = false;
 
@@ -30,7 +33,7 @@
    // Execute the code
    try
    {
-     run = new sqlRun(sequenceA, sequenceB, sequenceC, false);
+     run = new sqlRun(sequenceA, sequenceB, sequenceC, integrity_check);
    }
    catch(err)
    {
