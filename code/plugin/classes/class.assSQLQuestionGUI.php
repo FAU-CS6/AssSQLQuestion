@@ -59,7 +59,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 				$this->tpl->addCss(self::URL_PATH.'/css/custom.css');
 
 				// Codemirror
-				$this->tpl->addCss(self::URL_PATH.'/js/codemirror/lib/codemirror.css');
+				$this->tpl->addCss(self::URL_PATH.'/lib/codemirror/lib/codemirror.css');
 
 		  // Add JS files
 
@@ -68,11 +68,11 @@ class assSQLQuestionGUI extends assQuestionGUI
 				$this->tpl->addJavascript(self::URL_PATH.'/js/sqlDatabase.js');
 
 			  // Codemirror
-				$this->tpl->addJavascript(self::URL_PATH.'/js/codemirror/lib/codemirror.js');
-				$this->tpl->addJavascript(self::URL_PATH.'/js/codemirror/mode/sql/sql.js');
+				$this->tpl->addJavascript(self::URL_PATH.'/lib/codemirror/lib/codemirror.js');
+				$this->tpl->addJavascript(self::URL_PATH.'/lib/codemirror/mode/sql/sql.js');
 
 				// SQL.js
-				$this->tpl->addJavascript(self::URL_PATH.'/js/sql.js/sql.js');
+				$this->tpl->addJavascript(self::URL_PATH.'/lib/sql.js/sql.js');
 
 			// Add custom js code
 
