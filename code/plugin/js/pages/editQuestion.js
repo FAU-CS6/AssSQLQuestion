@@ -30,13 +30,13 @@
    // Execute the code
    try
    {
-     run = new sqlRun(sequence_a, sequence_b, sequence_c, false);
+     run = new sqlRun(sequenceA, sequenceB, sequenceC, false);
    }
    catch(err)
    {
      error_bool = true;
      writeErrorsEditQuestion(err, "true");
-   } 
+   }
 
    // Inform the user about no errors being found if error_bool is false
    if(!error_bool)

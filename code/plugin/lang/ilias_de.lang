@@ -1,7 +1,7 @@
 // German Language File for QpiSQL Plugin
 <!-- language file start -->
 assSQLQuestion#:#Interaktive SQL Frage
-question_edit_info#:#Dieser Fragentyp ermöglicht Fragen, bei denen die Prüflinge selbst SQL Code schreiben müssen und diesen mit Hilfe von sql.js - einer Javascript Implementierung von SQL Lite - auch direkt ausführen können.
+question_edit_info#:#Dieser Fragentyp ermöglicht Fragen, bei denen die Prüflinge selbst SQL Code schreiben müssen und diesen mit Hilfe von sql.js - einer Javascript Implementierung von SQLite - auch direkt ausführen können.
 sequence_a#:#A
 sequence_b#:#B
 sequence_c#:#C
