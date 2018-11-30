@@ -170,6 +170,8 @@ class handlerEditQuestion extends handlerAbstract
                 result.toJSON(),
                 false,
                 true);
+
+    // console.log(result.getFunctionalDependencies());
   }
 
   /**

@@ -144,7 +144,7 @@ class handlerAbstract
    /**
     * Output a error found while execution of sql sequences
     *
-    * @param {string} error The error message
+    * @param {sqlRunErrorAbstract} error The error object
     */
    static outputError(error)
    {

@@ -10,7 +10,7 @@ sequence_c#:#C
 integrity_check#:#Integritätsprüfung
 output_info#:#Ausgabe
 output_info_text#:#Um Ergebnisse auf Basis einer Ausgaberelation bewerten zu können, werden Vergleichswerte benötigt. Aus diesem Grund ist es unerlässlich, dass die Musterlösung vor Speicherung der Frage mindestens einmal ausgeführt wird. Dabei führt jede Änderung an obigen Sequenzen automatisch dazu, dass eine neue Ausführung gestartet werden muss. Auch dürfen obigen Sequenzen natürlich keine Fehler enthalten.
-no_execution#:#Bitte die Ausführung starten, um ein Ergebnis angezeigt zu bekommen.
+no_execution#:#Bitte die Ausführung starten, um ein Ergebnis angezeigt zu bekommen. Nach jeder Änderung des SQL Codes muss eine erneute Ausführung stattfinden.
 execution_running#:#Die SQL Anfrage(n) werden gerade ausgeführt. Bitte warten ...
 error_db_creation#:#Bei der Erstellung der Datenbank ist ein Fehler aufgetreten:
 error_integrity_check#:#Es wurden unerlaubte Änderungen an der Datenbank festgestellt. Wenn Sie Ersteller der Frage sind, könnte es helfen die Integritätsprüfung zu deaktivieren.
