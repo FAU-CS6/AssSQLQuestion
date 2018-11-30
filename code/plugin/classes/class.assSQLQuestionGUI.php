@@ -93,20 +93,26 @@ class assSQLQuestionGUI extends assQuestionGUI
 	{
 		global $lng;
 
+    // Information on SQL sequences
+    $sequences_info = new ilCustomInputGUI($this->plugin->txt('sequences_info'));
+    $sequences_info->setInfo($this->plugin->txt('sequences_info_text'));
+    $sequences_info->setRequired(true);
+    $form->addItem($sequences_info);
+
     // Input fields for the sql sequences A, B and C
 
 		// Sequence A
-		$sequence_a_textarea= new ilCustomInputGUI($this->plugin->txt('sequence_a'));
+		$sequence_a_textarea = new ilCustomInputGUI($this->plugin->txt('sequence_a'));
 		$sequence_a_textarea->setHTML($this->createCodeEditorInput("sequence_a", ""));
 		$form->addItem($sequence_a_textarea);
 
     // Sequence B
-		$sequence_b_textarea= new ilCustomInputGUI($this->plugin->txt('sequence_b'));
+		$sequence_b_textarea = new ilCustomInputGUI($this->plugin->txt('sequence_b'));
 		$sequence_b_textarea->setHTML($this->createCodeEditorInput("sequence_b", ""));
 		$form->addItem($sequence_b_textarea);
 
     // Sequence C
-		$sequence_c_textarea= new ilCustomInputGUI($this->plugin->txt('sequence_c'));
+		$sequence_c_textarea = new ilCustomInputGUI($this->plugin->txt('sequence_c'));
 		$sequence_c_textarea->setHTML($this->createCodeEditorInput("sequence_c", ""));
 		$form->addItem($sequence_c_textarea);
 
@@ -116,18 +122,19 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		// Execute button
 		$execute_button = new ilCustomInputGUI('');
-		$execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="il_as_qpl_qpisql_execution_button" value="Execute" onclick="handlerEditQuestion.execute()"><input type="hidden" name="executed_bool" id="il_as_qpl_qpisql_executed_bool" value="false" />');
+		$execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="il_as_qpl_qpisql_execution_button" value="Execute" onclick="handlerEditQuestion.execute()">');
 		$form->addItem($execute_button);
 
-    // Error log
-		$error_log = new ilCustomInputGUI($this->plugin->txt('error_log'));
-		$error_log->setHTML('<div id="il_as_qpl_qpisql_error_log"></div><input type="hidden" name="error_bool" id="il_as_qpl_qpisql_error_bool" value="false" />');
-		$form->addItem($error_log);
+    // Information on output area
+    $output_info = new ilCustomInputGUI($this->plugin->txt('output_info'));
+    $output_info->setInfo($this->plugin->txt('output_info_text'));
+    $output_info->setRequired(true);
+    $form->addItem($output_info);
 
     // Output
-		$output_div = new ilCustomInputGUI($this->plugin->txt('output'));
-		$output_div->setHTML('<div id="il_as_qpl_qpisql_output_div"></div><input type="hidden" name="statement_output" id="il_as_qpl_qpisql_statement_output" value="false" />');
-		$form->addItem($output_div);
+		$output_area = new ilCustomInputGUI('');
+		$output_area->setHTML($this->createOutputArea());
+		$form->addItem($output_area);
 
 	}
 
@@ -147,6 +154,26 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$item = new ilCustomInputGUI('');
 
 		return $tpl->get();
+	}
+
+  /**
+	 * Helper function to generate the output area html code
+	 *
+	 * @access private
+	 */
+	private function createOutputArea()
+	{
+    // Hidden fields for saving the state of the execution
+    // If executed_bool is false (no executing until now) or error_bool is true (error was found)
+    // it is not allowed to submit the form (respectively the submission is not accepted)
+    $html = '<input type="hidden" name="error_bool" id="il_as_qpl_qpisql_error_bool" value="false" />';
+    $html = $html . '<input type="hidden" name="executed_bool" id="il_as_qpl_qpisql_executed_bool" value="false" />';
+    $html = $html . '<input type="hidden" name="output_relation" id="il_as_qpl_qpisql_output_relation" value="" />';
+
+    // The div the output is displayed in
+    $html = $html . '<div id="il_as_qpl_qpisql_output_area">Start the execution to see some output.</div>';
+
+    return $html;
 	}
 
 	/**

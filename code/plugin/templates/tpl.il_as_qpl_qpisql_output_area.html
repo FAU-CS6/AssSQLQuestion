@@ -1,0 +1,17 @@
+<!--
+  Hidden fields for saving the state of the execution
+  If executed_bool is false (no executing until now) or error_bool is true (error was found)
+  it is not allowed to submit the form (respectively the submission is not accepted)
+-->
+<input type="hidden" name="error_bool" id="il_as_qpl_qpisql_error_bool" value="false" />
+<input type="hidden" name="executed_bool" id="il_as_qpl_qpisql_executed_bool" value="false" />
+<input type="hidden" name="output_relation" id="il_as_qpl_qpisql_output_relation" value="" />
+
+
+{NAME}
+<!--
+  The div the output is displayed in
+-->
+<div id="il_as_qpl_qpisql_output_area">
+  Start the execution to see some output.
+</div>

@@ -23,8 +23,8 @@ class handlerAbstract
     // Disable input areas
     this.disableInputAreas();
 
-    // Deletes/Hides old outputs
-    this.deleteOldOutputs();
+    // Inform the User about the execution
+    this.outputRunning();
 
     // Get sequence a
     const sequenceA = this.getSequenceA();
@@ -129,6 +129,14 @@ class handlerAbstract
     * @return {boolean} Boolean declaring whether the integrity check has to be executed or not
     */
    static getIntegrityCheck()
+   {
+     // Do nothing as this has to be tailored for each page
+   }
+
+   /**
+    * Output the running state (inform the user about the execution being started)
+    */
+   static outputRunning()
    {
      // Do nothing as this has to be tailored for each page
    }

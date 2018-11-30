@@ -1,5 +1,5 @@
 /**
- * @file Javascript functions tailored for editQuestion page
+ * @file Javascript handlers tailored for editQuestion page
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
@@ -48,7 +48,7 @@ class handlerEditQuestion extends handlerAbstract
    */
   static deleteOldOutputs()
   {
-    // TODO
+    this.output("Start the execution to see some output.", "", false, false);
   }
 
   /**
@@ -92,14 +92,21 @@ class handlerEditQuestion extends handlerAbstract
   }
 
   /**
+   * Output the running state (inform the user about the execution being started)
+   */
+  static outputRunning()
+  {
+    this.output("The execution is running. Please wait some seconds.", "", false, false);
+  }
+
+  /**
    * Output a error found while execution of sql sequences
    *
    * @param {string} error The error message
    */
   static outputError(error)
   {
-    document.getElementById('il_as_qpl_qpisql_error_log').innerHTML = error;
-    document.getElementById('il_as_qpl_qpisql_error_bool').value = "true";
+    this.output(error, "", true, true);
   }
 
   /**
@@ -109,7 +116,22 @@ class handlerEditQuestion extends handlerAbstract
    */
   static outputResult(result)
   {
-    document.getElementById('il_as_qpl_qpisql_output_div').innerHTML = result.toHTMLTable();
-    document.getElementById('il_as_qpl_qpisql_statement_output').value = result.toJSON();
+    this.output(result.toHTMLTable(), result.toJSON(), false, true);
+  }
+
+  /**
+   * Helper to write output of each kind into editQuestion
+   *
+   * @param {string} output_content The content to be displayed in output area
+   * @param {string} output_relation A json string representing the output relation (may be empty if an error occured or output has to be reset)
+   * @param {boolean} error_bool A boolean representing the error state of the last query
+   * @param {boolean} executed_bool A boolean represeting the state of execution
+   */
+  static output(output_content, output_relation, error_bool, executed_bool)
+  {
+    document.getElementById('il_as_qpl_qpisql_output_area').innerHTML = output_content;
+    document.getElementById('il_as_qpl_qpisql_output_relation').value = output_relation;
+    document.getElementById('il_as_qpl_qpisql_error_bool').value = String(error_bool);
+    document.getElementById('il_as_qpl_qpisql_executed_bool').value = String(executed_bool);
   }
 }

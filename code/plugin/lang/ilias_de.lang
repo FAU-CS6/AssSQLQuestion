@@ -1,13 +1,15 @@
 // German Language File for QpiSQL Plugin
 <!-- language file start -->
 assSQLQuestion#:#Interaktive SQL Frage
-question_edit_info#:#Dieser Fragentyp ermöglicht Fragen, bei denen die Prüflinge selbst SQL Code schreiben müssen und diesen mit Hilfe von sql.js - einer Javascript Implementierung von SQLite - auch direkt ausführen können.
+question_edit_info#:#Dieser Fragentyp ermöglicht es die SQL Kenntnisse von Teilnehmern interaktiv zu prüfen. Den Prüflingen wird dabei die Möglichkeit gegeben ihre SQL Anfragen direkt im Browser auf Basis von SQL.js auszuführen und so eine direkte Rückmeldung zu der Funktionalität ihrer geschriebenen Anfragen zu erhalten. Bewertet werden die Abgaben dabei vollautomatisch auf Basis verschiedener Metriken über die Ausgaberelation.
+sequences_info#:#SQL Sequenzen
+sequences_info_text#:#Eine Interaktive SQL Anfrage besteht, neben den üblichen Bestandteilen Titel, Autor, Beschreibung, Frage und Arbeitszeit, aus drei Sequenzen SQL. Diese Sequenzen – genannt A, B und C – werden dabei bei jedem Durchlauf durch SQL.js ihrer Reihenfolge nach ausgeführt. Die Sequenzen A und C werden dabei durch den Fragenersteller vorgegeben, während die Sequenz B durch den Prüfling entwickelt werden muss. Basis für die Bewertung von Anfragen bildet die letzte Ausgaberelation die in der gesamten Ausführung vorkommt. Dies ermöglicht im Wesentlichen zwei Arten von Fragen:<br /><br /><dl><dt> Frage zu einer SELECT-Anfrage </dt><dd> Der Fragenersteller nutzt Sequenz A um die Datenbank für die Frage mit Inhalten zu füllen. Beispielsweise legt er Relationen an und füllt diese mit Tupeln. In Sequenz B wird vom Prüfling verlangt eine SELECT Anfrage zu schreiben, die einen bestimmten Ausschnitt der angelegten Tupel anzeigt. Sequenz C würde in diesem Fall leer bleiben. So würde die Ausgabe aus der geschriebenen SELECT Anfrage die Grundlage der Bewertung bilden. </dd><br /><dt> Frage zu CREATE TABLE, INSERT INTO, DELETE FROM, UPDATE, usw. </dt><dd> Auch in diesem Fall kann Sequenz A genutzt werden um die Datenbank für die Frage vorzubereiten. Der Unterschied dieser Fragenart liegt darin, dass der Prüfling in Sequenz B eben keine SELECT Anfrage schreiben soll und damit dort auch keine prüfbare Ausgaberelation vorliegt. Diese Ausgaberelation kann vom Prüfer in Sequenz C erzeugt werden, wodurch die Veränderungen an der Datenbank perfekt abgeprüft werden können.</dd><br /><br />Speziell im Falle der ersten Fragenart, kann es sinnvoll sein Veränderungen der Datenbank in Sequenz B zu verbieten. Ist dies erwünscht ist die Integritätsprüfung zu aktivieren. Dabei wird nach der Ausführung von Sequenz A ein Hash der Datenbank errechnet, der dann mit einem zweiten Hash der Datenbank vor Sequenz C verglichen wird. Sind die beiden Hashwerte nicht identisch, so wird ein Fehler ausgegeben und Sequenz B für ungültig erklärt.
 sequence_a#:#A
 sequence_b#:#B
 sequence_c#:#C
 integrity_check#:#Integritätsprüfung
-error_log#:#Fehlerprotokoll
-output#:#Ausgabe
+output_info#:#Ausgabe
+output_info_text#:#Um Ergebnisse auf Basis einer Ausgaberelation bewerten zu können, werden Vergleichswerte benötigt. Aus diesem Grund ist es unerlässlich, dass die Musterlösung vor Speicherung der Frage mindestens einmal ausgeführt wird. Dabei führt jede Änderung an obigen Sequenzen automatisch dazu, dass eine neue Ausführung gestartet werden muss. Auch dürfen obigen Sequenzen natürlich keine Fehler enthalten.
 
 label_value1#:#Text stored for this answer (any text)
 label_value2#:#Points entered for this answer (any number)

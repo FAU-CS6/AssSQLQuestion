@@ -2,10 +2,12 @@
   border: 1px solid rgb(204,204,204);
 }
 
-#il_as_qpl_qpisql_error_log {
+#il_as_qpl_qpisql_output_area {
   border: 1px solid rgb(204,204,204);
   width: 100%;
-  height: 28px;
+  max-width: 100%;
+  min-height: 28px;
+  max-height: 280px;
   padding-left: 8px;
   padding-right: 8px;
   padding-top: 3px;
@@ -13,19 +15,7 @@
   color: #555555;
   font-size: 12px;
   font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
-}
-
-#il_as_qpl_qpisql_output_div {
-  border: 1px solid rgb(204,204,204);
-  width: 100%;
-  max-width: 100%;
-  height: 280px;
-  max-height: 280px;
-  padding: 10px;
-  color: #555555;
-  font-size: 12px;
-  font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .il_as_qpl_qpisql_output_table {
