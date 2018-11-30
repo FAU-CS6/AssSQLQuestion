@@ -66,7 +66,8 @@ class assSQLQuestionGUI extends assQuestionGUI
 				// Custom Files
         $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlResult.js');
 				$this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRun.js');
-        $this->tpl->addJavascript(self::URL_PATH.'/js/pages/editQuestion.js');
+        $this->tpl->addJavascript(self::URL_PATH.'/js/handler/handlerAbstract.js');
+        $this->tpl->addJavascript(self::URL_PATH.'/js/handler/handlerEditQuestion.js');
 
 			  // Codemirror
 				$this->tpl->addJavascript(self::URL_PATH.'/lib/codemirror/lib/codemirror.js');
@@ -115,7 +116,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		// Execute button
 		$execute_button = new ilCustomInputGUI('');
-		$execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="il_as_qpl_qpisql_execution_button" value="Execute" onclick="executeEditQuestion()"><input type="hidden" name="executed_bool" id="il_as_qpl_qpisql_executed_bool" value="false" />');
+		$execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="il_as_qpl_qpisql_execution_button" value="Execute" onclick="handlerEditQuestion.execute()"><input type="hidden" name="executed_bool" id="il_as_qpl_qpisql_executed_bool" value="false" />');
 		$form->addItem($execute_button);
 
     // Error log

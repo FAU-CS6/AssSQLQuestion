@@ -122,6 +122,10 @@ class sqlRun
   }
 
   /**
+   *
+   */
+
+  /**
    * Run (without a return value) a bunch of SQl statements
    *
    * @param {string} statement The statement(s) to be run
@@ -219,7 +223,7 @@ class sqlRun
        // Now iterate through the single values
        for(var ii = 0; ii < currentContent[0]["values"][i].length; ii++)
        {
-         hash = (hash + this.computeHashValueOfString(currentContent[0]["values"][i][ii])) % Number.MAX_SAFE_INTEGER;
+         hash = (hash + this.computeHashValueOfString(String(currentContent[0]["values"][i][ii]))) % Number.MAX_SAFE_INTEGER;
        }
      }
 
