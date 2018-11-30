@@ -68,6 +68,11 @@ class assSQLQuestionGUI extends assQuestionGUI
 				$this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRun.js');
         $this->tpl->addJavascript(self::URL_PATH.'/js/handler/handlerAbstract.js');
         $this->tpl->addJavascript(self::URL_PATH.'/js/handler/handlerEditQuestion.js');
+        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorAbstract.js');
+        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorDBCreation.js');
+        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorIntegrityCheck.js');
+        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorNoVisibleResult.js');
+        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorRunningSequence.js');
 
 			  // Codemirror
 				$this->tpl->addJavascript(self::URL_PATH.'/lib/codemirror/lib/codemirror.js');
@@ -151,6 +156,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$tpl->setVariable("CONTENT", ilUtil::prepareFormOutput($value));
 		$tpl->setVariable("NAME", $name);
 		$tpl->setVariable("QUESTION_ID", $this->object->getId());
+    $tpl->setVariable("PAGEHANDLER", "handlerEditQuestion");
 		$item = new ilCustomInputGUI('');
 
 		return $tpl->get();
@@ -163,17 +169,16 @@ class assSQLQuestionGUI extends assQuestionGUI
 	 */
 	private function createOutputArea()
 	{
-    // Hidden fields for saving the state of the execution
-    // If executed_bool is false (no executing until now) or error_bool is true (error was found)
-    // it is not allowed to submit the form (respectively the submission is not accepted)
-    $html = '<input type="hidden" name="error_bool" id="il_as_qpl_qpisql_error_bool" value="false" />';
-    $html = $html . '<input type="hidden" name="executed_bool" id="il_as_qpl_qpisql_executed_bool" value="false" />';
-    $html = $html . '<input type="hidden" name="output_relation" id="il_as_qpl_qpisql_output_relation" value="" />';
+    $tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_area.html');
+		$tpl->setVariable("NO_EXECUTION", $this->plugin->txt('no_execution'));
+		$tpl->setVariable("EXECUTION_RUNNING", $this->plugin->txt('execution_running'));
+		$tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('error_db_creation'));
+    $tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('error_integrity_check'));
+    $tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('error_no_visible_result'));
+    $tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
+		$item = new ilCustomInputGUI('');
 
-    // The div the output is displayed in
-    $html = $html . '<div id="il_as_qpl_qpisql_output_area">Start the execution to see some output.</div>';
-
-    return $html;
+		return $tpl->get();
 	}
 
 	/**

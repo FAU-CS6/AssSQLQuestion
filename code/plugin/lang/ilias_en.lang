@@ -10,6 +10,13 @@ sequence_c#:#C
 integrity_check#:#Integrity Check
 output_info#:#Output
 output_info_text#:#In order to be able to evaluate results on the basis of an output relation, comparison values are required. For this reason, it is imperative that the model solution is executed at least once before storing the question. Any change to the above sequences automatically causes a new execution to be necessary. Of course, the above sequences should not contain any errors.
+no_execution#:#Please start the execution to get a result displayed. After each change of the SQL code a re-execution must take place.
+execution_running#:#The SQL request(s) are in progress. Please wait ...
+error_db_creation#:#An error occurred while creating the database:
+error_integrity_check#:#Unauthorized changes to the database were detected. If you are the creator of the question, it might help to disable the integrity check.
+error_no_visible_result#:#The requests do not provide a visible result. Is there a SELECT request?
+error_running_sequence#:#Error while executing the SQL code:
+
 
 label_value1#:#Text stored for this answer (any text)
 label_value2#:#Points entered for this answer (any number)

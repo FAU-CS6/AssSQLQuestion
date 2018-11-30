@@ -1,7 +1,13 @@
 <textarea id="{NAME}" data-question="{QUESTION_ID}" name="{NAME}" data-contains-code class="il_as_qpl_qpisql_code_box" cols="80" rows="10">{CONTENT}</textarea>
 <script>
+  // Make the textarea a codemirror instance
   var editor_{NAME} = CodeMirror.fromTextArea({NAME}, {
     lineNumbers: true,
     mode: 'text/x-sql'
   });
+
+  // Insert the onChange handler (all results have reset)
+  editor_{NAME}.on('change',function(){
+    {PAGEHANDLER}.deleteOldOutputs();
+  })
 </script>

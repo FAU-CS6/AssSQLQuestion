@@ -59,7 +59,7 @@ class sqlRun
     }
     catch(err)
     {
-      throw errorDBCreation;
+      throw new sqlRunErrorDBCreation(err.message);
     }
 
     // Execute sequence a
@@ -69,7 +69,7 @@ class sqlRun
     }
     catch(err)
     {
-      throw errorRunningSequence + " A \"" + err.message + "\"";
+      throw new sqlRunErrorRunningSequence(err.message, "A");
     }
 
     // If checkIntegrity is set to be true, we have to check the hash value of the database now for the first time
@@ -87,7 +87,7 @@ class sqlRun
     }
     catch(err)
     {
-      throw errorRunningSequence + " B \"" + err.message + "\"";
+      throw new sqlRunErrorRunningSequence(err.message, "B");
     }
 
     // If checkIntegrity is set to be true, we have to check the hash value of the database now for the second time
@@ -99,7 +99,7 @@ class sqlRun
 
       if(hashValueAfterA != hashValueBeforeC)
       {
-        throw errorIntegrityCheck;
+        throw new sqlRunErrorIntegrityCheck("");
       }
     }
 
@@ -110,14 +110,14 @@ class sqlRun
     }
     catch(err)
     {
-      throw errorRunningSequence + " C \"" + err.message + "\"";
+      throw new sqlRunErrorRunningSequence(err.message, "C");
     }
 
     // If there haven't been any SELECT statements in A, B and C
     // or if these SELECT statements did not return anything we have to throw an error
     if(this.lastResult == null)
     {
-      throw errorNoVisibleResult;
+      throw new sqlRunErrorNoVisibleResult("");
     }
   }
 

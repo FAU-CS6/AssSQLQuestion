@@ -3,19 +3,53 @@
 }
 
 #il_as_qpl_qpisql_output_area {
-  border: 1px solid rgb(204,204,204);
   width: 100%;
   max-width: 100%;
   min-height: 28px;
   max-height: 280px;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 3px;
-  padding-bottom: 3px;
   color: #555555;
   font-size: 12px;
   font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
   overflow: auto;
+}
+
+#il_as_qpl_qpisql_output_area_no_execution,
+#il_as_qpl_qpisql_output_area_error_integrity_check,
+#il_as_qpl_qpisql_output_area_error_no_visible_result,
+#il_as_qpl_qpisql_output_area_error_db_creation,
+#il_as_qpl_qpisql_output_area_error_running_sequence {
+  border: 1px solid rgb(208,128,128);
+  background-color: #ffebeb;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  min-height: 28px;
+  line-height: 20px;
+}
+
+#il_as_qpl_qpisql_output_area_execution_running {
+  border: 1px solid rgb(204,204,204);
+  background-color: #fff;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  min-height: 28px;
+  line-height: 20px;
+}
+
+#il_as_qpl_qpisql_output_area_error_running_sequence_sequence_name {
+  display: inline;
+}
+
+.il_as_qpl_qpisql_output_area_error_type {
+  display: inline;
+}
+
+.il_as_qpl_qpisql_output_area_error_message {
+  display: inline;
+  font-style: italic;
 }
 
 .il_as_qpl_qpisql_output_table {
@@ -25,8 +59,13 @@
 
 .il_as_qpl_qpisql_output_table tr td {
   min-width: 50px;
-  padding: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   border: 1px solid rgb(204,204,204);
+  min-height: 28px;
+  line-height: 20px;
 }
 
 .il_as_qpl_qpisql_output_table_tuple {
