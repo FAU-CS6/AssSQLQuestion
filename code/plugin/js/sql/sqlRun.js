@@ -31,6 +31,7 @@ class sqlRun
     }
     catch(err)
     {
+      this.db.close();
       throw new sqlRunErrorDBCreation(err.message);
     }
 
@@ -41,6 +42,7 @@ class sqlRun
     }
     catch(err)
     {
+      this.db.close();
       throw new sqlRunErrorRunningSequence(err.message, "A");
     }
 
@@ -59,6 +61,7 @@ class sqlRun
     }
     catch(err)
     {
+      this.db.close();
       throw new sqlRunErrorRunningSequence(err.message, "B");
     }
 
@@ -71,6 +74,7 @@ class sqlRun
 
       if(hashValueAfterA != hashValueBeforeC)
       {
+        this.db.close();
         throw new sqlRunErrorIntegrityCheck("");
       }
     }
@@ -82,6 +86,7 @@ class sqlRun
     }
     catch(err)
     {
+      this.db.close();
       throw new sqlRunErrorRunningSequence(err.message, "C");
     }
 
@@ -89,8 +94,11 @@ class sqlRun
     // or if these SELECT statements did not return anything we have to throw an error
     if(this.lastResult == null)
     {
+      this.db.close();
       throw new sqlRunErrorNoVisibleResult("");
     }
+
+    this.db.close();
   }
 
   /**
