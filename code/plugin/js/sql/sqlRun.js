@@ -4,34 +4,6 @@
  * @version 0.1
  */
 
-/*
- * Constants containing usual error messages - to facilitate easier changes by less redundancy
- */
-
-/**
- * Error message for failed creation of the database
- * @type {string}
- */
-const errorDBCreation = "Creation of the database failed";
-
-/**
- * Error message for failed run of a sequence
- * @type {string}
- */
-const errorRunningSequence = "Error while running sequence";
-
-/**
- * Error message for no SELECT or visible result in the sequences
- * @type {string}
- */
-const errorNoVisibleResult = "There is no visible result in the sequence. (This might be due to a missing SELECT statement)";
-
-/**
- * Error message for failed integrity check
- * @type {string}
- */
-const errorIntegrityCheck = "Changes to the database noticed. This is not allowed. If you are the questioner you might want to deactivate the integrity check.";
-
 /**
  * A single database run through (based on sql.js)
  */

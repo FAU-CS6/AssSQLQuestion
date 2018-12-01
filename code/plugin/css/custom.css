@@ -1,7 +1,13 @@
+/**
+ * Custom CSS for used plugins
+ */
 .CodeMirror {
   border: 1px solid rgb(204,204,204);
 }
 
+/**
+ * Custom CSS for the Output areas on editQuestion page AND the test pages
+ */
 #il_as_qpl_qpisql_output_area {
   width: 100%;
   max-width: 100%;
@@ -52,6 +58,9 @@
   font-style: italic;
 }
 
+/**
+ * Custom CSS for beautifing the output tables
+ */
 .il_as_qpl_qpisql_output_table {
   min-width: 100%;
   border-collapse: collapse;
@@ -73,4 +82,43 @@
 
 .il_as_qpl_qpisql_output_table tr:nth-child(even) {
   background-color: #f2f2f2;
+}
+
+/**
+ * Custom CSS for scoring area on editQuestion page
+ */
+.il_as_qpl_qpisql_scoring_area_output_not_executed {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  min-height: 28px;
+  line-height: 20px;
+  display: inline;
+  color: #555555;
+  font-size: 12px;
+  font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+  margin-left: 50px;
+  max-width: 50%;
+  float: right;
+}
+
+.il_as_qpl_qpisql_scoring_area_output_executed {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  min-height: 28px;
+  line-height: 20px;
+  display: inline;
+  color: #555555;
+  font-size: 12px;
+  font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+  margin-left: 50px;
+  max-width: 50%;
+  float: right;
+}
+
+.il_as_qpl_qpisql_scoring_area_output_executed_inner {
+  display: inline;
 }

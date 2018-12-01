@@ -54,6 +54,8 @@ class handlerEditQuestion extends handlerAbstract
                 "",
                 false,
                 false);
+
+    this.setScoringAreas(false);
   }
 
   /**
@@ -164,6 +166,7 @@ class handlerEditQuestion extends handlerAbstract
    */
   static outputResult(result)
   {
+    // Output the result
     this.output('il_as_qpl_qpisql_output_area_relation',
                 'il_as_qpl_qpisql_output_area_relation',
                 result.toHTMLTable(),
@@ -171,7 +174,14 @@ class handlerEditQuestion extends handlerAbstract
                 false,
                 true);
 
+    //Output the metrics for scoring area
     // console.log(result.getFunctionalDependencies());
+
+    // Result lines metric
+    document.getElementById('il_as_qpl_qpisql_scoring_metric_result_lines_output').innerHTML = result.getNumberOfRows();
+    document.getElementById('il_as_qpl_qpisql_scoring_metric_result_lines_output_hidden_field_id').innerHTML = result.getNumberOfRows();
+
+    this.setScoringAreas(true);
   }
 
   /**
@@ -218,5 +228,54 @@ class handlerEditQuestion extends handlerAbstract
     document.getElementById('il_as_qpl_qpisql_output_relation').value = output_relation;
     document.getElementById('il_as_qpl_qpisql_error_bool').value = String(error_bool);
     document.getElementById('il_as_qpl_qpisql_executed_bool').value = String(executed_bool);
+  }
+
+  /**
+   * Helper to set the scoring areas to executed/not executed
+   *
+   * @param {boolean} executed_bool Whether the scoring are should be set to executed (true) or not executed
+   */
+  static setScoringAreas(executed_bool)
+  {
+    // Executed divs in scoring area
+    var executed_areas = document.getElementsByClassName('il_as_qpl_qpisql_scoring_area_output_executed');
+
+    for (var i = 0; i < executed_areas.length; i++)
+    {
+      if(executed_bool)
+      {
+        executed_areas[i].style.display = "inherit";
+      }
+      else
+      {
+        executed_areas[i].style.display = "none";
+      }
+    }
+
+    // Not executed divs in scoring area
+    var not_executed_areas = document.getElementsByClassName('il_as_qpl_qpisql_scoring_area_output_not_executed');
+
+    for (var i = 0; i < not_executed_areas.length; i++)
+    {
+      if(executed_bool)
+      {
+        not_executed_areas[i].style.display = "none";
+      }
+      else
+      {
+        not_executed_areas[i].style.display = "inherit";
+      }
+    }
+
+    // If not executed delete all existing computed metric values in scoring areas
+    if(!executed_bool)
+    {
+      var executed_areas_inner = document.getElementsByClassName('il_as_qpl_qpisql_scoring_area_output_executed_inner');
+
+      for (var i = 0; i < executed_areas_inner.length; i++)
+      {
+        executed_areas_inner[i].innerHTML = "";
+      }
+    }
   }
 }

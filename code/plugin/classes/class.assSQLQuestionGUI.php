@@ -141,6 +141,28 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$output_area->setHTML($this->createOutputArea());
 		$form->addItem($output_area);
 
+    // Scoring information
+    $scoring_info = new ilCustomInputGUI($this->plugin->txt('scoring_info'));
+    $scoring_info->setInfo($this->plugin->txt('scoring_info_text'));
+    $scoring_info->setRequired(true);
+    $form->addItem($scoring_info);
+
+    // Scoring metric: result lines
+
+    // Scoring metric: result lines - information
+    $scoring_metric_result_lines_info = new ilCustomInputGUI('');
+    $scoring_metric_result_lines_info->setInfo($this->plugin->txt('scoring_metric_result_lines_info'));
+    $form->addItem($scoring_metric_result_lines_info);
+
+    // Scoring metric: result lines - form
+    $scoring_metric_result_lines_form = new ilCustomInputGUI('');
+		$scoring_metric_result_lines_form->setHTML($this->createScoringArea('points_result_lines',
+                                                                        $this->plugin->txt('scoring_metric_result_lines_output_text'),
+                                                                        'il_as_qpl_qpisql_scoring_metric_result_lines_output',
+                                                                        'il_as_qpl_qpisql_scoring_metric_result_lines_output_hidden_field_name',
+                                                                        'il_as_qpl_qpisql_scoring_metric_result_lines_output_hidden_field_id'));
+		$form->addItem($scoring_metric_result_lines_form);
+
 	}
 
 	/**
@@ -176,6 +198,33 @@ class assSQLQuestionGUI extends assQuestionGUI
     $tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('error_integrity_check'));
     $tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('error_no_visible_result'));
     $tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
+		$item = new ilCustomInputGUI('');
+
+		return $tpl->get();
+	}
+
+  /**
+	 * Helper function to generate a single scoring area
+	 *
+	 * @param string $point_field_name The name of the form field holding the selected points
+	 * @param string $output_text A custom text to describe the computed output
+   * @param string $output_field_id The id of the div to write a output
+   * @param string $hidden_field_name The name of the hidden form element to save computed the metric value
+   * @param string $hidden_field_id The id of the hidden form element to save computed the metric value
+	 * @access private
+	 */
+	private function createScoringArea($point_field_name, $output_text,
+                                      $output_field_id, $hidden_field_name,
+                                      $hidden_field_id)
+	{
+		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_scoring_area.html');
+		$tpl->setVariable("POINT_FIELD_NAME", $point_field_name);
+		$tpl->setVariable("POINTS_TEXT", $this->plugin->txt('points_text'));
+    $tpl->setVariable("EXECUTE_FIRST_WARNING", $this->plugin->txt('scoring_area_execute_first'));
+		$tpl->setVariable("OUTPUT_TEXT", $output_text);
+    $tpl->setVariable("OUTPUT_FIELD_ID", $output_field_id);
+    $tpl->setVariable("HIDDEN_FIELD_NAME", $hidden_field_name);
+    $tpl->setVariable("HIDDEN_FIELD_ID", $hidden_field_id);
 		$item = new ilCustomInputGUI('');
 
 		return $tpl->get();

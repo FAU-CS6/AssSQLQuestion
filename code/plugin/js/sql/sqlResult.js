@@ -76,6 +76,16 @@ class sqlResult
   }
 
   /**
+   * Get the number of tuples in the sqlResult
+   *
+   * @return {number} The number of tuples
+   */
+  getNumberOfRows()
+  {
+    return this.values.length;
+  }
+
+  /**
    * Get an array containing all functional dependencies of the result
    * This uses a second database internally (just at the moment - as it is the easiest implemantation)
    *
@@ -98,12 +108,11 @@ class sqlResult
     /**
      * Internal helper function checking a attribute combination for being a functional dependency
      *
-     * @param {SQL.Database} db The database we created with the result data
      * @param {string} determinant A comma seperated list of attributes being checked for being the determinant
      * @param {string} dependentAttribute The potentially dependent attribute
      * @return {boolean} A boolean being true if it is a valid functional dependency and false if not
      */
-    function isFunctionalDependency(db, determinant, dependentAttribute)
+    function isFunctionalDependency(determinant, dependentAttribute)
     {
       if(db.exec("SELECT " + determinant + " FROM result GROUP BY " + determinant + " HAVING COUNT (DISTINCT " + dependentAttribute + ") > 1;").length > 0)
       {
@@ -117,12 +126,11 @@ class sqlResult
     /**
      * Internal helper function checking all attribute combinations recursivly for being a functional dependency
      *
-     * @param {SQL.Database} db The database we created with the result data
      * @param {Array} currentDeterminateAttributes All attributes that are already part of the determinat
      * @param {Array} currentRestAttributes All over attributes
      * @return {Array} All valid functional dependencies
      */
-    function checkAllAttributeCombinations(db, currentDeterminateAttributes, currentRestAttributes)
+    function checkAllAttributeCombinations(currentDeterminateAttributes, currentRestAttributes)
     {
       // End of recursion
       if(currentRestAttributes.length == 0)
@@ -142,26 +150,28 @@ class sqlResult
         {
           returnArray.push({determinant: currentDeterminateAttributes, dependentAttribute: currentRestAttributes[i]});
         }
+        // Only go further in recursion if we found no functional dependency (by this we get minimal functional dependencies)
+        else
+        {
+          // Copy the currentDeterminateAttributes and currentRestAtributes array
+          var cloneCurrentDeterminateAttributes = currentDeterminateAttributes.slice(0);
+          var cloneCurrentRestAtributes = currentRestAttributes.slice(0);
 
-        // Copy the currentDeterminateAttributes and currentRestAtributes array
-        var cloneCurrentDeterminateAttributes = currentDeterminateAttributes.slice(0);
-        var cloneCurrentRestAtributes = currentRestAttributes.slice(0);
+          // Add the checked attribute to cloneCurrentDeterminateAttributes
+          cloneCurrentDeterminateAttributes.push(currentRestAttributes[i]);
 
-        // Add the checked attribute to cloneCurrentDeterminateAttributes
-        cloneCurrentDeterminateAttributes.push(currentRestAttributes[i]);
+          // Remove the current checked attribute of currentRestAttributes
+          cloneCurrentRestAtributes.splice(i, 1);
 
-        // Remove the current checked attribute of currentRestAttributes
-        cloneCurrentRestAtributes.splice(i, 1);
-
-        // Go further in recursion
-        returnArray = returnArray.concat(checkAllAttributeCombinations(db, cloneCurrentDeterminateAttributes, cloneCurrentRestAtributes));
-
+          // Go further in recursion
+          returnArray = returnArray.concat(checkAllAttributeCombinations(cloneCurrentDeterminateAttributes, cloneCurrentRestAtributes));
+        }
       }
 
       return returnArray;
     }
 
-    return checkAllAttributeCombinations(db, [], this.columns);
+    return checkAllAttributeCombinations([], this.columns);
 
   }
 
