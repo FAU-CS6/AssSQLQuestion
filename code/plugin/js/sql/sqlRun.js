@@ -168,7 +168,7 @@ class sqlRun
     for(var i = 0; i < currentTables[0]["values"].length; i++)
     {
       // Add it to the hash value
-      hash = (hash + this.computeHashValueOfTable(currentTables[0]["values"][i][0])) % Number.MAX_SAFE_INTEGER;
+      hash = (hash + this.computeHashValueOfTable(currentTables[0]["values"][i][0])) % (Math.round(Number.MAX_SAFE_INTEGER / 2));
     }
 
     return hash;
@@ -203,7 +203,7 @@ class sqlRun
        // Now iterate through the single values
        for(var ii = 0; ii < currentContent[0]["values"][i].length; ii++)
        {
-         hash = (hash + this.computeHashValueOfString(String(currentContent[0]["values"][i][ii]))) % Number.MAX_SAFE_INTEGER;
+         hash = (hash + this.computeHashValueOfString(String(currentContent[0]["values"][i][ii]))) % (Math.round(Number.MAX_SAFE_INTEGER / 2));
        }
      }
 
@@ -231,7 +231,7 @@ class sqlRun
 
      for(var i = 0; i < string.length; i++)
      {
-       hash = (hash + string.charCodeAt(i)) % Number.MAX_SAFE_INTEGER;
+       hash = (hash + string.charCodeAt(i)) % (Math.round(Number.MAX_SAFE_INTEGER / 2));
      }
 
      return hash;
