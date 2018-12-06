@@ -17,15 +17,6 @@ class sqlRunErrorIntegrityCheck extends sqlRunErrorAbstract
   constructor(errorMessage)
   {
     super(errorMessage);
-  }
-
-  /**
-   * Get the type of the error
-   *
-   * @return {string} The error type (The class the error is of)
-   */
-  getErrorType()
-  {
-    return "sqlRunErrorIntegrityCheck";
+    this.errorType = "sqlRunErrorIntegrityCheck";
   }
 }

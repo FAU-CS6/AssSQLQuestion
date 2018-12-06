@@ -38,31 +38,96 @@ class handlerAbstract
     // Get the state of the integrityCheck checkbox
     const integrityCheck = this.getIntegrityCheck();
 
-    // Initialize the run variable to be available outside of the try catch, too
-    var run;
+    // If the Browser supports web workers we use them for better multithreading
+    if(window.Worker)
+    {
+      // Start a worker
+      var workerSqlRun = new Worker(window.URL_PATH + '/js/sql/worker/worker.sqlRun.js');
 
-    // Execute the code
-    try
-    {
-      run = new sqlRun(sequenceA, sequenceB, sequenceC, integrityCheck);
+      // Send the data to the worker
+      workerSqlRun.postMessage({"sequenceA": sequenceA,
+                                "sequenceB": sequenceB,
+                                "sequenceC": sequenceC,
+                                "integrityCheck": integrityCheck});
+
+      const handler = this;
+
+      workerSqlRun.onmessage = function(e, callingHandler = handler) {
+        if(e.data["type"] == "result")
+        {
+          // Create a new sqlResult out of the result value
+          const result = new sqlResult({"columns": e.data["result"]["columns"],
+                                        "values": e.data["result"]["values"]})
+
+          // Output the result on page
+          callingHandler.outputResult(result);
+
+          // Enable the input again
+          callingHandler.enableInputAreas();
+        }
+        else
+        {
+          var err;
+
+          // We have to create sqlRunErrors out of the e.data["error"] again
+          switch(e.data["error"]["errorType"])
+          {
+            case "sqlRunErrorAbstract":
+              err = new sqlRunErrorAbstract(e.data["error"]["errorMessage"]);
+              break;
+            case "sqlRunErrorDBCreation":
+              err = new sqlRunErrorDBCreation(e.data["error"]["errorMessage"]);
+              break;
+            case "sqlRunErrorIntegrityCheck":
+              err = new sqlRunErrorIntegrityCheck(e.data["error"]["errorMessage"]);
+              break;
+            case "sqlRunErrorNoVisibleResult":
+              err = new sqlRunErrorNoVisibleResult(e.data["error"]["errorMessage"]);
+              break;
+            case "sqlRunErrorRunningSequence":
+              err = new sqlRunErrorRunningSequence(e.data["error"]["errorMessage"], e.data["error"]["sequence"]);
+              break;
+          }
+
+          // Output received error on page
+          callingHandler.outputError(err);
+
+          // Enable the input again
+          callingHandler.enableInputAreas();
+        }
+
+        this.terminate();
+      }
     }
-    catch(err)
+    // If Web Workers are not supported we have to used the old fashioned way
+    else
     {
-      // Output received error on page
-      this.outputError(err);
+      // Initialize the run variable to be available outside of the try catch, too
+      var run;
+
+      // Execute the code
+      try
+      {
+        run = new sqlRun(sequenceA, sequenceB, sequenceC, integrityCheck);
+      }
+      catch(err)
+      {
+        // Output received error on page
+        this.outputError(err);
+
+        // Enable the input again
+        this.enableInputAreas();
+
+        // Leave the function
+        return;
+      }
+
+      // Output the result on page
+      this.outputResult(run.getLastResult());
 
       // Enable the input again
       this.enableInputAreas();
-
-      // Leave the function
-      return;
     }
-
-    // Output the result on page
-    this.outputResult(run.getLastResult());
-
-    // Enable the input again
-    this.enableInputAreas();
   }
 
   /*

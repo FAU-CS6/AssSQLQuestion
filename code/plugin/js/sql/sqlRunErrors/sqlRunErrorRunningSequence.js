@@ -18,18 +18,8 @@ class sqlRunErrorRunningSequence extends sqlRunErrorAbstract
   constructor(errorMessage, sequence)
   {
     super(errorMessage);
-
+    this.errorType = "sqlRunErrorRunningSequence";
     this.sequence = sequence;
-  }
-
-  /**
-   * Get the type of the error
-   *
-   * @return {string} The error type (The class the error is of)
-   */
-  getErrorType()
-  {
-    return "sqlRunErrorRunningSequence";
   }
 
   /**

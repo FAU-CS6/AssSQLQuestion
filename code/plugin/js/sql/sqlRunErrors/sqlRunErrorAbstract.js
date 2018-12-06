@@ -16,6 +16,7 @@ class sqlRunErrorAbstract
    */
   constructor(errorMessage)
   {
+    this.errorType = "sqlRunErrorAbstract";
     this.errorMessage = errorMessage;
   }
 
@@ -36,6 +37,6 @@ class sqlRunErrorAbstract
    */
   getErrorType()
   {
-    return "sqlRunErrorAbstract";
+    return this.errorType;
   }
 }

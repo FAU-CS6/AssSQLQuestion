@@ -83,7 +83,9 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 			// Add custom js code
 
-				// Nothing to do here (until now)
+				// Add path to the plugin file to be accessible in js, too
+        $this->tpl->addOnLoadCode("window.URL_PATH = \"".self::URL_PATH."\"");
+
 
 	 }
 
