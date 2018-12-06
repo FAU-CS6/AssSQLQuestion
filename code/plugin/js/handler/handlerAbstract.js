@@ -23,6 +23,9 @@ class handlerAbstract
     // Disable input areas
     this.disableInputAreas();
 
+    // Delete old outputs
+    this.deleteOldOutputs();
+
     // Inform the User about the execution
     this.outputRunning();
 
