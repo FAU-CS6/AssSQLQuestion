@@ -124,7 +124,8 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$form->addItem($sequence_c_textarea);
 
     // Checkbox to activate and deaktivate the integrity check
-    $integrity_check = new ilCheckboxInputGUI($this->plugin->txt('integrity_check'), 'integrity_check');
+    $integrity_check = new ilCustomInputGUI($this->plugin->txt('integrity_check'));
+    $integrity_check->setHTML('<input type="checkbox" id="integrity_check" name="integrity_check" value="0" onclick="handlerEditQuestion.deleteOldOutputs()">');
 		$form->addItem($integrity_check);
 
 		// Execute button
