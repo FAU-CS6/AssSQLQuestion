@@ -45,7 +45,7 @@ class handlerAbstract
     if(window.Worker)
     {
       // Start a worker
-      var workerSqlRun = new Worker(window.URL_PATH + '/js/sql/worker/worker.sqlRun.js');
+      var workerSqlRun = new Worker(window.QPISQL_URL_PATH + '/js/sql/worker/worker.sqlRun.js');
 
       // Send the data to the worker
       workerSqlRun.postMessage({"sequenceA": sequenceA,

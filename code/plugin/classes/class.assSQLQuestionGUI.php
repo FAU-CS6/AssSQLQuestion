@@ -11,10 +11,9 @@
  */
 class assSQLQuestionGUI extends assQuestionGUI
 {
-	/**
- 	 * @const	string URL base path for including used javascript and css files
- 	 */
- 	const URL_PATH = "./Customizing/global/plugins/Modules/TestQuestionPool/Questions/assSQLQuestion";
+  /**
+	 * Member variables that have to be part of every assQuestionGUI
+	 */
 
 	/**
 	 * @var ilassSQLQuestionPlugin The plugin object
@@ -25,6 +24,19 @@ class assSQLQuestionGUI extends assQuestionGUI
 	 * @var assSQLQuestion The question object
 	 */
 	var $object = null;
+
+  /**
+	 * Custom member variables/constants for an assSQLQuestionGUI
+	 */
+
+  /**
+ 	 * @const	string URL base path for including used javascript and css files
+ 	 */
+ 	const QPISQL_URL_PATH = "./Customizing/global/plugins/Modules/TestQuestionPool/Questions/assSQLQuestion";
+
+  /**
+	 * Member functions that have to be part of every assQuestionGUI
+	 */
 
 	/**
 	* Constructor
@@ -43,194 +55,6 @@ class assSQLQuestionGUI extends assQuestionGUI
 		{
 			$this->object->loadFromDb($id);
 		}
-	}
-
-	/**
-	 * Private helper function to prepare the different GUIs by adding required
-	 * Javascript and CSS files
-	 *
-	 * @access private
-	 */
-	 private function prepareTemplate()
-	 {
-			// Add CSS files
-
-				// Custom css
-				$this->tpl->addCss(self::URL_PATH.'/css/custom.css');
-
-				// Codemirror
-				$this->tpl->addCss(self::URL_PATH.'/lib/codemirror/lib/codemirror.css');
-
-		  // Add JS files
-
-				// Custom Files
-        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlResult.js');
-				$this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRun.js');
-        $this->tpl->addJavascript(self::URL_PATH.'/js/handler/handlerAbstract.js');
-        $this->tpl->addJavascript(self::URL_PATH.'/js/handler/handlerEditQuestion.js');
-        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorAbstract.js');
-        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorDBCreation.js');
-        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorIntegrityCheck.js');
-        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorNoVisibleResult.js');
-        $this->tpl->addJavascript(self::URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorRunningSequence.js');
-
-			  // Codemirror
-				$this->tpl->addJavascript(self::URL_PATH.'/lib/codemirror/lib/codemirror.js');
-				$this->tpl->addJavascript(self::URL_PATH.'/lib/codemirror/mode/sql/sql.js');
-
-				// SQL.js
-				$this->tpl->addJavascript(self::URL_PATH.'/lib/sql.js/sql.js');
-
-			// Add custom js code
-
-				// Add path to the plugin file to be accessible in js, too
-        $this->tpl->addOnLoadCode("window.URL_PATH = \"".self::URL_PATH."\"");
-
-
-	 }
-
-	 /**
-	  * Private helper function to keep editQuestion more clean
-		* Implements the addition of question specific fields used in editQuestion
-		*
-		* @param ilPropertyFormGUI $form The form the fields should be added to
-		* @access private
-		*/
-	private function addSpecificQuestionFormProperties(\ilPropertyFormGUI $form)
-	{
-		global $lng;
-
-    // Information on SQL sequences
-    $sequences_info = new ilCustomInputGUI($this->plugin->txt('sequences_info'));
-    $sequences_info->setInfo($this->plugin->txt('sequences_info_text'));
-    $sequences_info->setRequired(true);
-    $form->addItem($sequences_info);
-
-    // Input fields for the sql sequences A, B and C
-
-		// Sequence A
-		$sequence_a_textarea = new ilCustomInputGUI($this->plugin->txt('sequence_a'));
-		$sequence_a_textarea->setHTML($this->createCodeEditorInput("sequence_a", ""));
-		$form->addItem($sequence_a_textarea);
-
-    // Sequence B
-		$sequence_b_textarea = new ilCustomInputGUI($this->plugin->txt('sequence_b'));
-		$sequence_b_textarea->setHTML($this->createCodeEditorInput("sequence_b", ""));
-		$form->addItem($sequence_b_textarea);
-
-    // Sequence C
-		$sequence_c_textarea = new ilCustomInputGUI($this->plugin->txt('sequence_c'));
-		$sequence_c_textarea->setHTML($this->createCodeEditorInput("sequence_c", ""));
-		$form->addItem($sequence_c_textarea);
-
-    // Checkbox to activate and deaktivate the integrity check
-    $integrity_check = new ilCustomInputGUI($this->plugin->txt('integrity_check'));
-    $integrity_check->setHTML('<input type="checkbox" id="integrity_check" name="integrity_check" value="0" onclick="handlerEditQuestion.deleteOldOutputs()">');
-		$form->addItem($integrity_check);
-
-		// Execute button
-		$execute_button = new ilCustomInputGUI('');
-		$execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="il_as_qpl_qpisql_execution_button" value="Execute" onclick="handlerEditQuestion.execute()">');
-		$form->addItem($execute_button);
-
-    // Information on output area
-    $output_info = new ilCustomInputGUI($this->plugin->txt('output_info'));
-    $output_info->setInfo($this->plugin->txt('output_info_text'));
-    $output_info->setRequired(true);
-    $form->addItem($output_info);
-
-    // Output
-		$output_area = new ilCustomInputGUI('');
-		$output_area->setHTML($this->createOutputArea());
-		$form->addItem($output_area);
-
-    // Scoring information
-    $scoring_info = new ilCustomInputGUI($this->plugin->txt('scoring_info'));
-    $scoring_info->setInfo($this->plugin->txt('scoring_info_text'));
-    $scoring_info->setRequired(true);
-    $form->addItem($scoring_info);
-
-    // Scoring metric: result lines
-
-    // Scoring metric: result lines - information
-    $scoring_metric_result_lines_info = new ilCustomInputGUI('');
-    $scoring_metric_result_lines_info->setInfo($this->plugin->txt('scoring_metric_result_lines_info'));
-    $form->addItem($scoring_metric_result_lines_info);
-
-    // Scoring metric: result lines - form
-    $scoring_metric_result_lines_form = new ilCustomInputGUI('');
-		$scoring_metric_result_lines_form->setHTML($this->createScoringArea('points_result_lines',
-                                                                        $this->plugin->txt('scoring_metric_result_lines_output_text'),
-                                                                        'il_as_qpl_qpisql_scoring_metric_result_lines_output',
-                                                                        'il_as_qpl_qpisql_scoring_metric_result_lines_output_hidden_field_name',
-                                                                        'il_as_qpl_qpisql_scoring_metric_result_lines_output_hidden_field_id'));
-		$form->addItem($scoring_metric_result_lines_form);
-
-	}
-
-	/**
-	 * Helper function to generate a single code editor element
-	 *
-	 * @param string $name The name of the code editor element
-	 * @param string $value The default value of the field
-	 * @access private
-	 */
-	private function createCodeEditorInput($name, $value)
-	{
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_edit_code.html');
-		$tpl->setVariable("CONTENT", ilUtil::prepareFormOutput($value));
-		$tpl->setVariable("NAME", $name);
-		$tpl->setVariable("QUESTION_ID", $this->object->getId());
-    $tpl->setVariable("PAGEHANDLER", "handlerEditQuestion");
-		$item = new ilCustomInputGUI('');
-
-		return $tpl->get();
-	}
-
-  /**
-	 * Helper function to generate the output area html code
-	 *
-	 * @access private
-	 */
-	private function createOutputArea()
-	{
-    $tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_area.html');
-		$tpl->setVariable("NO_EXECUTION", $this->plugin->txt('no_execution'));
-		$tpl->setVariable("EXECUTION_RUNNING", $this->plugin->txt('execution_running'));
-		$tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('error_db_creation'));
-    $tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('error_integrity_check'));
-    $tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('error_no_visible_result'));
-    $tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
-		$item = new ilCustomInputGUI('');
-
-		return $tpl->get();
-	}
-
-  /**
-	 * Helper function to generate a single scoring area
-	 *
-	 * @param string $point_field_name The name of the form field holding the selected points
-	 * @param string $output_text A custom text to describe the computed output
-   * @param string $output_field_id The id of the div to write a output
-   * @param string $hidden_field_name The name of the hidden form element to save computed the metric value
-   * @param string $hidden_field_id The id of the hidden form element to save computed the metric value
-	 * @access private
-	 */
-	private function createScoringArea($point_field_name, $output_text,
-                                      $output_field_id, $hidden_field_name,
-                                      $hidden_field_id)
-	{
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_scoring_area.html');
-		$tpl->setVariable("POINT_FIELD_NAME", $point_field_name);
-		$tpl->setVariable("POINTS_TEXT", $this->plugin->txt('points_text'));
-    $tpl->setVariable("EXECUTE_FIRST_WARNING", $this->plugin->txt('scoring_area_execute_first'));
-		$tpl->setVariable("OUTPUT_TEXT", $output_text);
-    $tpl->setVariable("OUTPUT_FIELD_ID", $output_field_id);
-    $tpl->setVariable("HIDDEN_FIELD_NAME", $hidden_field_name);
-    $tpl->setVariable("HIDDEN_FIELD_ID", $hidden_field_id);
-		$item = new ilCustomInputGUI('');
-
-		return $tpl->get();
 	}
 
 	/**
@@ -311,12 +135,20 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
+      // Write the data of the generic fields
 			$this->writeQuestionGenericPostData();
 
-			// Here you can write the question type specific values
-			// Some question types define the maximum points directly,
-			// other calculate them from other properties
-			$this->object->setPoints((int) $_POST["points"]);
+      // Write the data of the specific assSQLQuestion fields
+			$this->object->setSequenceA((string) $_POST["sequence_a"]);
+      $this->object->setSequenceB((string) $_POST["sequence_b"]);
+      $this->object->setSequenceC((string) $_POST["sequence_c"]);
+      $this->object->setIntegrityCheck((boolean) $_POST["integrity_check"]);
+      $this->object->setErrorBool((boolean) $_POST["error_bool"]);
+      $this->object->setExecutedBool((boolean) $_POST["executed_bool"]);
+      $this->object->setOutputRelation((boolean) $_POST["output_relation"]);
+      $this->object->setSingleScoringMetric("result_lines",
+                                            $_POST["points_result_lines"],
+                                            $_POST["value_result_lines"]);
 
 			$this->saveTaxonomyAssignments();
 			return 0;
@@ -609,5 +441,224 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		$this->addBackTab($ilTabs);
 	}
+
+
+  /**
+	 * Custom member functions only needed in an assSQLQuestionGUI
+	 */
+
+  /**
+   * Private helper function to prepare the different GUIs by adding required
+   * Javascript and CSS files
+   *
+   * @access private
+   */
+   private function prepareTemplate()
+   {
+      // Add CSS files
+
+        // Custom css
+        $this->tpl->addCss(self::QPISQL_URL_PATH.'/css/custom.css');
+
+        // Codemirror
+        $this->tpl->addCss(self::QPISQL_URL_PATH.'/lib/codemirror/lib/codemirror.css');
+
+      // Add JS files
+
+        // Custom Files
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlResult.js');
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRun.js');
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerAbstract.js');
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerEditQuestion.js');
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorAbstract.js');
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorDBCreation.js');
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorIntegrityCheck.js');
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorNoVisibleResult.js');
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorRunningSequence.js');
+
+        // Codemirror
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/lib/codemirror/lib/codemirror.js');
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/lib/codemirror/mode/sql/sql.js');
+
+        // SQL.js
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/lib/sql.js/sql.js');
+
+      // Add custom js code
+
+        // Add path to the plugin file to be accessible in js, too
+        $this->tpl->addOnLoadCode("window.QPISQL_URL_PATH = \"".self::QPISQL_URL_PATH."\"");
+
+
+   }
+
+   /**
+    * Private helper function to keep editQuestion more clean
+    * Implements the addition of question specific fields used in editQuestion
+    *
+    * @param ilPropertyFormGUI $form The form the fields should be added to
+    * @access private
+    */
+  private function addSpecificQuestionFormProperties(\ilPropertyFormGUI $form)
+  {
+    global $lng;
+
+    // SQL Sequences
+
+    // Information on SQL sequences
+    $sequences_info = new ilCustomInputGUI($this->plugin->txt('sequences_info'));
+    $sequences_info->setInfo($this->plugin->txt('sequences_info_text'));
+    $sequences_info->setRequired(true);
+
+    // As sequence_b is the pattern solution it is not allowed to be empty
+    // A question without this would be pointless
+    if(isset($_POST["sequence_b"]) && $_POST["sequence_b"] == "")
+    {
+      $sequences_info->setAlert($this->plugin->txt('sequences_info_error'));
+    }
+
+    $form->addItem($sequences_info);
+
+    // Sequence A
+    $sequence_a_textarea = new ilCustomInputGUI($this->plugin->txt('sequence_a'));
+    $sequence_a_textarea->setHTML($this->createCodeEditorInput("sequence_a", ""));
+    $form->addItem($sequence_a_textarea);
+
+    // Sequence B
+    $sequence_b_textarea = new ilCustomInputGUI($this->plugin->txt('sequence_b'));
+    $sequence_b_textarea->setHTML($this->createCodeEditorInput("sequence_b", ""));
+    $form->addItem($sequence_b_textarea);
+
+    // Sequence C
+    $sequence_c_textarea = new ilCustomInputGUI($this->plugin->txt('sequence_c'));
+    $sequence_c_textarea->setHTML($this->createCodeEditorInput("sequence_c", ""));
+    $form->addItem($sequence_c_textarea);
+
+    // Checkbox to activate and deaktivate the integrity check
+    $integrity_check = new ilCustomInputGUI($this->plugin->txt('integrity_check'));
+    $integrity_check->setHTML('<input type="checkbox" id="integrity_check" name="integrity_check" value="0" onclick="handlerEditQuestion.deleteOldOutputs()">');
+    $form->addItem($integrity_check);
+
+    // Execute button
+    $execute_button = new ilCustomInputGUI('');
+    $execute_button->setHTML('<input type="button" class="btn-default btn-sm btn" id="il_as_qpl_qpisql_execution_button" value="Execute" onclick="handlerEditQuestion.execute()">');
+    $form->addItem($execute_button);
+
+    // Output area
+
+    // Information on output area
+    $output_info = new ilCustomInputGUI($this->plugin->txt('output_info'));
+    $output_info->setInfo($this->plugin->txt('output_info_text'));
+    $output_info->setRequired(true);
+
+    // If there was no execution before saving or there have been errors we need to output a error message
+    if($_POST["executed_bool"] == "false" ||
+       $_POST["error_bool"] == "true")
+    {
+      $output_info->setAlert($this->plugin->txt('output_info_error'));
+    }
+
+    $form->addItem($output_info);
+
+    // Output
+    $output_area = new ilCustomInputGUI('');
+    $output_area->setHTML($this->createOutputArea());
+    $form->addItem($output_area);
+
+    // Scoring area
+
+    // Scoring information
+    $scoring_info = new ilCustomInputGUI($this->plugin->txt('scoring_info'));
+    $scoring_info->setInfo($this->plugin->txt('scoring_info_text'));
+    $scoring_info->setRequired(true);
+
+    if(isset($_POST["points_result_lines"]) && ((integer) $_POST["points_result_lines"]) == 0)
+    {
+      $scoring_info->setAlert($this->plugin->txt('scoring_info_error'));
+    }
+
+    $form->addItem($scoring_info);
+
+    // Scoring metric: result lines
+
+    // Scoring metric: result lines - information
+    $scoring_metric_result_lines_info = new ilCustomInputGUI('');
+    $scoring_metric_result_lines_info->setInfo($this->plugin->txt('scoring_metric_result_lines_info'));
+    $form->addItem($scoring_metric_result_lines_info);
+
+    // Scoring metric: result lines - form
+    $scoring_metric_result_lines_form = new ilCustomInputGUI('');
+    $scoring_metric_result_lines_form->setHTML($this->createScoringArea('points_result_lines',
+                                                                        $this->plugin->txt('scoring_metric_result_lines_output_text'),
+                                                                        'il_as_qpl_qpisql_scoring_metric_result_lines_output',
+                                                                        'value_result_lines',
+                                                                        'il_as_qpl_qpisql_scoring_metric_result_lines_output_hidden_field_id'));
+    $form->addItem($scoring_metric_result_lines_form);
+
+  }
+
+  /**
+   * Helper function to generate a single code editor element
+   *
+   * @param string $name The name of the code editor element
+   * @param string $value The default value of the field
+   * @access private
+   */
+  private function createCodeEditorInput($name, $value)
+  {
+    $tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_edit_code.html');
+    $tpl->setVariable("CONTENT", ilUtil::prepareFormOutput($value));
+    $tpl->setVariable("NAME", $name);
+    $tpl->setVariable("QUESTION_ID", $this->object->getId());
+    $tpl->setVariable("PAGEHANDLER", "handlerEditQuestion");
+    $item = new ilCustomInputGUI('');
+
+    return $tpl->get();
+  }
+
+  /**
+   * Helper function to generate the output area html code
+   *
+   * @access private
+   */
+  private function createOutputArea()
+  {
+    $tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_area.html');
+    $tpl->setVariable("NO_EXECUTION", $this->plugin->txt('no_execution'));
+    $tpl->setVariable("EXECUTION_RUNNING", $this->plugin->txt('execution_running'));
+    $tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('error_db_creation'));
+    $tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('error_integrity_check'));
+    $tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('error_no_visible_result'));
+    $tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
+    $item = new ilCustomInputGUI('');
+
+    return $tpl->get();
+  }
+
+  /**
+   * Helper function to generate a single scoring area
+   *
+   * @param string $point_field_name The name of the form field holding the selected points
+   * @param string $output_text A custom text to describe the computed output
+   * @param string $output_field_id The id of the div to write a output
+   * @param string $hidden_field_name The name of the hidden form element to save computed the metric value
+   * @param string $hidden_field_id The id of the hidden form element to save computed the metric value
+   * @access private
+   */
+  private function createScoringArea($point_field_name, $output_text,
+                                      $output_field_id, $hidden_field_name,
+                                      $hidden_field_id)
+  {
+    $tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_scoring_area.html');
+    $tpl->setVariable("POINT_FIELD_NAME", $point_field_name);
+    $tpl->setVariable("POINTS_TEXT", $this->plugin->txt('points_text'));
+    $tpl->setVariable("EXECUTE_FIRST_WARNING", $this->plugin->txt('scoring_area_execute_first'));
+    $tpl->setVariable("OUTPUT_TEXT", $output_text);
+    $tpl->setVariable("OUTPUT_FIELD_ID", $output_field_id);
+    $tpl->setVariable("HIDDEN_FIELD_NAME", $hidden_field_name);
+    $tpl->setVariable("HIDDEN_FIELD_ID", $hidden_field_id);
+    $item = new ilCustomInputGUI('');
+
+    return $tpl->get();
+  }
 }
 ?>

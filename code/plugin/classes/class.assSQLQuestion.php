@@ -11,10 +11,26 @@ require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 class assSQLQuestion extends assQuestion
 {
 	/**
+	 * Member variables that have to be part of every assQuestion
+	 */
+
+	/**
 	 * @var ilassSQLQuestionPlugin The plugin object
 	 */
 	protected $plugin = null;
 
+	/**
+	 * Custom member variables/constants for an assSQLQuestion
+	 */
+
+	/**
+	 * @var array An array containing every additional data a assSQLQuestion contains compared to a normal question
+	 */
+	var $additional_data = array();
+
+	/**
+	 * Member functions that have to be part of every assQuestion
+	 */
 
 	/**
 	 * Constructor
@@ -104,16 +120,19 @@ class assSQLQuestion extends assQuestion
 	 */
 	public function isComplete()
 	{
-		// Please add here your own check for question completeness
-		// The parent function will always return false
-		if(!empty($this->title) && !empty($this->author) && !empty($this->question) && $this->getMaximumPoints() > 0)
+		// Check whether the question is complete
+		if(!empty($this->title) &&
+			 !empty($this->author) &&
+			 !empty($this->question) &&
+			 $this->$additional_data["sequence_b"] != "" &&
+			 $this->$additional_data["executed_bool"] == "true" &&
+	     $this->$additional_data["error_bool"] == "false" &&
+			 $this->getMaximumPoints() > 0)
 		{
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -614,6 +633,256 @@ class assSQLQuestion extends assQuestion
 		$export = new assSQLQuestionExport($this);
 		return $export->toXML($a_include_header, $a_include_binary, $a_shuffle, $test_output, $force_image_references);
 	}
+
+	/**
+	 * Custom member functions only needed in an assSQLQuestion
+	 */
+
+	/**
+	 * Getter and Setter for all $additional_data
+	 */
+
+	/**
+	 * Returns the first sql sequence (sequence_a)
+	 *
+	 * @return string The first sql sequence
+	 */
+	function getSequenceA()
+	{
+		return $this->$additional_data["sequence_a"];
+	}
+
+	/**
+	 * Sets the first sql sequence
+	 *
+	 * @param string $sequence_a The first sql sequence
+	 */
+	function setSequenceA($sequence_a)
+	{
+		$this->$additional_data["sequence_a"] = $sequence_a;
+	}
+
+	/**
+	 * Returns the second sql sequence (sequence_b)
+	 *
+	 * @return string The second sql sequence
+	 */
+	function getSequenceB()
+	{
+		return $this->$additional_data["sequence_b"];
+	}
+
+	/**
+	 * Sets the second sql sequence
+	 *
+	 * @param string $sequence_b The second sql sequence
+	 */
+	function setSequenceB($sequence_b)
+	{
+		$this->$additional_data["sequence_b"] = $sequence_b;
+	}
+
+	/**
+	 * Returns the third sql sequence (sequence_c)
+	 *
+	 * @return string The third sql sequence
+	 */
+	function getSequenceC()
+	{
+		return $this->$additional_data["sequence_c"];
+	}
+
+	/**
+	 * Sets the third sql sequence
+	 *
+	 * @param string $sequence_c The third sql sequence
+	 */
+	function setSequenceC($sequence_c)
+	{
+		$this->$additional_data["sequence_c"] = $sequence_c;
+	}
+
+	/**
+	 * Returns the integrity_check boolean (true for a integrity check has to be done)
+	 *
+	 * @return boolean The integrity_check boolean
+	 */
+	function getIntegrityCheck()
+	{
+		return $this->$additional_data["integrity_check"];
+	}
+
+	/**
+	 * Sets the integrity_check boolean (true for a integrity check has to be done)
+	 *
+	 * @param boolean $integrity_check The integrity_check boolean
+	 */
+	function setIntegrityCheck($integrity_check)
+	{
+		$this->$additional_data["integrity_check"] = $integrity_check;
+	}
+
+	/**
+	 * Returns the error state of the execution (true for errors have been found)
+	 *
+	 * @return boolean The error state
+	 */
+	function getErrorBool()
+	{
+		return $this->$additional_data["error_bool"];
+	}
+
+	/**
+	 * Sets the error state of the execution (true for errors have been found)
+	 *
+	 * @param boolean $error_bool The error state of the execution
+	 */
+	function setErrorBool($error_bool)
+	{
+		$this->$additional_data["error_bool"] = $error_bool;
+	}
+
+	/**
+	 * Returns the execution state (true for code was executed)
+	 *
+	 * @return boolean The execution state
+	 */
+	function getExecutedBool()
+	{
+		return $this->$additional_data["executed_bool"];
+	}
+
+	/**
+	 * Sets the execution state (true for code was executed)
+	 *
+	 * @param boolean $executed_bool The execution state
+	 */
+	function setExecutedBool($executed_bool)
+	{
+		$this->$additional_data["executed_bool"] = $executed_bool;
+	}
+
+	/**
+	 * Returns the output relation
+	 *
+	 * @return boolean The output relation
+	 */
+	function getOutputRelation()
+	{
+		return $this->$additional_data["output_relation"];
+	}
+
+	/**
+	 * Sets the output relation
+	 *
+	 * @param boolean $output_relation The output relation
+	 */
+	function setOutputRelation($output_relation)
+	{
+		$this->$additional_data["output_relation"] = $output_relation;
+	}
+
+	/**
+	 * Get all scoring metrics
+	 *
+	 * @return array A array containing all scoring metrics
+	 */
+	function getAllScoringMetrics()
+	{
+		return $this->$additional_data["scoring_metrics"];
+	}
+
+	/**
+	 * Get maximum points by add up all scoring metrics
+	 *
+	 * @return integer The maxium possible points
+	 */
+	function getMaximumPoints()
+	{
+		// Initialize with 0
+		$maximum_points = 0;
+
+		if(is_array($this->$additional_data["scoring_metrics"]))
+		{
+			foreach($this->$additional_data["scoring_metrics"] as $scoring_metric)
+			{
+				$maximum_points += $scoring_metric["points"];
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Sets all scoring metrics
+	 *
+	 * @param array $scoring_metrics An array containg all scoring metrics to be set
+	 */
+	function setAllScoringMetrics($scoring_metrics)
+	{
+		$this->$additional_data["scoring_metrics"] = $scoring_metrics;
+	}
+
+	/**
+	 * Get a single scoring metric
+	 *
+	 * @param string $name The name of the scoring metric
+	 * @return array A array containing the name, the points and the value of a scoring metric - If there is no suiting metric saved it will return null
+	 */
+	function getSingleScoringMetric($name)
+	{
+		if(is_array($this->$additional_data["scoring_metrics"]))
+		{
+			foreach($this->$additional_data["scoring_metrics"] as $scoring_metric)
+			{
+				if($scoring_metric["name"] == $name)
+				{
+					return $scoring_metric;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Save a single scoring metric
+	 *
+	 * @param string $name A unique name for the scoring metric - If there already is a metric with this name it is replaced by the new one
+	 * @param integer $points The points that have been assinged (will be given to the participant if he fulfills the scoring metric)
+	 * @param string $value The value of the metric in the pattern solution
+	 */
+	function setSingleScoringMetric($name, $points, $value)
+	{
+		// If $additional_data["scoring_metrics"] is no array until now we have to make it one
+		if(!is_array($this->$additional_data["scoring_metrics"]))
+		{
+			$this->$additional_data["scoring_metrics"] = array();
+		}
+
+		// Search for scoring_metrics with the same name
+		// If we find one replace it with the new values
+		foreach($this->$additional_data["scoring_metrics"] as $scoring_metric)
+		{
+			if($scoring_metric["name"] == $name)
+			{
+				$scoring_metric["points"] = $points;
+				$scoring_metric["value"] = $value;
+				return;
+			}
+		}
+
+		// If no exsisting scoring_metric with the same name create a new one
+		$new_scoring_metric = array();
+		$new_scoring_metric["name"] = $name;
+		$new_scoring_metric["points"] = $points;
+		$new_scoring_metric["value"] = $value;
+
+		array_push($this->$additional_data["scoring_metrics"], $new_scoring_metric);
+	}
+
+
+
 }
 
 ?>
