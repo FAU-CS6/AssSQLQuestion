@@ -179,7 +179,7 @@ class handlerEditQuestion extends handlerAbstract
 
     // Result lines metric
     document.getElementById('il_as_qpl_qpisql_scoring_metric_result_lines_output').innerHTML = result.getNumberOfRows();
-    document.getElementById('il_as_qpl_qpisql_scoring_metric_result_lines_output_hidden_field_id').innerHTML = result.getNumberOfRows();
+    document.getElementById('il_as_qpl_qpisql_scoring_metric_result_lines_output_hidden_field_id').value = result.getNumberOfRows();
 
     this.setScoringAreas(true);
   }

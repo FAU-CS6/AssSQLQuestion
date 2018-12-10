@@ -1,6 +1,7 @@
 <?php
 
 require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+require_once "internal/class.qpisql.scoringMetric.php";
 
 /**
  * Main defintion of the SQLQuestion plugin
@@ -24,9 +25,44 @@ class assSQLQuestion extends assQuestion
 	 */
 
 	/**
-	 * @var array An array containing every additional data a assSQLQuestion contains compared to a normal question
+	 * @var string The first sql sequence of the question
 	 */
-	var $additional_data = array();
+	var $sequence_a = "";
+
+	/**
+	 * @var string The second sql sequence of the question
+	 */
+	var $sequence_b = "";
+
+	/**
+	 * @var string The third sql sequence of the question
+	 */
+	var $sequence_c = "";
+
+	/**
+	 * @var boolean A boolean indicating whether the question includes an integrity check (true) or not (false)
+	 */
+	var $integrity_check = false;
+
+	/**
+	 * @var boolean A boolean indicating whether the questions sequences contain errors (true) or not (false)
+	 */
+	var $error_bool = false;
+
+	/**
+	 * @var boolean A boolean indicating whether the current questions sequences have been executed (true) or not (false)
+	 */
+	var $executed_bool = false;
+
+	/**
+	 * @var string A json string containg the output relation of the current sql sequences
+	 */
+	var $output_relation = "";
+
+	/**
+	 * @var scoringMetric[] An array containg all computed scoring metrics used in this question
+	 */
+	var $scoring_metrics = array();
 
 	/**
 	 * Member functions that have to be part of every assQuestion
@@ -71,16 +107,16 @@ class assSQLQuestion extends assQuestion
 	}
 
 	/**
-	 * Returns the names of the additional question data tables
+	 * Returns the names of the used additional question data tables
 	 *
-	 * All tables must have a 'question_fi' column.
-	 * Data from these tables will be deleted if a question is deleted
-	 *
-	 * @return mixed 	the name(s) of the additional tables (array or string)
+	 * @return array The names of the additional tables
 	 */
 	public function getAdditionalTableName()
 	{
-		return '';
+		return array(
+			'il_qpl_qst_qpisql_qd',
+			'il_qpl_qst_qpisql_qsm'
+		);
 	}
 
 	/**
@@ -91,12 +127,8 @@ class assSQLQuestion extends assQuestion
 	{
 		$text = parent::getRTETextWithMediaObjects();
 
-		// eventually add the content of question type specific text fields
-		// ..
-
 		return $text;
 	}
-
 
 	/**
 	 * Get the plugin object
@@ -124,9 +156,9 @@ class assSQLQuestion extends assQuestion
 		if(!empty($this->title) &&
 			 !empty($this->author) &&
 			 !empty($this->question) &&
-			 $this->$additional_data["sequence_b"] != "" &&
-			 $this->$additional_data["executed_bool"] == "true" &&
-	     $this->$additional_data["error_bool"] == "false" &&
+			 $this->getSequenceB() != "" &&
+			 $this->getExecutedBool() == "true" &&
+	     $this->getErrorBool() == "false" &&
 			 $this->getMaximumPoints() > 0)
 		{
 			return true;
@@ -138,22 +170,19 @@ class assSQLQuestion extends assQuestion
 	/**
 	 * Saves a question object to a database
 	 *
-	 * @param	string		$original_id
-	 * @access 	public
+	 * @param	string $original_id The original id
+	 * @access public
 	 * @see assQuestion::saveToDb()
 	 */
 	function saveToDb($original_id = '')
 	{
 
-		// save the basic data (implemented in parent)
-		// a new question is created if the id is -1
-		// afterwards the new id is set
+		// Save the basic data (implemented in assQuestion)
 		$this->saveQuestionDataToDb($original_id);
 
-		// Now you can save additional data
-		// ...
+		// Save the assSQLQuestion specific data to the database
+		$this->saveSpecificQuestionDataToDb();
 
-		// save stuff like suggested solutions
 		// update the question time stamp and completion status
 		parent::saveToDb();
 	}
@@ -649,7 +678,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function getSequenceA()
 	{
-		return $this->$additional_data["sequence_a"];
+		return $this->sequence_a;
 	}
 
 	/**
@@ -659,7 +688,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function setSequenceA($sequence_a)
 	{
-		$this->$additional_data["sequence_a"] = $sequence_a;
+		$this->sequence_a = $sequence_a;
 	}
 
 	/**
@@ -669,7 +698,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function getSequenceB()
 	{
-		return $this->$additional_data["sequence_b"];
+		return $this->sequence_b;
 	}
 
 	/**
@@ -679,7 +708,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function setSequenceB($sequence_b)
 	{
-		$this->$additional_data["sequence_b"] = $sequence_b;
+		$this->sequence_b = $sequence_b;
 	}
 
 	/**
@@ -689,7 +718,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function getSequenceC()
 	{
-		return $this->$additional_data["sequence_c"];
+		return $this->sequence_c;
 	}
 
 	/**
@@ -699,7 +728,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function setSequenceC($sequence_c)
 	{
-		$this->$additional_data["sequence_c"] = $sequence_c;
+		$this->sequence_c = $sequence_c;
 	}
 
 	/**
@@ -709,7 +738,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function getIntegrityCheck()
 	{
-		return $this->$additional_data["integrity_check"];
+		return $this->integrity_check;
 	}
 
 	/**
@@ -719,7 +748,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function setIntegrityCheck($integrity_check)
 	{
-		$this->$additional_data["integrity_check"] = $integrity_check;
+		$this->integrity_check = $integrity_check;
 	}
 
 	/**
@@ -729,7 +758,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function getErrorBool()
 	{
-		return $this->$additional_data["error_bool"];
+		return $this->error_bool;
 	}
 
 	/**
@@ -739,7 +768,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function setErrorBool($error_bool)
 	{
-		$this->$additional_data["error_bool"] = $error_bool;
+		$this->error_bool = $error_bool;
 	}
 
 	/**
@@ -749,7 +778,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function getExecutedBool()
 	{
-		return $this->$additional_data["executed_bool"];
+		return $this->executed_bool;
 	}
 
 	/**
@@ -759,37 +788,37 @@ class assSQLQuestion extends assQuestion
 	 */
 	function setExecutedBool($executed_bool)
 	{
-		$this->$additional_data["executed_bool"] = $executed_bool;
+		$this->executed_bool = $executed_bool;
 	}
 
 	/**
 	 * Returns the output relation
 	 *
-	 * @return boolean The output relation
+	 * @return string The output relation
 	 */
 	function getOutputRelation()
 	{
-		return $this->$additional_data["output_relation"];
+		return $this->output_relation;
 	}
 
 	/**
 	 * Sets the output relation
 	 *
-	 * @param boolean $output_relation The output relation
+	 * @param string $output_relation The output relation
 	 */
 	function setOutputRelation($output_relation)
 	{
-		$this->$additional_data["output_relation"] = $output_relation;
+		$this->output_relation = $output_relation;
 	}
 
 	/**
 	 * Get all scoring metrics
 	 *
-	 * @return array A array containing all scoring metrics
+	 * @return scoringMetric[] A array containing all scoring metrics
 	 */
 	function getAllScoringMetrics()
 	{
-		return $this->$additional_data["scoring_metrics"];
+		return $this->scoring_metrics;
 	}
 
 	/**
@@ -802,87 +831,119 @@ class assSQLQuestion extends assQuestion
 		// Initialize with 0
 		$maximum_points = 0;
 
-		if(is_array($this->$additional_data["scoring_metrics"]))
+		foreach($this->scoring_metrics as $scoring_metric)
 		{
-			foreach($this->$additional_data["scoring_metrics"] as $scoring_metric)
-			{
-				$maximum_points += $scoring_metric["points"];
-			}
+			$maximum_points += $scoring_metric->getPoints();
 		}
 
-		return 0;
+		return $maximum_point;
 	}
 
 	/**
 	 * Sets all scoring metrics
 	 *
-	 * @param array $scoring_metrics An array containg all scoring metrics to be set
+	 * @param scoringMetric[] $scoring_metrics An array containg all scoring metrics to be set
 	 */
 	function setAllScoringMetrics($scoring_metrics)
 	{
-		$this->$additional_data["scoring_metrics"] = $scoring_metrics;
+		$this->scoring_metrics = $scoring_metrics;
 	}
 
 	/**
-	 * Get a single scoring metric
+	 * Get all scoring metrics with a specific type
 	 *
-	 * @param string $name The name of the scoring metric
-	 * @return array A array containing the name, the points and the value of a scoring metric - If there is no suiting metric saved it will return null
+	 * @param string $type The type of the searched scoring metrics
+	 * @return scoringMetric[] A array containing all metrics with this type
 	 */
-	function getSingleScoringMetric($name)
+	function getScoringMetricsWithType($type)
 	{
-		if(is_array($this->$additional_data["scoring_metrics"]))
+		$found_metrics = array();
+
+		foreach($this->scoring_metrics as $scoring_metric)
 		{
-			foreach($this->$additional_data["scoring_metrics"] as $scoring_metric)
+			if($scoring_metric.getType() == $type)
 			{
-				if($scoring_metric["name"] == $name)
-				{
-					return $scoring_metric;
-				}
+				array_push($found_metrics, $scoring_metric);
 			}
 		}
 
-		return null;
+		return $found_metrics;
 	}
 
 	/**
 	 * Save a single scoring metric
 	 *
-	 * @param string $name A unique name for the scoring metric - If there already is a metric with this name it is replaced by the new one
-	 * @param integer $points The points that have been assinged (will be given to the participant if he fulfills the scoring metric)
-	 * @param string $value The value of the metric in the pattern solution
+	 * @param scoringMetric The scoring metric that has to be saved
 	 */
-	function setSingleScoringMetric($name, $points, $value)
+	function setSingleScoringMetric($scoring_metric)
 	{
-		// If $additional_data["scoring_metrics"] is no array until now we have to make it one
-		if(!is_array($this->$additional_data["scoring_metrics"]))
-		{
-			$this->$additional_data["scoring_metrics"] = array();
-		}
-
-		// Search for scoring_metrics with the same name
-		// If we find one replace it with the new values
-		foreach($this->$additional_data["scoring_metrics"] as $scoring_metric)
-		{
-			if($scoring_metric["name"] == $name)
-			{
-				$scoring_metric["points"] = $points;
-				$scoring_metric["value"] = $value;
-				return;
-			}
-		}
-
-		// If no exsisting scoring_metric with the same name create a new one
-		$new_scoring_metric = array();
-		$new_scoring_metric["name"] = $name;
-		$new_scoring_metric["points"] = $points;
-		$new_scoring_metric["value"] = $value;
-
-		array_push($this->$additional_data["scoring_metrics"], $new_scoring_metric);
+		array_push($this->scoring_metrics, $scoring_metric);
 	}
 
+	/**
+	 * Database functions
+	 */
+
+	/**
+	 * Save all data that is specific to assSQLQuestion into the database
+	 *
+	 * See dpupdate.php for more informations on used tables
+	 */
+	function saveSpecificQuestionDataToDb()
+	{
+		global $ilDB;
+
+		// Update "il_qpl_qst_qpisql_qd"
+
+		// Delete existing entries with current question id (to avoid double entries)
+		$ilDB->manipulate("DELETE FROM il_qpl_qst_qpisql_qd
+											 WHERE question_fi = '".$this->getId()."'");
+
+	  // Insert the current question data
+		$ilDB->manipulateF(
+			"INSERT INTO il_qpl_qst_qpisql_qd (question_fi,
+																				 sequence_a,
+																				 sequence_b,
+																				 sequence_c,
+																				 integrity_check,
+																				 error_bool,
+																				 executed_bool,
+																				 output_relation)
+			VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+			array("integer", "text", "text",
+						"text", "integer", "integer",
+						"integer", "clob"),
+			array($this->getId(), $this->getSequenceA(), $this->getSequenceB(),
+						$this->getSequenceC(), $this->getIntegrityCheck(), $this->getErrorBool(),
+						$this->getExecutedBool(), $this->getOutputRelation())
+    );
 
 
+		// Update "il_qpl_qst_qpisql_qsm"
+
+		// Delete existing entries with current question id (to avoid double entries)
+		$ilDB->manipulate("DELETE FROM il_qpl_qst_qpisql_qsm
+											 WHERE question_fi = '".$this->getId()."'");
+
+	  // Insert all current scoring metrics
+		foreach($this->scoring_metrics as $scoring_metric)
+		{
+			$ilDB->manipulateF(
+				"INSERT INTO il_qpl_qst_qpisql_qsm (question_fi,
+																					  id,
+																					  type,
+																					  points,
+																					  value)
+				VALUES (%s, %s, %s, %s, %s)",
+				array("integer", "text",
+							"text", "integer",
+							"clob"),
+				array($this->getId(), $scoring_metric->getId(),
+							$scoring_metric->getType(), $scoring_metric->getPoints(),
+							$scoring_metric->getValue())
+	    );
+		}
+	}
 }
 
 ?>

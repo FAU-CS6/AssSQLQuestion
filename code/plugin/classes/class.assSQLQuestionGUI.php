@@ -1,5 +1,7 @@
 <?php
 
+require_once "internal/class.qpisql.scoringMetric.php";
+
 /**
  * GUI class of the SQLQuestion plugin
  *
@@ -138,17 +140,22 @@ class assSQLQuestionGUI extends assQuestionGUI
       // Write the data of the generic fields
 			$this->writeQuestionGenericPostData();
 
-      // Write the data of the specific assSQLQuestion fields
+      // Write the main assSQLQuestion fields
 			$this->object->setSequenceA((string) $_POST["sequence_a"]);
       $this->object->setSequenceB((string) $_POST["sequence_b"]);
       $this->object->setSequenceC((string) $_POST["sequence_c"]);
-      $this->object->setIntegrityCheck((boolean) $_POST["integrity_check"]);
-      $this->object->setErrorBool((boolean) $_POST["error_bool"]);
-      $this->object->setExecutedBool((boolean) $_POST["executed_bool"]);
-      $this->object->setOutputRelation((boolean) $_POST["output_relation"]);
-      $this->object->setSingleScoringMetric("result_lines",
-                                            $_POST["points_result_lines"],
-                                            $_POST["value_result_lines"]);
+      $this->object->setIntegrityCheck(isset($_POST["integrity_check"]) && $_POST["integrity_check"] == "1");
+      $this->object->setErrorBool($_POST["error_bool"] == "true" ? true : false);
+      $this->object->setExecutedBool($_POST["executed_bool"] == "true" ? true : false);
+      $this->object->setOutputRelation((string) $_POST["output_relation"]);
+
+			// Write the scoring metrics
+      $this->object->setSingleScoringMetric(
+				new scoringMetric("result_lines", // id
+													"result_lines", // type
+													(integer) $_POST["points_result_lines"], // points
+													(string) $_POST["value_result_lines"]) //value
+			);
 
 			$this->saveTaxonomyAssignments();
 			return 0;
@@ -535,7 +542,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 
     // Checkbox to activate and deaktivate the integrity check
     $integrity_check = new ilCustomInputGUI($this->plugin->txt('integrity_check'));
-    $integrity_check->setHTML('<input type="checkbox" id="integrity_check" name="integrity_check" value="0" onclick="handlerEditQuestion.deleteOldOutputs()">');
+    $integrity_check->setHTML('<input type="checkbox" id="integrity_check" name="integrity_check" value="1" onclick="handlerEditQuestion.deleteOldOutputs()">');
     $form->addItem($integrity_check);
 
     // Execute button
