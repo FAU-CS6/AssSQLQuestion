@@ -583,7 +583,7 @@ class assSQLQuestion extends assQuestion
 
 
 	/**
-	 * Reworks the allready saved working data if neccessary
+	 * Reworks the already saved working data if neccessary
 	 * @param integer $active_id
 	 * @param integer $pass
 	 * @param boolean $obligationsAnswered

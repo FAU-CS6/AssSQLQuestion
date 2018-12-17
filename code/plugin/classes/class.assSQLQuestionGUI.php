@@ -1,14 +1,10 @@
 <?php
 
+require_once "internal/guiElements/class.qpisql.editQuestionSequenceArea.php";
+require_once "internal/guiElements/class.qpisql.editQuestionOutputArea.php";
+require_once "internal/guiElements/class.qpisql.editQuestionScoringArea.php";
+
 require_once "internal/class.qpisql.scoringMetric.php";
-require_once "internal/class.qpisql.sequencesInfoGUI.php";
-require_once "internal/class.qpisql.sequencesInputGUI.php";
-require_once "internal/class.qpisql.integrityCheckGUI.php";
-require_once "internal/class.qpisql.executeButtonGUI.php";
-require_once "internal/class.qpisql.outputInfoGUI.php";
-require_once "internal/class.qpisql.outputAreaGUI.php";
-require_once "internal/class.qpisql.scoringInfoGUI.php";
-require_once "internal/class.qpisql.scoringInputGUI.php";
 
 /**
  * GUI class of the SQLQuestion plugin
@@ -194,20 +190,43 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$value1 = isset($solution["value1"]) ? $solution["value1"] : "";
 		$value2 = isset($solution["value2"]) ? $solution["value2"] : "";
 
-		// fill the question output template
-		// in out example we have 1:1 relation for the database field
-		$template = $this->plugin->getTemplate("tpl.il_as_qpl_qpisql_output.html");
+		// Prepare the template
+		$this->prepareTemplate();
 
-		$template->setVariable("QUESTION_ID", $this->object->getId());
+		// Get needed values
+
+		// Get the question text
+		/*
 		$questiontext = $this->object->getQuestion();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$template->setVariable("LABEL_VALUE1", $this->plugin->txt('label_value1'));
-		$template->setVariable("LABEL_VALUE2", $this->plugin->txt('label_value2'));
 
-		$template->setVariable("VALUE1", ilUtil::prepareFormOutput($value1));
-		$template->setVariable("VALUE2", ilUtil::prepareFormOutput($value2));
+		// Get the html code of the input area
+		$input_area_tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_edit_code.html');
+    $input_area_tpl->setVariable("CONTENT", "");
+    $input_area_tpl->setVariable("NAME", "sequence_b");
+    $input_area_tpl->setVariable("PAGEHANDLER", "handlerEditQuestion");
 
-		$questionoutput = $template->get();
+		$input_area = $input_area_tpl->get();
+
+		// Get the html code of the output area
+		$output_area_tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_area.html');
+    $output_area_tpl->setVariable("NO_EXECUTION", $this->plugin->txt('no_execution'));
+    $output_area_tpl->setVariable("EXECUTION_RUNNING", $this->plugin->txt('execution_running'));
+    $output_area_tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('error_db_creation'));
+    $output_area_tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('error_integrity_check'));
+    $output_area_tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('error_no_visible_result'));
+    $output_area_tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
+
+		$output_area = $output_area_tpl->get();
+
+		// Get the complete output code
+		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output.html');
+    $tpl->setVariable("QUESTIONTEXT", $questiontext);
+    $tpl->setVariable("INPUT_AREA", $input_area);
+    $tpl->setVariable("OUTPUT_AREA", $output_area);
+
+		$questionoutput = $tpl->get();
+		*/
+		$questionoutput = "";
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
 	}
@@ -232,24 +251,44 @@ class assSQLQuestionGUI extends assQuestionGUI
 			$solution = array('value1' => null, 'value2' => null);
 		}
 
-		// Fill the template with a preview version of the question
-		$template = $this->plugin->getTemplate("tpl.il_as_qpl_qpisql_output.html");
+		// Prepare the template
+		$this->prepareTemplate();
+
+		// Get needed values
+		/*
+
+		// Get the question text
 		$questiontext = $this->object->getQuestion();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$template->setVariable("QUESTION_ID", $this->object->getId());
-		$template->setVariable("LABEL_VALUE1", $this->plugin->txt('label_value1'));
-		$template->setVariable("LABEL_VALUE2", $this->plugin->txt('label_value2'));
 
-		$template->setVariable("VALUE1", ilUtil::prepareFormOutput($solution['value1']));
-		$template->setVariable("VALUE2", ilUtil::prepareFormOutput($solution['value2']));
+		// Get the html code of the input area
+		$input_area_tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_edit_code.html');
+    $input_area_tpl->setVariable("CONTENT", "");
+    $input_area_tpl->setVariable("NAME", "sequence_b");
+    $input_area_tpl->setVariable("PAGEHANDLER", "handlerEditQuestion");
 
-		$questionoutput = $template->get();
-		if(!$show_question_only)
-		{
-			// get page object output
-			$questionoutput = $this->getILIASPage($questionoutput);
-		}
-		return $questionoutput;
+		$input_area = $input_area_tpl->get();
+
+		// Get the html code of the output area
+		$output_area_tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_area.html');
+    $output_area_tpl->setVariable("NO_EXECUTION", $this->plugin->txt('no_execution'));
+    $output_area_tpl->setVariable("EXECUTION_RUNNING", $this->plugin->txt('execution_running'));
+    $output_area_tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('error_db_creation'));
+    $output_area_tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('error_integrity_check'));
+    $output_area_tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('error_no_visible_result'));
+    $output_area_tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
+
+		$output_area = $output_area_tpl->get();
+
+		// Get the complete output code
+		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output.html');
+    $tpl->setVariable("QUESTIONTEXT", $questiontext);
+    $tpl->setVariable("INPUT_AREA", $input_area);
+    $tpl->setVariable("OUTPUT_AREA", $output_area);
+
+		return $tpl->get();
+		*/
+
+		return "";
 	}
 
 	/**
@@ -488,6 +527,7 @@ class assSQLQuestionGUI extends assQuestionGUI
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorAbstract.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorDBCreation.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorIntegrityCheck.js');
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorNoExecution.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorNoVisibleResult.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorRunningSequence.js');
 
@@ -517,51 +557,17 @@ class assSQLQuestionGUI extends assQuestionGUI
   {
     global $lng;
 
-		// SQL Sequences Input
-
-		// Information area
-		$sequences_info = new sequencesInfoGUI($this->plugin);
-		$form->addItem($sequences_info);
-
-    // Sequence A
-    $sequence_a = new sequencesInputGUI("sequence_a", $_POST["sequence_a"], $this->plugin);
-    $form->addItem($sequence_a);
-
-		// Sequence B
-    $sequence_b = new sequencesInputGUI("sequence_b", $this->object->getSequenceB(), $this->plugin);
-    $form->addItem($sequence_b);
-
-		// Sequence C
-    $sequence_c = new sequencesInputGUI("sequence_c", $this->object->getSequenceC(), $this->plugin);
-    $form->addItem($sequence_c);
-
-    // Checkbox to activate and deaktivate the integrity check
-    $integrity_check = new integrityCheckGUI($this->plugin);
-    $form->addItem($integrity_check);
-
-    // Execute button
-    $execute_button = new executeButtonGUI('');
-    $form->addItem($execute_button);
+		// (SQL) Sequence (input) Area
+		$sequence_area = new editQuestionSequenceArea($this->plugin);
+		$form->addItem($sequence_area);
 
     // Output area
-
-    // Information on output area
-    $output_info = new outputInfoGUI($this->plugin);
-    $form->addItem($output_info);
-
-    // Output
-    $output_area = new outputAreaGUI($this->plugin);
+    $output_area = new editQuestionOutputArea($this->plugin);
     $form->addItem($output_area);
 
     // Scoring area
-
-    // Scoring information
-    $scoring_info = new scoringInfoGUI($this->plugin);
-    $form->addItem($scoring_info);
-
-    // Scoring input
-		$scoring_input = new scoringInputGUI($this->plugin);
-    $form->addItem($scoring_input);
+		$scoring_area = new editQuestionScoringArea($this->plugin);
+    $form->addItem($scoring_area);
   }
 }
 ?>

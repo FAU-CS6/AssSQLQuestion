@@ -43,10 +43,10 @@ class sqlResult
   toHTMLTable()
   {
     // Begin the table
-    var html = "<table class='il_as_qpl_qpisql_output_table'>";
+    var html = "<table class='qpisql-output-table'>";
 
     // Insert attribute names as header row
-    html += "<tr class='il_as_qpl_qpisql_output_table_header'>";
+    html += "<tr class='qpisql-output-table-header'>";
 
     for(var i = 0; i < this.columns.length; i++)
     {
@@ -59,7 +59,7 @@ class sqlResult
     // Insert the single tuples
     for(var i = 0; i < this.values.length; i++)
     {
-      html += "<tr class='il_as_qpl_qpisql_output_table_tuple'>";
+      html += "<tr class='qpisql-output-table-tuple'>";
 
       for(var ii = 0; ii < this.values[i].length; ii++)
       {

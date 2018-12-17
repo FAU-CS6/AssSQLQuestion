@@ -31,4 +31,14 @@ class sqlRunErrorRunningSequence extends sqlRunErrorAbstract
   {
     return this.sequence;
   }
+
+  /**
+   * Get (beautified) output text (Error message in a form suitable for the error)
+   *
+   * @return {string} The (beautified) output text
+   */
+  getOutputText()
+  {
+    return "(" + this.sequence + ") " + error_running_sequence + " <i>" + this.errorMessage + "</i>";
+  }
 }

@@ -19,4 +19,15 @@ class sqlRunErrorDBCreation extends sqlRunErrorAbstract
     super(errorMessage);
     this.errorType = "sqlRunErrorDBCreation";
   }
+
+  /**
+   * Get (beautified) output text (Error message in a form suitable for the error)
+   *
+   * @return {string} The (beautified) output text
+   */
+  getOutputText()
+  {
+    // Error_db_creation is a custom string describing a sqlRunErrorDBCreation
+    return error_db_creation + " " + this.errorMessage;
+  }
 }

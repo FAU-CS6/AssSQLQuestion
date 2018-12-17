@@ -1,0 +1,88 @@
+<!-- Info text of sequence area -->
+<div class="qpisql-info-area help-block">
+  {INFO_TEXT}
+</div>
+
+<!-- Sequence inputs -->
+<div class="qpisql-input-area">
+
+  <div class="help-block">
+    <b>{SEQUENCE_A}</b>
+  </div>
+  <!-- Sequence A input -->
+  <textarea id="qpisql-sequence-a" name="sequence_a" data-contains-code class="qpisql-code-input-box" cols="80" rows="10">{CONTENT_SEQUENCE_A}</textarea>
+  <script>
+    // Create a coding box out of the textarea
+    var editor_sequence_a = CodeMirror.fromTextArea(document.getElementById('qpisql-sequence-a'), {
+      lineNumbers: true,
+      mode: 'text/x-sql'
+    });
+
+    // Insert a onChange handler (all results have reset)
+    editor_sequence_a.on('change',function(){
+      {PAGEHANDLER}.deleteOldOutputs();
+    })
+  </script>
+
+  <br />
+
+  <div class="help-block">
+    <b>{SEQUENCE_B}</b>
+  </div>
+  <!-- Sequence B input -->
+  <textarea id="qpisql-sequence-b" name="sequence_b" data-contains-code class="qpisql-code-input-box" cols="80" rows="10">{CONTENT_SEQUENCE_B}</textarea>
+  <script>
+    // Create a coding box out of the textarea
+    var editor_sequence_b = CodeMirror.fromTextArea(document.getElementById('qpisql-sequence-b'), {
+      lineNumbers: true,
+      mode: 'text/x-sql'
+    });
+
+    // Insert a onChange handler (all results have reset)
+    editor_sequence_b.on('change',function(){
+      {PAGEHANDLER}.deleteOldOutputs();
+    })
+  </script>
+
+  <br />
+
+  <div class="help-block">
+    <b>{SEQUENCE_C}</b>
+  </div>
+  <!-- Sequence C input -->
+  <textarea id="qpisql-sequence-c" name="sequence_c" data-contains-code class="qpisql-code-input-box" cols="80" rows="10">{CONTENT_SEQUENCE_C}</textarea>
+  <script>
+    // Create a coding box out of the textarea
+    var editor_sequence_c = CodeMirror.fromTextArea(document.getElementById('qpisql-sequence-c'), {
+      lineNumbers: true,
+      mode: 'text/x-sql'
+    });
+
+    // Insert a onChange handler (all results have reset)
+    editor_sequence_c.on('change',function(){
+      {PAGEHANDLER}.deleteOldOutputs();
+    })
+  </script>
+
+</div>
+
+<br />
+
+<!-- Integrity Check input -->
+<div class="qpisql-input-area">
+
+  <div class="help-block">
+    <b>{INTEGRITY_CHECK}</b>
+  </div>
+  <input type="checkbox" id="qpisql-integrity-check" name="integrity_check" value="{CONTENT_INTEGRITY_CHECK}" onclick="{PAGEHANDLER}.deleteOldOutputs()">
+
+</div>
+
+<br />
+
+<!-- Execute button -->
+<div class="qpisql-input-area">
+
+  <input type="button" class="btn-default btn-sm btn" id="qpisql-execute-button" value="Execute" onclick="{PAGEHANDLER}.execute()">
+
+</div>

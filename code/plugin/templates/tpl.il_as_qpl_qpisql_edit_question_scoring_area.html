@@ -1,0 +1,51 @@
+<!-- Info text of scoring area -->
+<div class="qpisql-info-area help-block">
+  {INFO_TEXT}
+</div>
+
+<!-- The scoring area -->
+<div class="qpisql-scoring-area">
+
+  <!-- Scoring metric: Result-lines -->
+  <div class="qpisql-scoring-metric form-inline">
+
+    <div class="qpisql-info-area help-block">
+      {INFO_TEXT_RESULT_LINES}
+    </div>
+
+    <select name="points_result_lines" class="form-control" size="0">
+      <option value="0" selected="selected">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+    </select> {POINTS}
+
+    <div class="qpisql-scoring-metric-not-executed">
+      {WARNING_NO_EXECUTION}
+    </div>
+
+    <div class="qpisql-scoring-metric-executed" style="display:none">
+
+      {OUTPUT_TEXT}
+
+      <div class="qpisql-scoring-metric-executed-inner" id="qpisql-scoring-metric-result-lines-output"></div>
+
+    </div>
+
+    <input type="hidden" name="value_result_lines" id="qpisql-scoring-metric-result-lines-value" value="false" />
+
+  </div>
+
+</div>

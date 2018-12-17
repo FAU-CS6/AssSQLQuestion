@@ -19,4 +19,14 @@ class sqlRunErrorNoVisibleResult extends sqlRunErrorAbstract
     super(errorMessage);
     this.errorType = "sqlRunErrorNoVisibleResult";
   }
+
+  /**
+   * Get (beautified) output text (Error message in a form suitable for the error)
+   *
+   * @return {string} The (beautified) output text
+   */
+  getOutputText()
+  {
+    return error_no_visible_result + " " + this.errorMessage;
+  }
 }

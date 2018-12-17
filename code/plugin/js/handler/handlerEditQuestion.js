@@ -15,7 +15,7 @@ class handlerEditQuestion extends handlerAbstract
   static disableInputAreas()
   {
     // Disable the execute button
-    document.getElementById("il_as_qpl_qpisql_execution_button").disabled = true;
+    document.getElementById("qpisql-execute-button").disabled = true;
 
     // Disable the code input areas
     editor_sequence_a.setOption("readOnly", true);
@@ -23,7 +23,7 @@ class handlerEditQuestion extends handlerAbstract
     editor_sequence_c.setOption("readOnly", true);
 
     // Disable the integrity_check checkbox
-    document.getElementById('integrity_check').disabled = true;
+    document.getElementById('qpisql-integrity-check').disabled = true;
   }
 
   /**
@@ -32,7 +32,7 @@ class handlerEditQuestion extends handlerAbstract
   static enableInputAreas()
   {
     // Enable the execute button
-    document.getElementById("il_as_qpl_qpisql_execution_button").disabled = false;
+    document.getElementById("qpisql-execute-button").disabled = false;
 
     // Enable the code input areas
     editor_sequence_a.setOption("readOnly", false);
@@ -40,7 +40,7 @@ class handlerEditQuestion extends handlerAbstract
     editor_sequence_c.setOption("readOnly", false);
 
     // Enable the integrity_check checkbox
-    document.getElementById('integrity_check').disabled = false;
+    document.getElementById('qpisql-integrity-check').disabled = false;
   }
 
   /**
@@ -48,12 +48,7 @@ class handlerEditQuestion extends handlerAbstract
    */
   static deleteOldOutputs()
   {
-    this.output('il_as_qpl_qpisql_output_area_no_execution',
-                'il_as_qpl_qpisql_output_area_no_execution',
-                document.getElementById('il_as_qpl_qpisql_output_area_no_execution').innerHTML,
-                "",
-                false,
-                false);
+    this.outputError(new sqlRunErrorNoExecution());
 
     this.setScoringAreas(false);
   }
@@ -95,7 +90,7 @@ class handlerEditQuestion extends handlerAbstract
    */
   static getIntegrityCheck()
   {
-    return document.getElementById('integrity_check').checked;
+    return document.getElementById('qpisql-integrity-check').checked;
   }
 
   /**
@@ -103,12 +98,21 @@ class handlerEditQuestion extends handlerAbstract
    */
   static outputRunning()
   {
-    this.output('il_as_qpl_qpisql_output_area_execution_running',
-                'il_as_qpl_qpisql_output_area_execution_running',
-                document.getElementById('il_as_qpl_qpisql_output_area_execution_running').innerHTML,
-                "",
-                false,
-                false);
+    // Set the hidden fields
+    document.getElementById('qpisql-error-bool').value="false";
+    document.getElementById('qpisql-executed-bool').value="false";
+    document.getElementById('qpisql-output-relation').value="";
+
+    // Set the other two qpisql-inner-output-areas to be hidden and emtpy
+    // In this case the error output area
+    document.getElementById('qpisql-output-area-error').innerHTML = "";
+    document.getElementById('qpisql-output-area-error').style.display = "none";
+    // And the relation output area
+    document.getElementById('qpisql-output-area-relation').innerHTML = "";
+    document.getElementById('qpisql-output-area-relation').style.display = "none";
+
+    // Set the execution running to be visable
+    document.getElementById('qpisql-output-area-execution-running').style.display = "inherit";
   }
 
   /**
@@ -118,45 +122,21 @@ class handlerEditQuestion extends handlerAbstract
    */
   static outputError(error)
   {
-    // Switch through the different types of errors
-    // This is necessary to get translated error messages for every kind of error
-    switch(error.getErrorType())
-    {
-      case "sqlRunErrorDBCreation":
-            this.output('il_as_qpl_qpisql_output_area_error_db_creation',
-                        'il_as_qpl_qpisql_output_area_error_db_creation_message',
-                        error.getErrorMessage(),
-                        "",
-                        true,
-                        false);
-            break;
-      case "sqlRunErrorIntegrityCheck":
-            this.output('il_as_qpl_qpisql_output_area_error_integrity_check',
-                        'il_as_qpl_qpisql_output_area_error_integrity_check_message',
-                        error.getErrorMessage(),
-                        "",
-                        true,
-                        false);
-            break;
-      case "sqlRunErrorNoVisibleResult":
-            this.output('il_as_qpl_qpisql_output_area_error_no_visible_result',
-                        'il_as_qpl_qpisql_output_area_error_no_visible_result_message',
-                        error.getErrorMessage(),
-                        "",
-                        true,
-                        false);
-            break;
-      case "sqlRunErrorRunningSequence":
-            this.output('il_as_qpl_qpisql_output_area_error_running_sequence',
-                        'il_as_qpl_qpisql_output_area_error_running_sequence_message',
-                        error.getErrorMessage(),
-                        "",
-                        true,
-                        false);
-           // In this special case we have to add the number of sequence, too
-           document.getElementById('il_as_qpl_qpisql_output_area_error_running_sequence_sequence_name').innerHTML = error.getSequenceName();
-           break;
-    }
+    // Set the hidden fields
+    document.getElementById('qpisql-error-bool').value="true";
+    document.getElementById('qpisql-executed-bool').value="false";
+    document.getElementById('qpisql-output-relation').value="";
+
+    // Set the other two qpisql-inner-output-areas to be hidden and emtpy
+    // In this case the execution running output area
+    document.getElementById('qpisql-output-area-execution-running').style.display = "none";
+    // And the relation output area
+    document.getElementById('qpisql-output-area-relation').innerHTML = "";
+    document.getElementById('qpisql-output-area-relation').style.display = "none";
+
+    // Set the error output area to be visable and output the error
+    document.getElementById('qpisql-output-area-error').innerHTML = error.getOutputText();
+    document.getElementById('qpisql-output-area-error').style.display = "inherit";
   }
 
   /**
@@ -166,68 +146,29 @@ class handlerEditQuestion extends handlerAbstract
    */
   static outputResult(result)
   {
-    // Output the result
-    this.output('il_as_qpl_qpisql_output_area_relation',
-                'il_as_qpl_qpisql_output_area_relation',
-                result.toHTMLTable(),
-                result.toJSON(),
-                false,
-                true);
+    // Set the hidden fields
+    document.getElementById('qpisql-error-bool').value="false";
+    document.getElementById('qpisql-executed-bool').value="true";
+    document.getElementById('qpisql-output-relation').value=result.toJSON();
 
-    //Output the metrics for scoring area
-    // console.log(result.getFunctionalDependencies());
+    // Set the other two qpisql-inner-output-areas to be hidden and emtpy
+    // In this case the execution running output area
+    document.getElementById('qpisql-output-area-execution-running').style.display = "none";
+    // And the error output area
+    document.getElementById('qpisql-output-area-error').innerHTML = "";
+    document.getElementById('qpisql-output-area-error').style.display = "none";
+
+    // Set the error output area to be visable and output the error
+    document.getElementById('qpisql-output-area-relation').innerHTML = result.toHTMLTable();
+    document.getElementById('qpisql-output-area-relation').style.display = "inherit";
+
+    // We have to set the scoring areas, too
 
     // Result lines metric
-    document.getElementById('il_as_qpl_qpisql_scoring_metric_result_lines_output').innerHTML = result.getNumberOfRows();
-    document.getElementById('il_as_qpl_qpisql_scoring_metric_result_lines_output_hidden_field_id').value = result.getNumberOfRows();
+    document.getElementById('qpisql-scoring-metric-result-lines-output').innerHTML = result.getNumberOfRows();
+    document.getElementById('qpisql-scoring-metric-result-lines-value').value = result.getNumberOfRows();
 
     this.setScoringAreas(true);
-  }
-
-  /**
-   * Helper to write output of each kind into editQuestion
-   *
-   * @param {string} output_display_div The id of the output div the content is part of
-   * @param {string} output_div The id of the div the content should be written to
-   * @param {string} output_content The content to be displayed
-   * @param {string} output_relation A json string representing the output relation (may be empty if an error occured or output has to be reset)
-   * @param {boolean} error_bool A boolean representing the error state of the last query
-   * @param {boolean} executed_bool A boolean represeting the state of execution
-   */
-  static output(output_display_div, output_div, output_content, output_relation, error_bool, executed_bool)
-  {
-    // Make all output divs invisible
-    var areas = document.getElementsByClassName('il_as_qpl_qpisql_output_areas');
-
-    for (var i = 0; i < areas.length; i++)
-    {
-      areas[i].style.display = "none";
-    }
-
-    // Delete all currently shown errors
-    var errors = document.getElementsByClassName('il_as_qpl_qpisql_output_area_error_message');
-
-    for (var i = 0; i < errors.length; i++)
-    {
-      errors[i].innerHTML = "";
-    }
-
-    // Delete the currently shown sequence identifier in the suiting error
-    document.getElementById('il_as_qpl_qpisql_output_area_error_running_sequence_sequence_name').innerHTML = "";
-
-    // Delete the currently shown relation
-    document.getElementById('il_as_qpl_qpisql_output_area_relation').innerHTML = "";
-
-    // Make the output_display_div visable
-    document.getElementById(output_display_div).style.display = "inherit";
-
-    // Put the content into the right div
-    document.getElementById(output_div).innerHTML = output_content;
-
-    // Set the hidden fields
-    document.getElementById('il_as_qpl_qpisql_output_relation').value = output_relation;
-    document.getElementById('il_as_qpl_qpisql_error_bool').value = String(error_bool);
-    document.getElementById('il_as_qpl_qpisql_executed_bool').value = String(executed_bool);
   }
 
   /**
@@ -238,7 +179,7 @@ class handlerEditQuestion extends handlerAbstract
   static setScoringAreas(executed_bool)
   {
     // Executed divs in scoring area
-    var executed_areas = document.getElementsByClassName('il_as_qpl_qpisql_scoring_area_output_executed');
+    var executed_areas = document.getElementsByClassName('qpisql-scoring-metric-executed');
 
     for (var i = 0; i < executed_areas.length; i++)
     {
@@ -253,7 +194,7 @@ class handlerEditQuestion extends handlerAbstract
     }
 
     // Not executed divs in scoring area
-    var not_executed_areas = document.getElementsByClassName('il_as_qpl_qpisql_scoring_area_output_not_executed');
+    var not_executed_areas = document.getElementsByClassName('qpisql-scoring-metric-not-executed');
 
     for (var i = 0; i < not_executed_areas.length; i++)
     {
@@ -270,7 +211,7 @@ class handlerEditQuestion extends handlerAbstract
     // If not executed delete all existing computed metric values in scoring areas
     if(!executed_bool)
     {
-      var executed_areas_inner = document.getElementsByClassName('il_as_qpl_qpisql_scoring_area_output_executed_inner');
+      var executed_areas_inner = document.getElementsByClassName('qpisql-scoring-metric-executed-inner');
 
       for (var i = 0; i < executed_areas_inner.length; i++)
       {

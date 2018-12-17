@@ -39,4 +39,14 @@ class sqlRunErrorAbstract
   {
     return this.errorType;
   }
+
+  /**
+   * Get (beautified) output text (Error message in a form suitable for the error)
+   *
+   * @return {string} The (beautified) output text
+   */
+  getOutputText()
+  {
+    return this.errorMessage;
+  }
 }

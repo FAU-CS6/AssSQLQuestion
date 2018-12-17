@@ -19,4 +19,14 @@ class sqlRunErrorIntegrityCheck extends sqlRunErrorAbstract
     super(errorMessage);
     this.errorType = "sqlRunErrorIntegrityCheck";
   }
+
+  /**
+   * Get (beautified) output text (Error message in a form suitable for the error)
+   *
+   * @return {string} The (beautified) output text
+   */
+  getOutputText()
+  {
+    return error_integrity_check + " " + this.errorMessage;
+  }
 }

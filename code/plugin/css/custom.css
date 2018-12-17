@@ -8,7 +8,7 @@
 /**
  * Custom CSS for the Output areas on editQuestion page AND the test pages
  */
-#il_as_qpl_qpisql_output_area {
+.qpisql-output-area {
   width: 100%;
   max-width: 100%;
   min-height: 28px;
@@ -17,13 +17,10 @@
   font-size: 12px;
   font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
   overflow: auto;
+  margin-top: 10px;
 }
 
-#il_as_qpl_qpisql_output_area_no_execution,
-#il_as_qpl_qpisql_output_area_error_integrity_check,
-#il_as_qpl_qpisql_output_area_error_no_visible_result,
-#il_as_qpl_qpisql_output_area_error_db_creation,
-#il_as_qpl_qpisql_output_area_error_running_sequence {
+#qpisql-output-area-error {
   border: 1px solid rgb(208,128,128);
   background-color: #ffebeb;
   padding-left: 8px;
@@ -34,7 +31,7 @@
   line-height: 20px;
 }
 
-#il_as_qpl_qpisql_output_area_execution_running {
+#qpisql-output-area-execution-running {
   border: 1px solid rgb(204,204,204);
   background-color: #fff;
   padding-left: 8px;
@@ -45,28 +42,15 @@
   line-height: 20px;
 }
 
-#il_as_qpl_qpisql_output_area_error_running_sequence_sequence_name {
-  display: inline;
-}
-
-.il_as_qpl_qpisql_output_area_error_type {
-  display: inline;
-}
-
-.il_as_qpl_qpisql_output_area_error_message {
-  display: inline;
-  font-style: italic;
-}
-
 /**
  * Custom CSS for beautifing the output tables
  */
-.il_as_qpl_qpisql_output_table {
+.qpisql-output-table {
   min-width: 100%;
   border-collapse: collapse;
 }
 
-.il_as_qpl_qpisql_output_table tr td {
+.qpisql-output-table tr td {
   min-width: 50px;
   padding-left: 8px;
   padding-right: 8px;
@@ -77,17 +61,14 @@
   line-height: 20px;
 }
 
-.il_as_qpl_qpisql_output_table_tuple {
-}
-
-.il_as_qpl_qpisql_output_table tr:nth-child(even) {
+.qpisql-output-table tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
 /**
  * Custom CSS for scoring area on editQuestion page
  */
-.il_as_qpl_qpisql_scoring_area_output_not_executed {
+.qpisql-scoring-metric-not-executed {
   padding-left: 8px;
   padding-right: 8px;
   padding-top: 3px;
@@ -103,7 +84,7 @@
   float: right;
 }
 
-.il_as_qpl_qpisql_scoring_area_output_executed {
+.qpisql-scoring-metric-executed {
   padding-left: 8px;
   padding-right: 8px;
   padding-top: 3px;
@@ -119,6 +100,6 @@
   float: right;
 }
 
-.il_as_qpl_qpisql_scoring_area_output_executed_inner {
+.qpisql-scoring-metric-executed-inner {
   display: inline;
 }
