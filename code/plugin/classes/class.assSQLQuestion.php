@@ -176,7 +176,6 @@ class assSQLQuestion extends assQuestion
 	 */
 	function saveToDb($original_id = '')
 	{
-
 		// Save the basic data (implemented in assQuestion)
 		$this->saveQuestionDataToDb($original_id);
 
@@ -189,17 +188,42 @@ class assSQLQuestion extends assQuestion
 
 	/**
 	 * Loads a question object from a database
-	 * This has to be done here (assQuestion does not load the basic data)!
 	 *
 	 * @param integer $question_id A unique key which defines the question in the database
 	 * @see assQuestion::loadFromDb()
 	 */
 	public function loadFromDb($question_id)
 	{
+		// Load the basic data
+		$this->loadQuestionDataFromDb($question_id);
+
+		// Load the assSQLQuestion specific data
+		$this->loadSpecificQuestionDataFromDb($question_id);
+
+		try
+		{
+			$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
+		}
+		catch(ilTestQuestionPoolException $e)
+		{
+		}
+
+		// loads additional stuff like suggested solutions
+		parent::loadFromDb($question_id);
+	}
+
+	/**
+	 * Helper function for loadFromDb().
+	 * Loads the basic data from the database
+	 *
+	 * @param integer $question_id A unique key which defines the question in the database
+	 * @access private
+	 */
+	private function loadQuestionDataFromDb($question_id)
+	{
 		global $DIC;
 		$ilDB = $DIC->database();
 
-		// load the basic question data
 		$result = $ilDB->query("SELECT qpl_questions.* FROM qpl_questions WHERE question_id = "
 				. $ilDB->quote($question_id, 'integer'));
 
@@ -216,22 +240,7 @@ class assSQLQuestion extends assQuestion
 
 		$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data['question_text'], 1));
 		$this->setEstimatedWorkingTime(substr($data['working_time'], 0, 2), substr($data['working_time'], 3, 2), substr($data['working_time'], 6, 2));
-
-		// now you can load additional data
-		// ...
-
-		try
-		{
-			$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
-		}
-		catch(ilTestQuestionPoolException $e)
-		{
-		}
-
-		// loads additional stuff like suggested solutions
-		parent::loadFromDb($question_id);
 	}
-
 
 	/**
 	 * Duplicates a question
@@ -886,8 +895,7 @@ class assSQLQuestion extends assQuestion
 
 	/**
 	 * Save all data that is specific to assSQLQuestion into the database
-	 *
-	 * See dpupdate.php for more informations on used tables
+	 * (See dpupdate.php for more informations on used tables)
 	 */
 	function saveSpecificQuestionDataToDb()
 	{
@@ -942,6 +950,46 @@ class assSQLQuestion extends assQuestion
 							$scoring_metric->getType(), $scoring_metric->getPoints(),
 							$scoring_metric->getValue())
 	    );
+		}
+	}
+
+	/**
+	 * Load all data that is specific to assSQLQuestion from the database
+	 * (See dpupdate.php for more informations on used tables)
+	 *
+	 * @param integer $question_id A unique key which defines the question in the database
+	 */
+	function loadSpecificQuestionDataFromDb($question_id)
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		// Set Sequences and other data from il_qpl_qst_qpisql_qd
+		$result = $ilDB->query("SELECT * FROM il_qpl_qst_qpisql_qd WHERE question_fi = "
+				. $ilDB->quote($question_id, 'integer'));
+
+		$data = $ilDB->fetchAssoc($result);
+
+		$this->getSequenceA($data['sequence_a']);
+		$this->getSequenceB($data['sequence_b']);
+		$this->getSequenceC($data['sequence_c']);
+		$this->getIntegrityCheck($data['integrity_check']);
+		$this->getErrorBool($data['error_bool']);
+		$this->getExecutedBool($data['executed_bool']);
+		$this->getOutputRelation($data['output_relation']);
+
+		// Set scoring metric from il_qpl_qst_qpisql_qsm
+		$result = $ilDB->query("SELECT * FROM il_qpl_qst_qpisql_qsm WHERE question_fi = "
+				. $ilDB->quote($question_id, 'integer'));
+
+		while($ilDB->fetchAssoc($result))
+		{
+			$this->setSingleScoringMetric(
+				new scoringMetric($data['id'],
+													$data['type'],
+													$data['points'],
+													$data['value'])
+			);
 		}
 	}
 }

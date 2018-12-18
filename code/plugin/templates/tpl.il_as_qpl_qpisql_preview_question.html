@@ -1,7 +1,40 @@
-<!-- Info text of output area -->
+<!-- Info text of sequence area -->
 <div class="qpisql-info-area help-block">
-  {INFO_TEXT}
+  {QUESTION_TEXT}
 </div>
+
+<!-- Sequence input -->
+<div class="qpisql-input-area">
+
+  <!-- Sequence A is given -->
+  <input type="hidden" name="sequence_a" id="qpisql-sequence-a" value="{SEQUENCE_A}" />
+
+  <div class="help-block">
+    <b>{YOUR_SEQUENCE}</b>
+  </div>
+  <!-- Sequence B input -->
+  <textarea id="qpisql-sequence-b" name="sequence_b" data-contains-code class="qpisql-code-input-box" cols="80" rows="10">{SEQUENCE_B}</textarea>
+  <script>
+    // Create a coding box out of the textarea
+    var editor_sequence_b = CodeMirror.fromTextArea(document.getElementById('qpisql-sequence-b'), {
+      lineNumbers: true,
+      mode: 'text/x-sql'
+    });
+
+    // Insert a onChange handler (all results have reset)
+    editor_sequence_b.on('change',function(){
+      {PAGEHANDLER}.deleteOldOutputs();
+    })
+  </script>
+
+  <!-- Sequence C is given -->
+  <input type="hidden" name="sequence_c" id="qpisql-sequence-c" value="{SEQUENCE_C}" />
+
+  <!-- Integrity check is given -->
+  <input type="hidden" name="integrity_check" id="qpisql-integrity-check" value="{INTEGRITY_CHECK}" />
+
+</div>
+
 
 <!--
   Hidden fields for saving the state of the execution
@@ -61,5 +94,7 @@
       }
     }
   </script>
+
+  <input type="button" class="btn-default btn-sm btn" id="qpisql-execute-button" value="Execute" onclick="{PAGEHANDLER}.execute()">
 
 </div>

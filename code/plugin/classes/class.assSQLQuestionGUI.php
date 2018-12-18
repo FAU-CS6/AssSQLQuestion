@@ -255,38 +255,37 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$this->prepareTemplate();
 
 		// Get needed values
-		/*
 
 		// Get the question text
 		$questiontext = $this->object->getQuestion();
 
-		// Get the html code of the input area
-		$input_area_tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_edit_code.html');
-    $input_area_tpl->setVariable("CONTENT", "");
-    $input_area_tpl->setVariable("NAME", "sequence_b");
-    $input_area_tpl->setVariable("PAGEHANDLER", "handlerEditQuestion");
-
-		$input_area = $input_area_tpl->get();
-
-		// Get the html code of the output area
-		$output_area_tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_area.html');
-    $output_area_tpl->setVariable("NO_EXECUTION", $this->plugin->txt('no_execution'));
-    $output_area_tpl->setVariable("EXECUTION_RUNNING", $this->plugin->txt('execution_running'));
-    $output_area_tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('error_db_creation'));
-    $output_area_tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('error_integrity_check'));
-    $output_area_tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('error_no_visible_result'));
-    $output_area_tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
-
-		$output_area = $output_area_tpl->get();
-
 		// Get the complete output code
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output.html');
-    $tpl->setVariable("QUESTIONTEXT", $questiontext);
-    $tpl->setVariable("INPUT_AREA", $input_area);
-    $tpl->setVariable("OUTPUT_AREA", $output_area);
+		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_preview_question.html');
+
+		// Set the question specific placeholders
+    $tpl->setVariable("QUESTION_TEXT", $questiontext);
+    $tpl->setVariable("SEQUENCE_A", $this->object->getSequenceA());
+		$tpl->setVariable("SEQUENCE_C", $this->object->getSequenceC());
+		$tpl->setVariable("INTEGRITY_CHECK", $this->object->getIntegrityCheck());
+
+		// Set the values to fit the previously entered solutions
+		$tpl->setVariable("SEQUENCE_B", "");
+		$tpl->setVariable("ERROR_BOOL", "");
+		$tpl->setVariable("EXECUTED_BOOL", "");
+		$tpl->setVariable("OUTPUT_RELATION", "");
+
+		// Set error text to fit the language of the user
+		$tpl->setVariable("STATUS_EXECUTION_RUNNING", $this->plugin->txt('status_execution_running'));
+    $tpl->setVariable("ERROR_NO_EXECUTION", $this->plugin->txt('error_no_execution'));
+    $tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('error_db_creation'));
+    $tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('error_integrity_check'));
+    $tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('error_no_visible_result'));
+    $tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
+
+		// Set the correct Javacsript pagehandler
+		$tpl->setVariable("PAGEHANDLER", 'handlerPreviewQuestion');
 
 		return $tpl->get();
-		*/
 
 		return "";
 	}
@@ -524,6 +523,7 @@ class assSQLQuestionGUI extends assQuestionGUI
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRun.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerAbstract.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerEditQuestion.js');
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerPreviewQuestion.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorAbstract.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorDBCreation.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorIntegrityCheck.js');
