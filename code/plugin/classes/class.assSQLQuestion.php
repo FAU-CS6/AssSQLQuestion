@@ -870,7 +870,7 @@ class assSQLQuestion extends assQuestion
 
 		foreach($this->scoring_metrics as $scoring_metric)
 		{
-			if($scoring_metric.getType() == $type)
+			if($scoring_metric->getType() == $type)
 			{
 				array_push($found_metrics, $scoring_metric);
 			}
@@ -886,7 +886,14 @@ class assSQLQuestion extends assQuestion
 	 */
 	function setSingleScoringMetric($scoring_metric)
 	{
-		array_push($this->scoring_metrics, $scoring_metric);
+		if(is_a($scoring_metric, "scoringMetric"))
+		{
+			array_push($this->scoring_metrics, $scoring_metric);
+		}
+		else
+		{
+			throw new Exception("Object is no scoringMetric in setSingleScoringMetric()");
+		}
 	}
 
 	/**
