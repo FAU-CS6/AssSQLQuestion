@@ -965,30 +965,30 @@ class assSQLQuestion extends assQuestion
 		$ilDB = $DIC->database();
 
 		// Set Sequences and other data from il_qpl_qst_qpisql_qd
-		$result = $ilDB->query("SELECT * FROM il_qpl_qst_qpisql_qd WHERE question_fi = "
+		$result_qd = $ilDB->query("SELECT * FROM il_qpl_qst_qpisql_qd WHERE question_fi = "
 				. $ilDB->quote($question_id, 'integer'));
 
-		$data = $ilDB->fetchAssoc($result);
+		$data_qd = $ilDB->fetchAssoc($result_qd);
 
-		$this->getSequenceA($data['sequence_a']);
-		$this->getSequenceB($data['sequence_b']);
-		$this->getSequenceC($data['sequence_c']);
-		$this->getIntegrityCheck($data['integrity_check']);
-		$this->getErrorBool($data['error_bool']);
-		$this->getExecutedBool($data['executed_bool']);
-		$this->getOutputRelation($data['output_relation']);
+		$this->setSequenceA($data_qd['sequence_a']);
+		$this->setSequenceB($data_qd['sequence_b']);
+		$this->setSequenceC($data_qd['sequence_c']);
+		$this->setIntegrityCheck($data_qd['integrity_check']);
+		$this->setErrorBool($data_qd['error_bool']);
+		$this->setExecutedBool($data_qd['executed_bool']);
+		$this->setOutputRelation($data_qd['output_relation']);
 
 		// Set scoring metric from il_qpl_qst_qpisql_qsm
-		$result = $ilDB->query("SELECT * FROM il_qpl_qst_qpisql_qsm WHERE question_fi = "
+		$result_qsm = $ilDB->query("SELECT * FROM il_qpl_qst_qpisql_qsm WHERE question_fi = "
 				. $ilDB->quote($question_id, 'integer'));
 
-		while($ilDB->fetchAssoc($result))
+		while($data_qsm = $ilDB->fetchAssoc($result_qsm))
 		{
 			$this->setSingleScoringMetric(
-				new scoringMetric($data['id'],
-													$data['type'],
-													$data['points'],
-													$data['value'])
+				new scoringMetric($data_qsm['id'],
+													$data_qsm['type'],
+													$data_qsm['points'],
+													$data_qsm['value'])
 			);
 		}
 	}
