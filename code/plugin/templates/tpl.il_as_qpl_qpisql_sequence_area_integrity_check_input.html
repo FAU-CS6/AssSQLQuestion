@@ -1,0 +1,16 @@
+<div class="qpisql-input-area">
+
+  <div class="help-block">
+    <b>{HEADER}</b>
+  </div>
+  <input type="checkbox" id="qpisql-integrity-check" name="integrity_check" value="1" onclick="window.EXECUTE_HANDLER.onChange()" {CHECKED}>
+
+  <script>
+    // Create an ExecutionInput out of this
+    window.EXECUTE_HANDLER.registerInput(new IntegrityCheckCheckboxInput());
+
+    // Create an ExecutionOutput out of this
+    window.EXECUTE_HANDLER.registerOutput(new IntegrityCheckCheckboxOutput());
+  </script>
+
+</div>

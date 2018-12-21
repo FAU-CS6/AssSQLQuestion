@@ -1,13 +1,13 @@
 /**
- * @file Javascript handlers tailored for previewQuestion page
+ * @file Javascript handlers tailored for outputQuestion page
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
 
 /**
- * Class wrapping all functions needed for the previewQuestion page
+ * Class wrapping all functions needed for the outputQuestion page
  */
-class handlerPreviewQuestion extends handlerAbstract
+class handlerOutputQuestion extends handlerAbstract
 {
   /**
    * Disables all input areas that are important for executing sql

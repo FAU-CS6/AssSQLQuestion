@@ -1,0 +1,61 @@
+<script>
+  // Insert the different error messages we might need later on
+  const error_no_execution = "{ERROR_NO_EXECUTION}";
+  const error_db_creation = "{ERROR_DB_CREATION}";
+  const error_integrity_check = "{ERROR_INTEGRITY_CHECK}";
+  const error_no_visible_result = "{ERROR_NO_VISIBLE_RESULT}";
+  const error_running_sequence = "{ERROR_RUNNING_SEQUENCE}";
+
+  // Create the corresponding ExecutionOutput
+  const outputAreaOutput = new OutputAreaOutput();
+</script>
+
+<div class="qpisql-hidden-fields">
+
+  <input type="hidden" name="error_bool" id="qpisql-error-bool" value="{ERROR_BOOL}" />
+  <input type="hidden" name="executed_bool" id="qpisql-executed-bool" value="{EXECUTED_BOOL}" />
+  <input type="hidden" name="output_relation" id="qpisql-output-relation" value="{OUTPUT_RELATION}" />
+
+</div>
+
+<div class="qpisql-output-area">
+
+  <div id="qpisql-output-area-error" class="qpisql-inner-output-area" style="display:none">
+  </div>
+  <div id="qpisql-output-area-execution-running" class="qpisql-inner-output-area" style="display:none">
+    {STATUS_EXECUTION_RUNNING}
+  </div>
+  <div id="qpisql-output-area-relation" class="qpisql-inner-output-area" style="display:none">
+  </div>
+
+</div>
+
+<script>
+  // Use the values of the hidden fields to dynamicly generate values of the visible area
+  const default_error_bool = document.getElementById("qpisql-error-bool").value;
+  const default_executed_bool = document.getElementById("qpisql-executed-bool").value;
+  const default_output_relation = document.getElementById("qpisql-output-relation").value;
+
+  // In every case that we do not have a valid ouput relation by default,
+  // we have to output an error that a execution is necessary
+  if(default_error_bool == "true" ||
+     default_executed_bool == "false" ||
+     default_output_relation == "")
+  {
+    outputAreaOutput.onError(new sqlRunErrorNoExecution());
+  }
+  // Otherwise we can display a result
+  else
+  {
+    try
+    {
+      outputAreaOutput.onResult(new sqlResult(JSON.parse(default_output_relation)));
+    }
+    catch (err)
+    {
+      outputAreaOutput.onError(new sqlRunErrorNoExecution());
+    }
+  }
+
+  window.EXECUTE_HANDLER.registerOutput(outputAreaOutput);
+</script>

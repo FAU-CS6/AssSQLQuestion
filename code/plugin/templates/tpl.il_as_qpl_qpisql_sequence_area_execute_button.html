@@ -1,0 +1,10 @@
+<div class="qpisql-input-area">
+
+  <input type="button" class="btn-default btn-sm btn" id="qpisql-execute-button" value="{BUTTONTEXT}" onclick="window.EXECUTE_HANDLER.execute()">
+
+  <script>
+    // Create an ExecutionOutput out of this
+    window.EXECUTE_HANDLER.registerOutput(new ExecuteButtonOutput());
+  </script>
+
+</div>

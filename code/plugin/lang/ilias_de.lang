@@ -13,6 +13,7 @@ sequence_a#:#Sequenz A:
 sequence_b#:#Sequenz B:
 sequence_c#:#Sequenz C:
 integrity_check#:#Integritätsprüfung:
+execute_button_text#:#Ausführen
 
 // Used in the output area
 output_info#:#Ausgabe
@@ -33,7 +34,7 @@ scoring_info_text#:#Um eine automatische Bewertung der Antworten zu ermöglichen
 scoring_info_error#:#Die gesamt mögliche Punktzahl muss höher als 0 sein.
 points#:#Punkte
 warning_no_execution#:#Um das Ergebnis dieser Metrik für Ihrer Relation zu sehen, bitte die Ausführung starten.
-scoring_metric_output_text#:#Das Ergebnis dieser Metrik für Ihrer Relation: 
+scoring_metric_output_text#:#Das Ergebnis dieser Metrik für Ihrer Relation:
 
 // Used in the scoring metric: Result lines
 scoring_metric_result_lines_info#:#<b>Anzahl der Tupel</b><br />Eine der einfachsten Metriken, die zur Bewertung von Anfragen hinzugezogen werden kann ist die Anzahl der Tupel im Ergebnis. Hat das Ergebnis des Prüflings die gleiche Anzahl an Tupeln wie die Msuterlösung, so erhält er alle für diese Metrik vergebenen Punkte. Unterscheidet sich seine Anzahl der Ergebnistupel, so bekommt er keine Punkte für diese Metrik.

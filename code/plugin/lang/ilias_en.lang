@@ -13,6 +13,7 @@ sequence_a#:#Sequence A:
 sequence_b#:#Sequence B:
 sequence_c#:#Sequence C:
 integrity_check#:#Integrity Check:
+execute_button_text#:#Execute
 
 // Used in the output area
 output_info#:#Output

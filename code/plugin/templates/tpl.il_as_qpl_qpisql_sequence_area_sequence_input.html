@@ -1,0 +1,29 @@
+<div class="qpisql-input-area">
+
+  <div class="help-block">
+    <b>{HEADER}</b>
+  </div>
+
+  <!-- Sequence input -->
+  <textarea id="{ID}" name="{NAME}" data-contains-code class="qpisql-code-input-box" cols="80" rows="10">{CONTENT}</textarea>
+
+  <script>
+    // Create a coding box out of the textarea
+    var editor_{ID} = CodeMirror.fromTextArea(document.getElementById('{ID}'), {
+      lineNumbers: true,
+      mode: 'text/x-sql'
+    });
+
+    // Insert an onChange handler (all results have reset)
+    editor_{ID}.on('change',function(){
+      window.EXECUTE_HANDLER.onChange();
+    })
+
+    // Create an ExecutionInput out of this
+    window.EXECUTE_HANDLER.registerInput(new SequenceTextareaInput('{NAME}', editor_{ID}));
+
+    // Create an ExecutionOutput out of this
+    window.EXECUTE_HANDLER.registerOutput(new SequenceTextareaOutput(editor_{ID}));
+  </script>
+
+</div>

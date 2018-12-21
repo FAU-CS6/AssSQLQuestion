@@ -527,6 +527,37 @@ class assSQLQuestion extends assQuestion
 		return $this->calculateReachedPointsForSolution($solution);
 	}
 
+	/**
+	* Sets the points, a learner has reached answering the question
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @param integer $points The points the user has reached answering the question
+	* @return boolean true on success, otherwise false
+	* @access public
+	*/
+	function setReachedPoints($active_id, $points, $pass = NULL)
+	{
+		global $ilDB;
+
+		if (($points > 0) && ($points <= $this->getPoints()))
+		{
+			if (is_null($pass))
+			{
+				$pass = $this->getSolutionMaxPass($active_id);
+			}
+			$affectedRows = $ilDB->manipulateF("UPDATE tst_test_result SET points = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('float','integer','integer','integer'),
+				array($points, $active_id, $this->getId(), $pass)
+			);
+			self::_updateTestPassResults($active_id, $pass);
+			return TRUE;
+		}
+			else
+		{
+			return TRUE;
+		}
+	}
 
 	/**
 	 * Saves the learners input of the question to the database.
@@ -680,65 +711,50 @@ class assSQLQuestion extends assQuestion
 	 * Getter and Setter for all $additional_data
 	 */
 
-	/**
-	 * Returns the first sql sequence (sequence_a)
-	 *
-	 * @return string The first sql sequence
-	 */
-	function getSequenceA()
-	{
-		return $this->sequence_a;
-	}
+	 /**
+ 	 * Returns the requested sequence (Either sequence_a, sequence_b or sequence_c)
+ 	 *
+	 * @param string $sequence_name The name of the requested sequence
+ 	 * @return string The first sql sequence
+ 	 */
+ 	function getSequence($sequence_name)
+ 	{
+		switch($sequence_name)
+		{
+			case "sequence_a":
+				return $this->sequence_a;
+			case "sequence_b":
+				return $this->sequence_b;
+			case "sequence_c":
+				return $this->sequence_c;
+		}
 
-	/**
-	 * Sets the first sql sequence
-	 *
-	 * @param string $sequence_a The first sql sequence
-	 */
-	function setSequenceA($sequence_a)
-	{
-		$this->sequence_a = $sequence_a;
-	}
+		throw new Exception('Requested an unkown sequence');
+ 	}
 
-	/**
-	 * Returns the second sql sequence (sequence_b)
-	 *
-	 * @return string The second sql sequence
-	 */
-	function getSequenceB()
-	{
-		return $this->sequence_b;
-	}
+ 	/**
+ 	 * Sets a sequence (Either sequence_a, sequence_b or sequence_c)
+ 	 *
+	 * @param string $sequence_name The name of the sequence
+ 	 * @param string $sequence The first sql sequence
+ 	 */
+ 	function setSequence($sequence_name, $sequence)
+ 	{
+		switch($sequence_name)
+		{
+			case "sequence_a":
+				$this->sequence_a = $sequence;
+				return;
+			case "sequence_b":
+				$this->sequence_b = $sequence;
+				return;
+			case "sequence_c":
+				$this->sequence_c = $sequence;
+				return;
+		}
 
-	/**
-	 * Sets the second sql sequence
-	 *
-	 * @param string $sequence_b The second sql sequence
-	 */
-	function setSequenceB($sequence_b)
-	{
-		$this->sequence_b = $sequence_b;
-	}
-
-	/**
-	 * Returns the third sql sequence (sequence_c)
-	 *
-	 * @return string The third sql sequence
-	 */
-	function getSequenceC()
-	{
-		return $this->sequence_c;
-	}
-
-	/**
-	 * Sets the third sql sequence
-	 *
-	 * @param string $sequence_c The third sql sequence
-	 */
-	function setSequenceC($sequence_c)
-	{
-		$this->sequence_c = $sequence_c;
-	}
+		throw new Exception('Tried to set an unkown sequence');
+ 	}
 
 	/**
 	 * Returns the integrity_check boolean (true for a integrity check has to be done)
@@ -928,8 +944,8 @@ class assSQLQuestion extends assQuestion
 			array("integer", "text", "text",
 						"text", "integer", "integer",
 						"integer", "clob"),
-			array($this->getId(), $this->getSequenceA(), $this->getSequenceB(),
-						$this->getSequenceC(), $this->getIntegrityCheck(), $this->getErrorBool(),
+			array($this->getId(), $this->getSequence('sequence_a'), $this->getSequence('sequence_b'),
+						$this->getSequence('sequence_c'), $this->getIntegrityCheck(), $this->getErrorBool(),
 						$this->getExecutedBool(), $this->getOutputRelation())
     );
 
@@ -977,9 +993,9 @@ class assSQLQuestion extends assQuestion
 
 		$data_qd = $ilDB->fetchAssoc($result_qd);
 
-		$this->setSequenceA($data_qd['sequence_a']);
-		$this->setSequenceB($data_qd['sequence_b']);
-		$this->setSequenceC($data_qd['sequence_c']);
+		$this->setSequence('sequence_a', $data_qd['sequence_a']);
+		$this->setSequence('sequence_b', $data_qd['sequence_b']);
+		$this->setSequence('sequence_c', $data_qd['sequence_c']);
 		$this->setIntegrityCheck($data_qd['integrity_check']);
 		$this->setErrorBool($data_qd['error_bool']);
 		$this->setExecutedBool($data_qd['executed_bool']);

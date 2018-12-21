@@ -1,7 +1,7 @@
 <?php
 
-require_once "internal/guiElements/class.qpisql.editQuestionSequenceArea.php";
-require_once "internal/guiElements/class.qpisql.editQuestionOutputArea.php";
+require_once "internal/GUIElement/Areas/class.qpisql.SequenceArea.php";
+require_once "internal/GUIElement/Areas/class.qpisql.OutputArea.php";
 require_once "internal/guiElements/class.qpisql.editQuestionScoringArea.php";
 
 require_once "internal/class.qpisql.scoringMetric.php";
@@ -30,6 +30,16 @@ class assSQLQuestionGUI extends assQuestionGUI
 	 * @var assSQLQuestion The question object
 	 */
 	var $object = null;
+
+	/**
+	 * @var SequenceArea The used sequence area
+	 */
+	var $sequenceArea = null;
+
+	/**
+	 * @var OutputArea The used output area
+	 */
+	var $outputArea = null;
 
   /**
 	 * Custom member variables/constants for an assSQLQuestionGUI
@@ -61,6 +71,9 @@ class assSQLQuestionGUI extends assQuestionGUI
 		{
 			$this->object->loadFromDb($id);
 		}
+
+		$this->sequenceArea = new SequenceArea($this->plugin, $this->object);
+		$this->outputArea = new OutputArea($this->plugin, $this->object);
 	}
 
 	/**
@@ -145,13 +158,8 @@ class assSQLQuestionGUI extends assQuestionGUI
 			$this->writeQuestionGenericPostData();
 
       // Write the main assSQLQuestion fields
-			$this->object->setSequenceA((string) $_POST["sequence_a"]);
-      $this->object->setSequenceB((string) $_POST["sequence_b"]);
-      $this->object->setSequenceC((string) $_POST["sequence_c"]);
-      $this->object->setIntegrityCheck(isset($_POST["integrity_check"]) && $_POST["integrity_check"] == "1");
-      $this->object->setErrorBool($_POST["error_bool"] == "true" ? true : false);
-      $this->object->setExecutedBool($_POST["executed_bool"] == "true" ? true : false);
-      $this->object->setOutputRelation((string) $_POST["output_relation"]);
+			$this->sequenceArea->writePostData();
+      $this->outputArea->writePostData();
 
 			// Write the scoring metrics
       $this->object->setSingleScoringMetric(
@@ -160,6 +168,11 @@ class assSQLQuestionGUI extends assQuestionGUI
 													(integer) $_POST["points_result_lines"], // points
 													(string) $_POST["value_result_lines"]) //value
 			);
+
+			// Set points
+			$this->object->setPoints($this->object->getMaximumPoints());
+
+			throw new Exception($this->object->getMaximumPoints());
 
 			$this->saveTaxonomyAssignments();
 			return 0;
@@ -196,36 +209,34 @@ class assSQLQuestionGUI extends assQuestionGUI
 		// Get needed values
 
 		// Get the question text
-		/*
 		$questiontext = $this->object->getQuestion();
 
-		// Get the html code of the input area
-		$input_area_tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_edit_code.html');
-    $input_area_tpl->setVariable("CONTENT", "");
-    $input_area_tpl->setVariable("NAME", "sequence_b");
-    $input_area_tpl->setVariable("PAGEHANDLER", "handlerEditQuestion");
-
-		$input_area = $input_area_tpl->get();
-
-		// Get the html code of the output area
-		$output_area_tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_area.html');
-    $output_area_tpl->setVariable("NO_EXECUTION", $this->plugin->txt('no_execution'));
-    $output_area_tpl->setVariable("EXECUTION_RUNNING", $this->plugin->txt('execution_running'));
-    $output_area_tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('error_db_creation'));
-    $output_area_tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('error_integrity_check'));
-    $output_area_tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('error_no_visible_result'));
-    $output_area_tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
-
-		$output_area = $output_area_tpl->get();
-
 		// Get the complete output code
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output.html');
-    $tpl->setVariable("QUESTIONTEXT", $questiontext);
-    $tpl->setVariable("INPUT_AREA", $input_area);
-    $tpl->setVariable("OUTPUT_AREA", $output_area);
+		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_question.html');
 
-		$questionoutput = $tpl->get();
-		*/
+		// Set the question specific placeholders
+    $tpl->setVariable("QUESTION_TEXT", $questiontext);
+		$tpl->setVariable("SEQUENCE_A", $this->object->getSequence('sequence_a'));
+		$tpl->setVariable("SEQUENCE_C", $this->object->getSequence('sequence_c'));
+		$tpl->setVariable("INTEGRITY_CHECK", $this->object->getIntegrityCheck());
+
+		// Set the values to fit the previously entered solutions
+		$tpl->setVariable("SEQUENCE_B", "");
+		$tpl->setVariable("ERROR_BOOL", "");
+		$tpl->setVariable("EXECUTED_BOOL", "");
+		$tpl->setVariable("OUTPUT_RELATION", "");
+
+		// Set error text to fit the language of the user
+		$tpl->setVariable("STATUS_EXECUTION_RUNNING", $this->plugin->txt('status_execution_running'));
+    $tpl->setVariable("ERROR_NO_EXECUTION", $this->plugin->txt('error_no_execution'));
+    $tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('error_db_creation'));
+    $tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('error_integrity_check'));
+    $tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('error_no_visible_result'));
+    $tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
+
+		// Set the correct Javacsript pagehandler
+		$tpl->setVariable("PAGEHANDLER", 'handlerOutputQuestion');
+
 		$questionoutput = "";
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
@@ -260,12 +271,12 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$questiontext = $this->object->getQuestion();
 
 		// Get the complete output code
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_preview_question.html');
+		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_question.html');
 
 		// Set the question specific placeholders
     $tpl->setVariable("QUESTION_TEXT", $questiontext);
-    $tpl->setVariable("SEQUENCE_A", $this->object->getSequenceA());
-		$tpl->setVariable("SEQUENCE_C", $this->object->getSequenceC());
+    $tpl->setVariable("SEQUENCE_A", $this->object->getSequence('sequence_a'));
+		$tpl->setVariable("SEQUENCE_C", $this->object->getSequence('sequence_c'));
 		$tpl->setVariable("INTEGRITY_CHECK", $this->object->getIntegrityCheck());
 
 		// Set the values to fit the previously entered solutions
@@ -283,7 +294,7 @@ class assSQLQuestionGUI extends assQuestionGUI
     $tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
 
 		// Set the correct Javacsript pagehandler
-		$tpl->setVariable("PAGEHANDLER", 'handlerPreviewQuestion');
+		$tpl->setVariable("PAGEHANDLER", 'handlerOutputQuestion');
 
 		return $tpl->get();
 
@@ -523,13 +534,25 @@ class assSQLQuestionGUI extends assQuestionGUI
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRun.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerAbstract.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerEditQuestion.js');
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerPreviewQuestion.js');
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerOutputQuestion.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorAbstract.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorDBCreation.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorIntegrityCheck.js');
 				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorNoExecution.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorNoVisibleResult.js');
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorRunningSequence.js');
+
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionHandler.js');
+
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionInputs/ExecutionInput.js');
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionInputs/SequenceTextareaInput.js');
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionInputs/IntegrityCheckCheckboxInput.js');
+
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionOutputs/ExecutionOutput.js');
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionOutputs/SequenceTextareaOutput.js');
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionOutputs/ExecuteButtonOutput.js');
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionOutputs/IntegrityCheckCheckboxOutput.js');
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionOutputs/OutputAreaOutput.js');
 
         // Codemirror
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/lib/codemirror/lib/codemirror.js');
@@ -558,12 +581,10 @@ class assSQLQuestionGUI extends assQuestionGUI
     global $lng;
 
 		// (SQL) Sequence (input) Area
-		$sequence_area = new editQuestionSequenceArea($this->plugin);
-		$form->addItem($sequence_area);
+		$form->addItem($this->sequenceArea);
 
     // Output area
-    $output_area = new editQuestionOutputArea($this->plugin);
-    $form->addItem($output_area);
+    $form->addItem($this->outputArea);
 
     // Scoring area
 		$scoring_area = new editQuestionScoringArea($this->plugin);
