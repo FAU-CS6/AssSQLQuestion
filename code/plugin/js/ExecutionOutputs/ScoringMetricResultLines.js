@@ -60,8 +60,8 @@
     */
    onResult(result)
    {
-     document.getElementById('qpisql-scoring-metric-not-executed-result-lines').style.display = "inherit";
-     document.getElementById('qpisql-scoring-metric-executed-result-lines').style.display = "none";
+     document.getElementById('qpisql-scoring-metric-not-executed-result-lines').style.display = "none";
+     document.getElementById('qpisql-scoring-metric-executed-result-lines').style.display = "inherit";
      document.getElementById('qpisql-scoring-metric-output-result-lines').innerHTML = result.getNumberOfRows();
      document.getElementById('qpisql-scoring-metric-value-result-lines').value = result.getNumberOfRows();
    }
