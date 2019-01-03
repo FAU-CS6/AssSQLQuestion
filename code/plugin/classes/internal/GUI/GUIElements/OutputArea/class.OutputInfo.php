@@ -20,7 +20,7 @@ class OutputInfo extends GUIElement
    */
   public function getEditOutput()
   {
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_area_info.html');
+		$tpl = $this->plugin->getTemplate('Mixed/tpl.il_as_qpl_qpisql_m_info.html');
     $tpl->setVariable("INFO", $this->plugin->txt('output_info_text'));
     return $tpl->get();
   }
@@ -58,9 +58,7 @@ class OutputInfo extends GUIElement
     */
    public function writePostData()
    {
-		 $this->object->setErrorBool($_POST["error_bool"] == "true" ? true : false);
-		 $this->object->setExecutedBool($_POST["executed_bool"] == "true" ? true : false);
-		 $this->object->setOutputRelation((string) $_POST["output_relation"]);
+     // Do nothing
    }
 }
 ?>

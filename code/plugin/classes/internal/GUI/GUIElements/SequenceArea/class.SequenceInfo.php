@@ -16,7 +16,7 @@ class SequenceInfo extends GUIElement
    */
   public function getEditOutput()
   {
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_sequence_area_info.html');
+		$tpl = $this->plugin->getTemplate('Mixed/tpl.il_as_qpl_qpisql_m_info.html');
     $tpl->setVariable("INFO", $this->plugin->txt('sequences_info_text'));
     return $tpl->get();
   }

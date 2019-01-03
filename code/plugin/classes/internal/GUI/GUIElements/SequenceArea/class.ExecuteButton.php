@@ -16,7 +16,7 @@ class ExecuteButton extends GUIElement
    */
   public function getEditOutput()
   {
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_sequence_area_execute_button.html');
+		$tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_execute_button.html');
 		$tpl->setVariable("BUTTONTEXT", $this->plugin->txt('execute_button_text'));
     return $tpl->get();
   }

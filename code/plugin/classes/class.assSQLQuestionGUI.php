@@ -4,7 +4,7 @@ require_once "internal/GUI/GUIAreas/class.SequenceArea.php";
 require_once "internal/GUI/GUIAreas/class.OutputArea.php";
 require_once "internal/GUI/GUIAreas/class.ScoringArea.php";
 
-require_once "internal/class.qpisql.scoringMetric.php";
+require_once "internal/class.ScoringMetric.php";
 
 /**
  * GUI class of the SQLQuestion plugin

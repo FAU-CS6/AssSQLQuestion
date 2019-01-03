@@ -16,7 +16,7 @@ class IntegrityCheck extends GUIElement
    */
   public function getEditOutput()
   {
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_sequence_area_integrity_check_input.html');
+		$tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_integrity_check_input.html');
     $tpl->setVariable("HEADER", $this->plugin->txt('integrity_check'));
     $tpl->setVariable("CHECKED", "");
     return $tpl->get();

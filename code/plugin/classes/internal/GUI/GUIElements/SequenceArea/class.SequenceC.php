@@ -16,7 +16,7 @@ class SequenceC extends GUIElement
    */
   public function getEditOutput()
   {
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_sequence_area_sequence_input.html');
+		$tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_sequence_input.html');
     $tpl->setVariable("HEADER", $this->plugin->txt('sequence_c'));
     $tpl->setVariable("ID", 'sequence_c');
     $tpl->setVariable("NAME", 'sequence_c');

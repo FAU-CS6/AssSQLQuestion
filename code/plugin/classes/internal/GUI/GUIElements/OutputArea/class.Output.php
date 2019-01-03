@@ -20,7 +20,7 @@ class Output extends GUIElement
    */
   public function getEditOutput()
   {
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_area_output.html');
+		$tpl = $this->plugin->getTemplate('OutputArea/tpl.il_as_qpl_qpisql_oa_output.html');
 		$tpl->setVariable("ERROR_BOOL", $this->object->getErrorBool());
     $tpl->setVariable("EXECUTED_BOOL", $this->object->getExecutedBool());
     $tpl->setVariable("OUTPUT_RELATION", $this->object->getOutputRelation());
@@ -66,7 +66,9 @@ class Output extends GUIElement
     */
    public function writePostData()
    {
-		 $this->object->setSequence($this->name, (string) $_POST[$this->name]);
+     $this->object->setErrorBool($_POST["error_bool"] == "true" ? true : false);
+     $this->object->setExecutedBool($_POST["executed_bool"] == "true" ? true : false);
+     $this->object->setOutputRelation((string) $_POST["output_relation"]);
    }
 }
 ?>
