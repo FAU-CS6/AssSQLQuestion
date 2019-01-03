@@ -155,7 +155,7 @@ class assSQLQuestion extends assQuestion
 		if(!empty($this->title) &&
 			 !empty($this->author) &&
 			 !empty($this->question) &&
-			 $this->getSequenceB() != "" &&
+			 $this->getSequence('sequence_b') != "" &&
 			 $this->getExecutedBool() == "true" &&
 	     $this->getErrorBool() == "false" &&
 			 $this->getMaximumPoints() > 0)

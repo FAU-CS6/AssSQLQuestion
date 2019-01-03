@@ -163,8 +163,6 @@ class assSQLQuestionGUI extends assQuestionGUI
 			// Set points
 			$this->object->setPoints($this->object->getMaximumPoints());
 
-			throw new Exception($this->object->getMaximumPoints());
-
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
