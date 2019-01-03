@@ -22,7 +22,7 @@ class ResultLines extends GUIElement
   public function getEditOutput()
   {
     $tpl = $this->plugin->getTemplate('ScoringArea/ScoringMetrics/ResultLines/tpl.il_as_qpl_qpisql_sca_sm_rl_points_input.html');
-    $tpl->setVariable("INFO_TEXT", $this->plugin->txt('scoring_info_text'));
+    $tpl->setVariable("INFO", $this->plugin->txt('scoring_metric_result_lines_info'));
     $tpl->setVariable("POINTS", $this->plugin->txt('points'));
     $tpl->setVariable("WARNING_NO_EXECUTION", $this->plugin->txt('warning_no_execution'));
     $tpl->setVariable("OUTPUT_TEXT", $this->plugin->txt('scoring_metric_output_text'));
