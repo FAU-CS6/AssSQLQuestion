@@ -1,37 +1,13 @@
 <?php
-require_once __DIR__.'/../../interface.qpisql.GUIElement.php';
+require_once __DIR__.'/../../class.GUIElement.php';
 
 /**
- * Represents the integrityCheck GUIElement
+ * Represents the info area GUIElement
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  */
-class IntegrityCheck implements GUIElement
+class ScoringInfo extends GUIElement
 {
-	/**
-	 * @var ilassSQLQuestionPlugin The plugin object
-	 */
-	var $plugin = null;
-
-	/**
-	 * @var assSQLQuestion The question object
-	 */
-	var $object = null;
-
-  /**
-  * Constructor
-  *
-  * @param ilassSQLQuestionPlugin $plugin The plugin object
-  * @param assSQLQuestion $object The question object
-  * @access public
-  */
-  public function __construct($plugin, $object)
-  {
-    // Set plugin and object
-    $this->plugin = $plugin;
-    $this->object = $object;
-  }
-
   /*
    * Functions used to get the html code for edit, question and solution output
    */
@@ -44,9 +20,8 @@ class IntegrityCheck implements GUIElement
    */
   public function getEditOutput()
   {
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_sequence_area_integrity_check_input.html');
-    $tpl->setVariable("HEADER", $this->plugin->txt('integrity_check'));
-    $tpl->setVariable("CHECKED", "");
+		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_scoring_area_info.html');
+    $tpl->setVariable("INFO", $this->plugin->txt('scoring_info_text'));
     return $tpl->get();
   }
 
@@ -83,7 +58,7 @@ class IntegrityCheck implements GUIElement
     */
    public function writePostData()
    {
-		 $this->object->setIntegrityCheck(isset($_POST["integrity_check"]) && $_POST["integrity_check"] == "1");
+		 // Do nothing
    }
 }
 ?>

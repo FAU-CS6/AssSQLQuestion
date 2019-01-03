@@ -1,34 +1,13 @@
 <?php
-require_once __DIR__.'/../../interface.qpisql.GUIElement.php';
+require_once __DIR__.'/../../class.GUIElement.php';
 
 /**
- * Represents the info area GUIElement
+ * Represents the sequenceA GUIElement
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  */
-class OutputInfo implements GUIElement
+class SequenceA extends GUIElement
 {
-	/**
-	 * @var ilassSQLQuestionPlugin The plugin object
-	 */
-	var $plugin = null;
-
-  /**
-  * Constructor
-  *
-  * @param ilassSQLQuestionPlugin $plugin The plugin object
-  * @access public
-  */
-  public function __construct($plugin)
-  {
-    // Set plugin and object
-    $this->plugin = $plugin;
-  }
-
-  /*
-   * Functions used to get the html code for edit, question and solution output
-   */
-
   /**
    * Returns the html output of the GUI element tailored for the edit page
    *
@@ -37,8 +16,11 @@ class OutputInfo implements GUIElement
    */
   public function getEditOutput()
   {
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_area_info.html');
-    $tpl->setVariable("INFO", $this->plugin->txt('output_info_text'));
+		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_sequence_area_sequence_input.html');
+    $tpl->setVariable("HEADER", $this->plugin->txt('sequence_a'));
+    $tpl->setVariable("ID", 'sequence_a');
+    $tpl->setVariable("NAME", 'sequence_a');
+    $tpl->setVariable("CONTENT", $this->object->getSequence('sequence_a'));
     return $tpl->get();
   }
 
@@ -75,9 +57,7 @@ class OutputInfo implements GUIElement
     */
    public function writePostData()
    {
-		 $this->object->setErrorBool($_POST["error_bool"] == "true" ? true : false);
-		 $this->object->setExecutedBool($_POST["executed_bool"] == "true" ? true : false);
-		 $this->object->setOutputRelation((string) $_POST["output_relation"]);
+		 $this->object->setSequence('sequence_a', (string) $_POST['sequence_a']);
    }
 }
 ?>

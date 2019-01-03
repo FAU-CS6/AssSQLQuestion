@@ -1,37 +1,13 @@
 <?php
-require_once __DIR__.'/../../interface.qpisql.GUIElement.php';
+require_once __DIR__.'/../../class.GUIElement.php';
 
 /**
- * Represents the actual output GUIElement
+ * Represents the actual output element
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  */
-class Output implements GUIElement
+class Output extends GUIElement
 {
-	/**
-	 * @var ilassSQLQuestionPlugin The plugin object
-	 */
-	var $plugin = null;
-
-	/**
-	 * @var assSQLQuestion The question object
-	 */
-	var $object = null;
-
-  /**
-  * Constructor
-  *
-  * @param ilassSQLQuestionPlugin $plugin The plugin object
-  * @param assSQLQuestion $object The question object
-  * @access public
-  */
-  public function __construct($plugin, $object)
-  {
-    // Set plugin and object
-    $this->plugin = $plugin;
-    $this->object = $object;
-  }
-
   /*
    * Functions used to get the html code for edit, question and solution output
    */

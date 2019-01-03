@@ -4,7 +4,7 @@
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  */
-class scoringMetric
+class ScoringMetric
 {
   /**
    * @var string The id of the scoring metric (e.g. "functional_dependency_a->b") - max length is 256

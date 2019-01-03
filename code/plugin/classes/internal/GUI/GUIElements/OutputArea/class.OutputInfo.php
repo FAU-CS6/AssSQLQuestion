@@ -1,14 +1,12 @@
 <?php
+require_once __DIR__.'/../../class.GUIElement.php';
+
 /**
- * Represents the GUIElement interface implemented by several GUI elements
- * used in assSQLQuestionGUI.
- *
- * This interface is based on the idea that every GUI element is used in edit,
- * question and solution output but in different ways.
+ * Represents the info area GUIElement
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  */
-interface GUIElement
+class OutputInfo extends GUIElement
 {
   /*
    * Functions used to get the html code for edit, question and solution output
@@ -20,7 +18,12 @@ interface GUIElement
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getEditOutput();
+  public function getEditOutput()
+  {
+		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_area_info.html');
+    $tpl->setVariable("INFO", $this->plugin->txt('output_info_text'));
+    return $tpl->get();
+  }
 
   /**
    * Returns the html output of the GUI element tailored for the question output page
@@ -28,7 +31,10 @@ interface GUIElement
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getQuestionOutput();
+  public function getQuestionOutput()
+  {
+    return "";
+  }
 
   /**
    * Returns the html output of the GUI element tailored for the solution output page
@@ -36,7 +42,10 @@ interface GUIElement
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput();
+  public function getSolutionOutput()
+  {
+    return "";
+  }
 
   /*
    * Functions used to write POST data to the $object
@@ -44,10 +53,14 @@ interface GUIElement
 
    /**
     * Writes the POST data of the edit page into the $object
-    *
-    * @access public
+		*
+		* @access public
     */
-   public function writePostData();
-
+   public function writePostData()
+   {
+		 $this->object->setErrorBool($_POST["error_bool"] == "true" ? true : false);
+		 $this->object->setExecutedBool($_POST["executed_bool"] == "true" ? true : false);
+		 $this->object->setOutputRelation((string) $_POST["output_relation"]);
+   }
 }
 ?>

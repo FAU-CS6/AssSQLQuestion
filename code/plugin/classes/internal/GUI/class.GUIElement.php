@@ -1,32 +1,37 @@
 <?php
-require_once __DIR__.'/../../interface.qpisql.GUIElement.php';
-
 /**
- * Represents the execute button GUIElement
+ * Represents an abstract GUIArea implemented by the different GUIElements of assSQLQuestionGUI.
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  */
-class ExecuteButton implements GUIElement
+abstract class GUIElement
 {
 	/**
 	 * @var ilassSQLQuestionPlugin The plugin object
 	 */
 	var $plugin = null;
 
+	/**
+	 * @var assSQLQuestion The question object
+	 */
+	var $object = null;
+
   /**
   * Constructor
   *
   * @param ilassSQLQuestionPlugin $plugin The plugin object
+  * @param assSQLQuestion $object The question object
   * @access public
   */
-  public function __construct($plugin)
+  public function __construct($plugin, $object)
   {
     // Set plugin and object
     $this->plugin = $plugin;
+    $this->object = $object;
   }
 
-  /*
-   * Functions used to get the html code for edit, question and solution output
+  /**
+   * Output functions
    */
 
   /**
@@ -35,12 +40,7 @@ class ExecuteButton implements GUIElement
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getEditOutput()
-  {
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_sequence_area_execute_button.html');
-		$tpl->setVariable("BUTTONTEXT", $this->plugin->txt('execute_button_text'));
-    return $tpl->get();
-  }
+  abstract public function getEditOutput();
 
   /**
    * Returns the html output of the GUI element tailored for the question output page
@@ -48,10 +48,7 @@ class ExecuteButton implements GUIElement
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getQuestionOutput()
-  {
-    return "";
-  }
+  abstract public function getQuestionOutput();
 
   /**
    * Returns the html output of the GUI element tailored for the solution output page
@@ -59,13 +56,10 @@ class ExecuteButton implements GUIElement
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput()
-  {
-    return "";
-  }
+  abstract public function getSolutionOutput();
 
-  /*
-   * Functions used to write POST data to the $object
+	/**
+   * Functions to handle POST data
    */
 
    /**
@@ -73,9 +67,6 @@ class ExecuteButton implements GUIElement
 		*
 		* @access public
     */
-   public function writePostData()
-   {
-		 // Do nothing
-   }
+   abstract public function writePostData();
 }
 ?>

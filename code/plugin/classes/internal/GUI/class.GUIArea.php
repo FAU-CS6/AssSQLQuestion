@@ -1,18 +1,17 @@
 <?php
 require_once "./Services/Form/classes/class.ilCustomInputGUI.php";
 
-require_once __DIR__.'/../interface.qpisql.GUIElement.php';
-require_once __DIR__.'/../Elements/OutputArea/class.qpisql.OutputInfo.php';
-require_once __DIR__.'/../Elements/OutputArea/class.qpisql.Output.php';
-
 /**
- * Represents the output area used in assSQLQuestionGUI
+ * Represents an abstract GUIArea implemented by the different GUIAreas of assSQLQuestionGUI.
+ *
+ * This class is based on the idea that the  edit, question and solution page are using
+ * the all the same areas.
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  */
-class OutputArea extends ilCustomInputGUI implements GUIElement
+abstract class GUIArea extends ilCustomInputGUI
 {
-	/**
+  /**
 	 * @var ilassSQLQuestionPlugin The plugin object
 	 */
 	var $plugin = null;
@@ -23,50 +22,42 @@ class OutputArea extends ilCustomInputGUI implements GUIElement
 	var $object = null;
 
 	/**
-	 * @var OutputInfo The info text subelement
+	 * @var GUIElement[] The subelements used in the GUIArea
 	 */
-	var $infoText = null;
-
-	/**
-	 * @var Output The actual output area subelement
-	 */
-	var $outputArea = null;
-
+	var $subelements = array();
 
   /**
   * Constructor
   *
   * @param ilassSQLQuestionPlugin $plugin The plugin object
   * @param assSQLQuestion $object The question object
+  * @param string $title The title of the area
   * @access public
   */
   public function __construct($plugin, $object)
   {
     // Set plugin and object
     $this->plugin = $plugin;
-    $this->$object = $object;
-
-		// Set the subelements
-
-		// Info area
-		$this->infoText = new OutputInfo(
-			$plugin // Plugin
-		);
-
-		// Output area
-		$this->outputArea = new Output(
-			$plugin, // Plugin
-			$object // Object
-		);
-
-		// Set Title, Information and Required
-    $this->setTitle($this->plugin->txt('output_info'));
-    $this->setRequired(true);
-    $this->setHtml($this->getEditOutput());
+    $this->object = $object;
   }
 
-  /*
-   * Functions used to get the html code for edit, question and solution output
+  /**
+   * Setter for the subelements
+   */
+
+   /**
+    * Setter for adding a subelement
+    *
+    * @param GUIElement $subelement The subelement to be added
+    * @access protected
+    */
+   protected function addSubElement($subelement)
+   {
+     array_push($this->subelements, $subelement);
+   }
+
+  /**
+   * Output functions
    */
 
   /**
@@ -79,8 +70,10 @@ class OutputArea extends ilCustomInputGUI implements GUIElement
   {
 		$html = "";
 
-		$html .= $this->infoText->getEditOutput();
-		$html .= $this->outputArea->getEditOutput();
+    foreach ($this->subelements as $subelement)
+    {
+      $html .= $subelement->getEditOutput();
+    }
 
 		return $html;
   }
@@ -95,8 +88,10 @@ class OutputArea extends ilCustomInputGUI implements GUIElement
   {
 		$html = "";
 
-		$html .= $this->infoText->getQuestionOutput();
-		$html .= $this->outputArea->getQuestionOutput();
+    foreach ($this->subelements as $subelement)
+    {
+      $html .= $subelement->getQuestionOutput();
+    }
 
 		return $html;
   }
@@ -111,14 +106,16 @@ class OutputArea extends ilCustomInputGUI implements GUIElement
   {
 		$html = "";
 
-		$html .= $this->infoText->getSolutionOutput();
-		$html .= $this->outputArea->getSolutionOutput();
+    foreach ($this->subelements as $subelement)
+    {
+      $html .= $subelement->getSolutionOutput();
+    }
 
 		return $html;
   }
 
-  /*
-   * Functions used to write POST data to the $object
+  /**
+   * Functions to handle POST data
    */
 
    /**
@@ -128,11 +125,13 @@ class OutputArea extends ilCustomInputGUI implements GUIElement
     */
    public function writePostData()
    {
-		 $this->infoText->writePostData();
-	 	 $this->outputArea->writePostData();
+     foreach ($this->subelements as $subelement)
+     {
+       $subelement->writePostData();
+     }
    }
 
-	 /*
+	 /**
 	 	* Functions originaly implemented in ilCustomInputGUI that need to be overwritten
     */
 
@@ -143,16 +142,16 @@ class OutputArea extends ilCustomInputGUI implements GUIElement
  		* for the sequences input area of editQuestion)
  		*
  		* @return boolean True if input is ok, False if it is not
+    * @access public
  		*/
-   function checkInput()
- 	 {
- 		 if(isset($_POST["sequence_b"]) && $_POST["sequence_b"] == "")
- 		 {
- 			 // $this->setAlert($this->plugin->txt('sequences_info_error'));
- 			 return false;
- 		 }
+   public function checkInput()
+	 {
+		 throw new Exception("It is necessary to override checkInput in every GUIArea");
 
- 		 return true;
- 	 }
+		 return false;
+	 }
+
+
+
 }
 ?>
