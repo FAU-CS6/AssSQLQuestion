@@ -1,7 +1,6 @@
 <?php
-
 require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-require_once "internal/class.qpisql.scoringMetric.php";
+require_once "internal/class.ScoringMetric.php";
 
 /**
  * Main defintion of the SQLQuestion plugin
@@ -60,7 +59,7 @@ class assSQLQuestion extends assQuestion
 	var $output_relation = "";
 
 	/**
-	 * @var scoringMetric[] An array containg all computed scoring metrics used in this question
+	 * @var ScoringMetric[] An array containg all computed scoring metrics used in this question
 	 */
 	var $scoring_metrics = array();
 
@@ -867,7 +866,7 @@ class assSQLQuestion extends assQuestion
 	/**
 	 * Sets all scoring metrics
 	 *
-	 * @param scoringMetric[] $scoring_metrics An array containg all scoring metrics to be set
+	 * @param ScoringMetric[] $scoring_metrics An array containg all scoring metrics to be set
 	 */
 	function setAllScoringMetrics($scoring_metrics)
 	{
@@ -878,7 +877,7 @@ class assSQLQuestion extends assQuestion
 	 * Get all scoring metrics with a specific type
 	 *
 	 * @param string $type The type of the searched scoring metrics
-	 * @return scoringMetric[] A array containing all metrics with this type
+	 * @return ScoringMetric[] A array containing all metrics with this type
 	 */
 	function getScoringMetricsWithType($type)
 	{
@@ -902,7 +901,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	function setSingleScoringMetric($scoring_metric)
 	{
-		if(is_a($scoring_metric, "scoringMetric"))
+		if(is_a($scoring_metric, "ScoringMetric"))
 		{
 			array_push($this->scoring_metrics, $scoring_metric);
 		}

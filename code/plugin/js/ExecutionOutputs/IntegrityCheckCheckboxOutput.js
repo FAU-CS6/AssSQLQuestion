@@ -23,7 +23,7 @@
     */
    onChange()
    {
-     this.onResult(new sqlRunErrorNoExecution());
+     // Do nothing
    }
 
    /**
