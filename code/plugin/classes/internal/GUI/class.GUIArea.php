@@ -14,17 +14,17 @@ abstract class GUIArea extends ilCustomInputGUI
   /**
 	 * @var ilassSQLQuestionPlugin The plugin object
 	 */
-	var $plugin = null;
+	protected $plugin = null;
 
 	/**
 	 * @var assSQLQuestion The question object
 	 */
-	var $object = null;
+	protected $object = null;
 
 	/**
 	 * @var GUIElement[] The subelements used in the GUIArea
 	 */
-	var $subelements = array();
+	private $subelements = array();
 
   /**
   * Constructor

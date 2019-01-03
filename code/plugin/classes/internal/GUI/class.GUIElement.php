@@ -9,12 +9,12 @@ abstract class GUIElement
 	/**
 	 * @var ilassSQLQuestionPlugin The plugin object
 	 */
-	var $plugin = null;
+	protected $plugin = null;
 
 	/**
 	 * @var assSQLQuestion The question object
 	 */
-	var $object = null;
+	protected $object = null;
 
   /**
   * Constructor
