@@ -1,0 +1,13 @@
+================
+Copyright notice
+================
+
+The code in this subdirectory is licensed under MIT license and
+was obtained from https://github.com/cheprasov/jThread at 2019-01-04
+(commit b5f73ca5f38f2b46c85b95caaee56cf1cff27941).
+
+The original license text can be found in the MIT-license.txt file included in this subfolder.
+
+Modifications to original code:
+- We only use jThread.js
+- No further modifications

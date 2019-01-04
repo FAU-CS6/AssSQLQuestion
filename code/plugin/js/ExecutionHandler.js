@@ -46,84 +46,8 @@ class ExecutionHandler
     // Get the state of the integrityCheck checkbox
     const integrityCheck = this.getIntegrityCheck();
 
-    // If the Browser supports web workers we use them for better multithreading
-    if(window.Worker)
-    {
-      // Start a worker
-      var workerSqlRun = new Worker(window.QPISQL_URL_PATH + '/js/sql/worker/worker.sqlRun.js');
-
-      // Send the data to the worker
-      workerSqlRun.postMessage({"sequenceA": sequenceA,
-                                "sequenceB": sequenceB,
-                                "sequenceC": sequenceC,
-                                "integrityCheck": integrityCheck});
-
-      const handler = this;
-
-      workerSqlRun.onmessage = function(e, callingHandler = handler) {
-        if(e.data["type"] == "result")
-        {
-          // Create a new sqlResult out of the result value
-          const result = new sqlResult({"columns": e.data["result"]["columns"],
-                                        "values": e.data["result"]["values"]})
-
-          // Call the onResult event handlers
-          callingHandler.onResult(result);
-        }
-        else
-        {
-          var err;
-
-          // We have to create sqlRunErrors out of the e.data["error"] again
-          switch(e.data["error"]["errorType"])
-          {
-            case "sqlRunErrorAbstract":
-              err = new sqlRunErrorAbstract(e.data["error"]["errorMessage"]);
-              break;
-            case "sqlRunErrorDBCreation":
-              err = new sqlRunErrorDBCreation(e.data["error"]["errorMessage"]);
-              break;
-            case "sqlRunErrorIntegrityCheck":
-              err = new sqlRunErrorIntegrityCheck(e.data["error"]["errorMessage"]);
-              break;
-            case "sqlRunErrorNoVisibleResult":
-              err = new sqlRunErrorNoVisibleResult(e.data["error"]["errorMessage"]);
-              break;
-            case "sqlRunErrorRunningSequence":
-              err = new sqlRunErrorRunningSequence(e.data["error"]["errorMessage"], e.data["error"]["sequence"]);
-              break;
-          }
-
-          // Call the onError event handlers
-          callingHandler.onError(err);
-        }
-
-        this.terminate();
-      }
-    }
-    // If Web Workers are not supported we have to used the old fashioned way
-    else
-    {
-      // Initialize the run variable to be available outside of the try catch, too
-      var run;
-
-      // Execute the code
-      try
-      {
-        run = new sqlRun(sequenceA, sequenceB, sequenceC, integrityCheck);
-      }
-      catch(error)
-      {
-        // Call the onError event handlers
-        this.onError(error);
-
-        // Leave the function
-        return;
-      }
-
-      // Call the onResult event handlers
-      this.onResult(run.getLastResult());
-    }
+    // Execute the SQLRun
+    new sqlRun(sequenceA, sequenceB, sequenceC, integrityCheck, this);
   }
 
   /**

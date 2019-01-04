@@ -1,0 +1,12 @@
+================
+Copyright notice
+================
+
+The code in this subdirectory is licensed under MIT license and
+was obtained from https://php-download.com/package/matthiasmullie/minify at 2019-01-04.
+
+The original licenses can be found in the LICENSE file included in the composer/,
+matthiasmullie/minify and matthiasmullie/path-converter subfolders.
+
+Modifications to the code as downloaded from https://php-download.com/package/matthiasmullie/minify:
+- None

@@ -9,5 +9,5 @@ was obtained from https://github.com/kripken/sql.js at 2018-11-22
 The original license text can be found in the LICENSE file included in this subfolder.
 
 Modifications to original code:
-- We only use sql.js (included in the js folder of the original project)
+- We only use sql.js and worker.sql.js (included in the js folder of the original project)
 - No further modifications

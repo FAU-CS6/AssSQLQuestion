@@ -1,7 +1,7 @@
 /**
  * @file A class representing a single sql run through
  * @author Dominik Probst <dominik.probst@studium.fau.de>
- * @version 0.1
+ * @version 0.2
  */
 
 /**
@@ -17,234 +17,158 @@ class sqlRun
    * @param {string} sequenceB The second sql sequence
    * @param {string} sequenceC The third sql sequence
    * @param {boolean} checkIntegrity If set to true, changes to the database are not allowed in b sequence - This is checked by hashing the database after a and before c and comparing their hash values
+   * @param {ExecutionHandler} callback A handler implementing a callback function onResult (for results) and a callback function onError (for errors)
    */
-  constructor(sequenceA, sequenceB, sequenceC, checkIntegrity)
+  constructor(sequenceA, sequenceB, sequenceC, checkIntegrity, callback)
   {
+    // Set the calling parameters as member variables
+    this.sequenceA = sequenceA;
+    this.sequenceB = sequenceB;
+    this.sequenceC = sequenceC;
+    this.checkIntegrity = checkIntegrity;
+    this.callback = callback;
+
+    // Initialize a worker as we do not want the SQL to block our page
+    this.worker = new Worker(window.QPISQL_URL_PATH + '/lib/sql.js/worker.sql.js');
+
     // Initalize a member variable for the lastResult
     // This will be set to the result of the last SELECT query in the sequence
     this.lastResult = null;
 
-    // Create a new database instance
-    try
-    {
-      this.db = new SQL.Database();
-    }
-    catch(err)
-    {
-      this.db.close();
-      throw new sqlRunErrorDBCreation(err.message);
-    }
+    // Call the executeSequenceA
+    this.executeSequenceA();
+  }
 
-    // Execute sequence a
-    try
-    {
-      this.executeStatementAndSaveToLastResult(sequenceA);
-    }
-    catch(err)
-    {
-      this.db.close();
-      throw new sqlRunErrorRunningSequence(err.message, "A");
-    }
+  /**
+   * Executes SequenceA and calls executeSequenceB() if no errors have been found.
+   * Otherwise it calls the callbackError function
+   *
+   * @return {string} The json string
+   */
+  executeSequenceA()
+  {
+    // We have to save this object to a const as we need it in the callbacks
+    const thisrun = this;
 
-    // If checkIntegrity is set to be true, we have to check the hash value of the database now for the first time
-    var hashValueAfterA;
-
-    if(checkIntegrity)
+    // Callback in case there is an error
+    this.worker.onerror = function(e, run = thisrun)
     {
-      hashValueAfterA = this.computeHashValueOfDatabase();
+      run.callback.onError(new sqlRunErrorRunningSequence(e, "A"));
     }
 
-    // Execute sequence b
-    try
+    // Callback in case there was no error
+    this.worker.onmessage = function(e, run = thisrun)
     {
-      this.executeStatementAndSaveToLastResult(sequenceB);
-    }
-    catch(err)
-    {
-      this.db.close();
-      throw new sqlRunErrorRunningSequence(err.message, "B");
-    }
-
-    // If checkIntegrity is set to be true, we have to check the hash value of the database now for the second time
-    var hashValueBeforeC;
-
-    if(checkIntegrity)
-    {
-      hashValueBeforeC = this.computeHashValueOfDatabase();
-
-      if(hashValueAfterA != hashValueBeforeC)
+      if(e.data.results.length > 0)
       {
-        this.db.close();
-        throw new sqlRunErrorIntegrityCheck("");
+        run.lastResult = new sqlResult(e.data.results.pop());
+      }
+
+      // Go to the nextSequence
+      run.executeSequenceB();
+    }
+
+    if(this.sequenceA.length > 0)
+    {
+      this.worker.postMessage({action:'exec', sql: this.sequenceA});
+    }
+    else
+    {
+      // Go to the nextSequence
+      this.executeSequenceB();
+    }
+
+  }
+
+  /**
+   * Executes SequenceB and calls executeSequenceC() if no errors have been found.
+   * Otherwise it calls the callbackError function.
+   */
+  executeSequenceB()
+  {
+    // We have to save this object to a const as we need it in the callbacks
+    const thisrun = this;
+
+    // Callback in case there is an error
+    this.worker.onerror = function(e, run = thisrun)
+    {
+      run.callback.onError(new sqlRunErrorRunningSequence(e, "B"));
+    }
+
+    // Callback in case there was no error
+    this.worker.onmessage = function(e, run = thisrun)
+    {
+      if(e.data.results.length > 0)
+      {
+        run.lastResult = new sqlResult(e.data.results.pop());
+      }
+
+      // Go to the nextSequence
+      run.executeSequenceC();
+    }
+
+    if(this.sequenceB.length > 0)
+    {
+      this.worker.postMessage({action:'exec', sql: this.sequenceB});
+    }
+    else
+    {
+      // Go to the nextSequence
+      this.executeSequenceC();
+    }
+  }
+
+  /**
+   * Executes SequenceC and calls the callbackResult function if no errors have been found.
+   * Otherwise it calls the callbackError function.
+   */
+  executeSequenceC()
+  {
+    // We have to save this object to a const as we need it in the callbacks
+    const thisrun = this;
+
+    // Callback in case there is an error
+    this.worker.onerror = function(e, run = thisrun)
+    {
+      run.callback.onError(new sqlRunErrorRunningSequence(e, "C"));
+    }
+
+    // Callback in case there was no error
+    this.worker.onmessage = function(e, run = thisrun)
+    {
+      if(e.data.results.length > 0)
+      {
+        run.lastResult = new sqlResult(e.data.results.pop());
+      }
+
+      // Check if there is a last result
+      if(run.lastResult == null)
+      {
+        run.callback.onError(new sqlRunErrorNoVisibleResult(""));
+      }
+      // If there is one call callbackResult
+      else
+      {
+        run.callback.onResult(run.lastResult);
       }
     }
 
-    // Execute sequence c
-    try
+    if(this.sequenceC.length > 0)
     {
-      this.executeStatementAndSaveToLastResult(sequenceC);
+      this.worker.postMessage({action:'exec', sql: this.sequenceC});
     }
-    catch(err)
+    else
     {
-      this.db.close();
-      throw new sqlRunErrorRunningSequence(err.message, "C");
-    }
-
-    // If there haven't been any SELECT statements in A, B and C
-    // or if these SELECT statements did not return anything we have to throw an error
-    if(this.lastResult == null)
-    {
-      this.db.close();
-      throw new sqlRunErrorNoVisibleResult("");
-    }
-
-    this.db.close();
-  }
-
-  /**
-   *
-   */
-
-  /**
-   * Run (without a return value) a bunch of SQl statements
-   *
-   * @param {string} statement The statement(s) to be run
-   */
-  runStatement(statement)
-  {
-    this.db.run(statement);
-  }
-
-  /**
-   * Execute (with a return value) a bunch of SQl statements
-   *
-   * @param {string} statement The statement(s) to be executed
-   * @return {Array} An complex array containing the results of all SELECT queries
-   */
-  executeStatement(statement)
-  {
-    return this.db.exec(statement);
-  }
-
-  /**
-   * Execute a bunch of SQL statements and save the last result to lastResult
-   * This is a wrapper of executeStatement returning nothing but saving the lastResult in the object
-   *
-   * @param {string} statement The statement(s) to be executed
-   */
-  executeStatementAndSaveToLastResult(statement)
-  {
-    // Execute the Statement
-    var results = this.executeStatement(statement);
-
-    // If there is at least one visable result save the last one of them into lastResult
-    if(results.length > 0)
-    {
-      this.lastResult = new sqlResult(results[results.length - 1]);
+      if(this.lastResult == null)
+      {
+        this.callback.onError(new sqlRunErrorNoVisibleResult(""));
+      }
+      // If there is one call callbackResult
+      else
+      {
+        this.callback.onResult(this.lastResult);
+      }
     }
   }
 
-  /**
-   * Computes a simple hash value of the current database
-   *
-   * @return {number} The computed hash value
-   */
-  computeHashValueOfDatabase()
-  {
-    // Initialize hash
-    var hash = 0;
-
-    // Get all current tables by executing the suiting SQL query
-    var currentTables = this.executeStatement("SELECT name FROM sqlite_master WHERE type = \"table\"");
-
-    // Check if there was a result (no result if there are no tables until now)
-    if(currentTables.length < 1)
-    {
-      // Return hash as there simply is an empty database
-      return hash;
-    }
-
-    // Iterate through the tables
-    for(var i = 0; i < currentTables[0]["values"].length; i++)
-    {
-      // Add it to the hash value
-      hash = (hash + this.computeHashValueOfTable(currentTables[0]["values"][i][0])) % (Math.round(Number.MAX_SAFE_INTEGER / 2));
-    }
-
-    return hash;
-  }
-
-  /**
-   * Computes a simple hash value of a single table in the current database
-   * (This is a helper function for computeHashValueOfDatabase())
-   *
-   * @param {string} tableName The Name of the table that should be checked
-   * @return {number} The computed hash value
-   */
-   computeHashValueOfTable(tableName)
-   {
-     // Initialize hash
-     var hash = 0;
-
-     // Get the content of the table
-     var currentContent = this.executeStatement("SELECT * FROM " + tableName);
-
-     // Check if there was a result (no result if table is empty)
-     if(currentContent.length < 1)
-     {
-       // Return hash as there simply is an empty table
-       return hash;
-     }
-
-     // We only use the table values for computation of the hash - the names of the columns are not checked
-     // First iterate through the tuples
-     for(var i = 0; i < currentContent[0]["values"].length; i++)
-     {
-       // Now iterate through the single values
-       for(var ii = 0; ii < currentContent[0]["values"][i].length; ii++)
-       {
-         hash = (hash + this.computeHashValueOfString(String(currentContent[0]["values"][i][ii]))) % (Math.round(Number.MAX_SAFE_INTEGER / 2));
-       }
-     }
-
-     return hash;
-   }
-
-   /**
-    * Computes a simple hash value of a single string
-    * (This is a helper function for computeHashValueOfDatabase() and computeHashValueOfTable())
-    *
-    * @param {string} string The string that should be checked
-    * @return {number} The computed hash value
-    */
-   computeHashValueOfString(string)
-   {
-     // Initialize hash
-     var hash = 0;
-
-     // Check if the string is longer than 0
-     if(string.length < 1)
-     {
-       // Return hash as there simply none existent string
-       return hash;
-     }
-
-     for(var i = 0; i < string.length; i++)
-     {
-       hash = (hash + string.charCodeAt(i)) % (Math.round(Number.MAX_SAFE_INTEGER / 2));
-     }
-
-     return hash;
-   }
-
-
-  /**
-   * Getter for the last result
-   *
-   * @return {sqlResult} The last result
-   */
-  getLastResult()
-  {
-    return this.lastResult;
-  }
 }

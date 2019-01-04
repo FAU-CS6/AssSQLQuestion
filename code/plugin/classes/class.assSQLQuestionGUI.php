@@ -498,31 +498,8 @@ class assSQLQuestionGUI extends assQuestionGUI
 
       // Add JS files
 
-        // Custom Files
-        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlResult.js');
-        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRun.js');
-        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerAbstract.js');
-        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerEditQuestion.js');
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/handler/handlerOutputQuestion.js');
-        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorAbstract.js');
-        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorDBCreation.js');
-        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorIntegrityCheck.js');
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorNoExecution.js');
-        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorNoVisibleResult.js');
-        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/sql/sqlRunErrors/sqlRunErrorRunningSequence.js');
-
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionHandler.js');
-
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionInputs/ExecutionInput.js');
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionInputs/SequenceTextareaInput.js');
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionInputs/IntegrityCheckCheckboxInput.js');
-
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionOutputs/ExecutionOutput.js');
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionOutputs/SequenceTextareaOutput.js');
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionOutputs/ExecuteButtonOutput.js');
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionOutputs/IntegrityCheckCheckboxOutput.js');
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionOutputs/OutputAreaOutput.js');
-				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/ExecutionOutputs/ScoringMetricResultLines.js');
+        // Minified JS file
+        $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/js/min.js.php');
 
         // Codemirror
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/lib/codemirror/lib/codemirror.js');
@@ -530,6 +507,9 @@ class assSQLQuestionGUI extends assQuestionGUI
 
         // SQL.js
         $this->tpl->addJavascript(self::QPISQL_URL_PATH.'/lib/sql.js/sql.js');
+
+				// JThread
+				$this->tpl->addJavascript(self::QPISQL_URL_PATH.'/lib/jThread/jThread.js');
 
       // Add custom js code
 
