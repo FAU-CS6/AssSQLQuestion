@@ -1,16 +1,16 @@
 /**
- * @file A class implementing an error occured executing a sequence in sqlRun
+ * @file A class implementing an error occured executing a sequence in SQLRun
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
 
  /**
-  * A class implementing an error occured executing a sequence in sqlRun
+  * A class implementing an error occured executing a sequence in SQLRun
   */
-class sqlRunErrorRunningSequence extends sqlRunErrorAbstract
+class SQLRunErrorRunningSequence extends SQLRunErrorAbstract
 {
   /**
-   * Constructor of a single sqlRunErrorDBCreation
+   * Constructor of a single SQLRunErrorDBCreation
    *
    * @param {string} errorMessage The message of the error
    * @param {string} sequence The name of the sequence the error occured in
@@ -18,7 +18,7 @@ class sqlRunErrorRunningSequence extends sqlRunErrorAbstract
   constructor(errorMessage, sequence)
   {
     super(errorMessage);
-    this.errorType = "sqlRunErrorRunningSequence";
+    this.errorType = "SQLRunErrorRunningSequence";
     this.sequence = sequence;
   }
 

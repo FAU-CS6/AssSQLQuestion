@@ -1,23 +1,23 @@
 /**
- * @file A class implementing an error for no SELECT or visible result in the sequences of sqlRun
+ * @file A class implementing an error for no SELECT or visible result in the sequences of SQLRun
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
 
  /**
-  * A class implementing an error for no SELECT or visible result in the sequences of sqlRun
+  * A class implementing an error for no SELECT or visible result in the sequences of SQLRun
   */
-class sqlRunErrorNoVisibleResult extends sqlRunErrorAbstract
+class SQLRunErrorNoVisibleResult extends SQLRunErrorAbstract
 {
   /**
-   * Constructor of a single sqlRunErrorDBCreation
+   * Constructor of a single SQLRunErrorDBCreation
    *
    * @param {string} errorMessage The message of the error
    */
   constructor(errorMessage)
   {
     super(errorMessage);
-    this.errorType = "sqlRunErrorNoVisibleResult";
+    this.errorType = "SQLRunErrorNoVisibleResult";
   }
 
   /**

@@ -1,22 +1,22 @@
 /**
- * @file A abstract parent class for the different error types that might occur in sqlRun
+ * @file A abstract parent class for the different error types that might occur in SQLRun
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
 
  /**
-  * A abstract parent class for the different error types that might occur in sqlRun
+  * A abstract parent class for the different error types that might occur in SQLRun
   */
-class sqlRunErrorAbstract
+class SQLRunErrorAbstract
 {
   /**
-   * Constructor of a single sqlRunErrorAbstract
+   * Constructor of a single SQLRunErrorAbstract
    *
    * @param {string} errorMessage The message of the error
    */
   constructor(errorMessage)
   {
-    this.errorType = "sqlRunErrorAbstract";
+    this.errorType = "SQLRunErrorAbstract";
     this.errorMessage = errorMessage;
   }
 

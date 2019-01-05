@@ -1,23 +1,23 @@
 /**
- * @file A class implementing an error at the integrity check of sqlRun
+ * @file A class implementing an error at the integrity check of SQLRun
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
 
  /**
-  * A class implementing an error at the integrity check of sqlRun
+  * A class implementing an error at the integrity check of SQLRun
   */
-class sqlRunErrorIntegrityCheck extends sqlRunErrorAbstract
+class SQLRunErrorIntegrityCheck extends SQLRunErrorAbstract
 {
   /**
-   * Constructor of a single sqlRunErrorDBCreation
+   * Constructor of a single SQLRunErrorDBCreation
    *
    * @param {string} errorMessage The message of the error
    */
   constructor(errorMessage)
   {
     super(errorMessage);
-    this.errorType = "sqlRunErrorIntegrityCheck";
+    this.errorType = "SQLRunErrorIntegrityCheck";
   }
 
   /**

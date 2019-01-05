@@ -42,18 +42,18 @@
      default_executed_bool == "false" ||
      default_output_relation == "")
   {
-    outputAreaOutput.onError(new sqlRunErrorNoExecution());
+    outputAreaOutput.onError(new SQLRunErrorNoExecution());
   }
   // Otherwise we can display a result
   else
   {
     try
     {
-      outputAreaOutput.onResult(new sqlResult(JSON.parse(default_output_relation)));
+      outputAreaOutput.onResult(new SQLResult(JSON.parse(default_output_relation)));
     }
     catch (err)
     {
-      outputAreaOutput.onError(new sqlRunErrorNoExecution());
+      outputAreaOutput.onError(new SQLRunErrorNoExecution());
     }
   }
 

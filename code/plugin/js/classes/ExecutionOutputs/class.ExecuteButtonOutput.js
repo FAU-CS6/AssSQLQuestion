@@ -1,25 +1,21 @@
 /**
- * @file ExecutionOutput for a single CodeMirror Sequence input area
+ * @file ExecutionOutput for a single execute buttom
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
 
  /**
-  * ExecutionOutput for a single CodeMirror Sequence input area
+  * ExecutionOutput for a single execute buttom
   */
- class SequenceTextareaOutput extends ExecutionOutput
+ class ExecuteButtonOutput extends ExecutionOutput
  {
 
    /**
     * Constructor
-    *
-    * @param {CodeMirror} editor The instance of CodeMirror
     */
-   constructor(editor)
+   constructor()
    {
      super();
-
-     this.editor = editor;
    }
 
    /**
@@ -36,29 +32,29 @@
    onExecution()
    {
      // Disable the input
-     this.editor.setOption("readOnly", true);
+     document.getElementById('qpisql-execute-button').disabled = true;
    }
 
    /**
     * Event handler that is called if a execution ends with an error
     *
-    * @param {sqlRunErrorAbstract} error The error object
+    * @param {SQLRunErrorAbstract} error The error object
     */
    onError(error)
    {
      // Enable the input
-     this.editor.setOption("readOnly", false);
+     document.getElementById('qpisql-execute-button').disabled = false;
    }
 
    /**
     * Event handler that is called if a execution ends with a result
     *
-    * @param {sqlResult} result The result object
+    * @param {SQLResult} result The result object
     */
    onResult(result)
    {
      // Enable the input
-     this.editor.setOption("readOnly", false);
+     document.getElementById('qpisql-execute-button').disabled = false;
    }
 
  }

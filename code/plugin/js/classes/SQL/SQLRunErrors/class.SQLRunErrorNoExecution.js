@@ -1,5 +1,5 @@
 /**
- * @file A class implementing an error occured at the creation of the database in sqlRun
+ * @file A class implementing an error occured at the creation of the database in SQLRun
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
@@ -7,15 +7,15 @@
  /**
   * A class implementing an error due to no execution being started
   */
-class sqlRunErrorNoExecution extends sqlRunErrorAbstract
+class SQLRunErrorNoExecution extends SQLRunErrorAbstract
 {
   /**
-   * Constructor of a single sqlRunErrorDBCreation
+   * Constructor of a single SQLRunErrorDBCreation
    */
   constructor()
   {
     super("");
-    this.errorType = "sqlRunErrorNoExecution";
+    this.errorType = "SQLRunErrorNoExecution";
   }
 
   /**

@@ -7,7 +7,7 @@
 /**
  * A single database run through (based on sql.js)
  */
-class sqlRun
+class SQLRun
 {
   /**
    * Constructor of sqlRun
@@ -41,9 +41,7 @@ class sqlRun
 
   /**
    * Executes SequenceA and calls executeSequenceB() if no errors have been found.
-   * Otherwise it calls the callbackError function
-   *
-   * @return {string} The json string
+   * Otherwise it calls the onError callback function.
    */
   executeSequenceA()
   {
@@ -53,7 +51,7 @@ class sqlRun
     // Callback in case there is an error
     this.worker.onerror = function(e, run = thisrun)
     {
-      run.callback.onError(new sqlRunErrorRunningSequence(e, "A"));
+      run.callback.onError(new SQLRunErrorRunningSequence(e.message, "A"));
     }
 
     // Callback in case there was no error
@@ -61,7 +59,7 @@ class sqlRun
     {
       if(e.data.results.length > 0)
       {
-        run.lastResult = new sqlResult(e.data.results.pop());
+        run.lastResult = new SQLResult(e.data.results.pop());
       }
 
       // Go to the nextSequence
@@ -82,17 +80,28 @@ class sqlRun
 
   /**
    * Executes SequenceB and calls executeSequenceC() if no errors have been found.
-   * Otherwise it calls the callbackError function.
+   * Otherwise it calls the onError callback function.
    */
   executeSequenceB()
   {
+    // If integrity check is active we have to start this integrityCheck
+    if(this.checkIntegrity)
+    {
+      // If sequenceB fails the integrityCheck we have to throw an error
+      if(!this.checkIntegrityOfSequence(this.sequenceB))
+      {
+        this.callback.onError(new SQLRunErrorIntegrityCheck(""));
+        return;
+      }
+    }
+
     // We have to save this object to a const as we need it in the callbacks
     const thisrun = this;
 
     // Callback in case there is an error
     this.worker.onerror = function(e, run = thisrun)
     {
-      run.callback.onError(new sqlRunErrorRunningSequence(e, "B"));
+      run.callback.onError(new SQLRunErrorRunningSequence(e.message, "B"));
     }
 
     // Callback in case there was no error
@@ -100,7 +109,7 @@ class sqlRun
     {
       if(e.data.results.length > 0)
       {
-        run.lastResult = new sqlResult(e.data.results.pop());
+        run.lastResult = new SQLResult(e.data.results.pop());
       }
 
       // Go to the nextSequence
@@ -119,8 +128,8 @@ class sqlRun
   }
 
   /**
-   * Executes SequenceC and calls the callbackResult function if no errors have been found.
-   * Otherwise it calls the callbackError function.
+   * Executes SequenceC and calls the onResult callback function if no errors have been found.
+   * Otherwise it calls the onError callback function.
    */
   executeSequenceC()
   {
@@ -130,7 +139,7 @@ class sqlRun
     // Callback in case there is an error
     this.worker.onerror = function(e, run = thisrun)
     {
-      run.callback.onError(new sqlRunErrorRunningSequence(e, "C"));
+      run.callback.onError(new SQLRunErrorRunningSequence(e.message, "C"));
     }
 
     // Callback in case there was no error
@@ -138,13 +147,13 @@ class sqlRun
     {
       if(e.data.results.length > 0)
       {
-        run.lastResult = new sqlResult(e.data.results.pop());
+        run.lastResult = new SQLResult(e.data.results.pop());
       }
 
       // Check if there is a last result
       if(run.lastResult == null)
       {
-        run.callback.onError(new sqlRunErrorNoVisibleResult(""));
+        run.callback.onError(new SQLRunErrorNoVisibleResult(""));
       }
       // If there is one call callbackResult
       else
@@ -161,7 +170,7 @@ class sqlRun
     {
       if(this.lastResult == null)
       {
-        this.callback.onError(new sqlRunErrorNoVisibleResult(""));
+        this.callback.onError(new SQLRunErrorNoVisibleResult(""));
       }
       // If there is one call callbackResult
       else
@@ -169,6 +178,67 @@ class sqlRun
         this.callback.onResult(this.lastResult);
       }
     }
+  }
+
+  /**
+   * Checks the integrity of a sequence by searching for patterns
+   * that would modify the database.
+   *
+   * @param {string} sequence The sql sequence to test
+   * @return {boolean} Whether the sequence passes the integrity test (true) or not (false)
+   */
+  checkIntegrityOfSequence(sequence)
+  {
+    // Check whether there is a CREATE TABLE statement
+    var createTablePattern = /create\s+table/i;
+
+    if(createTablePattern.test(sequence))
+    {
+      return false;
+    }
+
+    // Check whether there is a ALTER TABLE statement
+    var alterTablePattern = /alter\s+table/i;
+
+    if(alterTablePattern.test(sequence))
+    {
+      return false;
+    }
+
+    // Check whether there is a DROP TABLE statement
+    var dropTablePattern = /drop\s+table/i;
+
+    if(dropTablePattern.test(sequence))
+    {
+      return false;
+    }
+
+    // Check whether there is a INSERT INTO statement
+    var insertIntoPattern = /insert\s+into/i;
+
+    if(insertIntoPattern.test(sequence))
+    {
+      return false;
+    }
+
+    // Check whether there is a UPDATE statement
+    var updatePattern = /update/i;
+
+    if(updatePattern.test(sequence))
+    {
+      return false;
+    }
+
+    // Check whether there is a DELETE FROM statement
+    var deleteFromPattern = /delete\s+from/i;
+
+    if(deleteFromPattern.test(sequence))
+    {
+      return false;
+    }
+
+    // No pattern matched, so the sequence is full of integrity
+    return true;
   }
 
 }

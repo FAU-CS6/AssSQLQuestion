@@ -43,7 +43,7 @@
    /**
     * Event handler that is called if a execution ends with an error
     *
-    * @param {sqlRunErrorAbstract} error The error object
+    * @param {SQLRunErrorAbstract} error The error object
     */
    onError(error)
    {
@@ -56,7 +56,7 @@
    /**
     * Event handler that is called if a execution ends with a result
     *
-    * @param {sqlResult} result The result object
+    * @param {SQLResult} result The result object
     */
    onResult(result)
    {

@@ -1,13 +1,13 @@
 /**
- * @file ExecutionOutput for a single integrity check checkbox
+ * @file (Abstract) implemantation of a single output element for the Execution
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
 
  /**
-  * ExecutionOutput for a single integrity check checkbox
+  * (Abstract) Implemantation of a single output element for the Execution
   */
- class IntegrityCheckCheckboxOutput extends ExecutionOutput
+ class ExecutionOutput
  {
 
    /**
@@ -15,7 +15,7 @@
     */
    constructor()
    {
-     super();
+     // Do nothing
    }
 
    /**
@@ -31,27 +31,27 @@
     */
    onExecution()
    {
-     document.getElementById('qpisql-integrity-check').disabled = true;
+     // Do nothing
    }
 
    /**
     * Event handler that is called if a execution ends with an error
     *
-    * @param {sqlRunErrorAbstract} error The error object
+    * @param {SQLRunErrorAbstract} error The error object
     */
    onError(error)
    {
-     document.getElementById('qpisql-integrity-check').disabled = false;
+     // Do nothing
    }
 
    /**
     * Event handler that is called if a execution ends with a result
     *
-    * @param {sqlResult} result The result object
+    * @param {SQLResult} result The result object
     */
    onResult(result)
    {
-     document.getElementById('qpisql-integrity-check').disabled = false;
+     // Do nothing
    }
 
  }

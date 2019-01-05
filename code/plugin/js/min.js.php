@@ -28,29 +28,33 @@ class Minifier
     $minifier = new Minify\JS();
 
     // Add the JS files to be minified
-    $minifier->add(__DIR__.'/../js/sql/sqlResult.js');
-    $minifier->add(__DIR__.'/../js/sql/sqlRun.js');
-    $minifier->add(__DIR__.'/../js/sql/sqlRunErrors/sqlRunErrorAbstract.js');
-    $minifier->add(__DIR__.'/../js/sql/sqlRunErrors/sqlRunErrorDBCreation.js');
-    $minifier->add(__DIR__.'/../js/sql/sqlRunErrors/sqlRunErrorIntegrityCheck.js');
-    $minifier->add(__DIR__.'/../js/sql/sqlRunErrors/sqlRunErrorNoExecution.js');
-    $minifier->add(__DIR__.'/../js/sql/sqlRunErrors/sqlRunErrorNoVisibleResult.js');
-    $minifier->add(__DIR__.'/../js/sql/sqlRunErrors/sqlRunErrorRunningSequence.js');
+    // ExecutionHandler
+    $minifier->add(__DIR__.'/classes/class.ExecutionHandler.js');
 
-    $minifier->add(__DIR__.'/../js/ExecutionHandler.js');
+    // ExecutionInputs
+    $minifier->add(__DIR__.'/classes/ExecutionInputs/class.ExecutionInput.js');
+    $minifier->add(__DIR__.'/classes/ExecutionInputs/class.SequenceTextareaInput.js');
+    $minifier->add(__DIR__.'/classes/ExecutionInputs/class.IntegrityCheckCheckboxInput.js');
 
-    $minifier->add(__DIR__.'/../js/ExecutionInputs/ExecutionInput.js');
-    $minifier->add(__DIR__.'/../js/ExecutionInputs/SequenceTextareaInput.js');
-    $minifier->add(__DIR__.'/../js/ExecutionInputs/IntegrityCheckCheckboxInput.js');
+    // ExecutionOutputs
+    $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.ExecutionOutput.js');
+    $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.SequenceTextareaOutput.js');
+    $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.ExecuteButtonOutput.js');
+    $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.IntegrityCheckCheckboxOutput.js');
+    $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.OutputAreaOutput.js');
+    $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.ScoringMetricResultLines.js');
 
-    $minifier->add(__DIR__.'/../js/ExecutionOutputs/ExecutionOutput.js');
-    $minifier->add(__DIR__.'/../js/ExecutionOutputs/SequenceTextareaOutput.js');
-    $minifier->add(__DIR__.'/../js/ExecutionOutputs/ExecuteButtonOutput.js');
-    $minifier->add(__DIR__.'/../js/ExecutionOutputs/IntegrityCheckCheckboxOutput.js');
-    $minifier->add(__DIR__.'/../js/ExecutionOutputs/OutputAreaOutput.js');
-    $minifier->add(__DIR__.'/../js/ExecutionOutputs/ScoringMetricResultLines.js');
+    // SQL
+    $minifier->add(__DIR__.'/classes/SQL/class.SQLResult.js');
+    $minifier->add(__DIR__.'/classes/SQL/class.SQLRun.js');
+    $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorAbstract.js');
+    $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorDBCreation.js');
+    $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorIntegrityCheck.js');
+    $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorNoExecution.js');
+    $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorNoVisibleResult.js');
+    $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorRunningSequence.js');
 
-    return $minifier->minify();;
+    return $minifier->minify();
   }
 }
 

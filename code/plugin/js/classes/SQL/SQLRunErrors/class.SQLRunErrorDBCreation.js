@@ -1,23 +1,23 @@
 /**
- * @file A class implementing an error occured at the creation of the database in sqlRun
+ * @file A class implementing an error occured at the creation of the database in SQLRun
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
 
  /**
-  * A class implementing an error occured at the creation of the database in sqlRun
+  * A class implementing an error occured at the creation of the database in SQLRun
   */
-class sqlRunErrorDBCreation extends sqlRunErrorAbstract
+class SQLRunErrorDBCreation extends SQLRunErrorAbstract
 {
   /**
-   * Constructor of a single sqlRunErrorDBCreation
+   * Constructor of a single SQLRunErrorDBCreation
    *
    * @param {string} errorMessage The message of the error
    */
   constructor(errorMessage)
   {
     super(errorMessage);
-    this.errorType = "sqlRunErrorDBCreation";
+    this.errorType = "SQLRunErrorDBCreation";
   }
 
   /**
@@ -27,7 +27,7 @@ class sqlRunErrorDBCreation extends sqlRunErrorAbstract
    */
   getOutputText()
   {
-    // Error_db_creation is a custom string describing a sqlRunErrorDBCreation
+    // Error_db_creation is a custom string describing a SQLRunErrorDBCreation
     return error_db_creation + " " + this.errorMessage;
   }
 }
