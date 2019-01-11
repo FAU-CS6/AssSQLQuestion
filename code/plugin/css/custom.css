@@ -6,6 +6,14 @@
 }
 
 /**
+ * Custom CSS for the Sequence area
+ */
+
+#qpisql-execute-button {
+  margin-top: 10px;
+}
+
+/**
  * Custom CSS for the Output areas on editQuestion page AND the test pages
  */
 .qpisql-output-area {

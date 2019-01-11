@@ -47,7 +47,7 @@ class ExecutionHandler
     const integrityCheck = this.getIntegrityCheck();
 
     // Execute the SQLRun
-    new sqlRun(sequenceA, sequenceB, sequenceC, integrityCheck, this);
+    new SQLRun(sequenceA, sequenceB, sequenceC, integrityCheck, this);
   }
 
   /**

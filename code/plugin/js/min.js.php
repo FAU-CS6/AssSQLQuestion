@@ -35,6 +35,7 @@ class Minifier
     $minifier->add(__DIR__.'/classes/ExecutionInputs/class.ExecutionInput.js');
     $minifier->add(__DIR__.'/classes/ExecutionInputs/class.SequenceTextareaInput.js');
     $minifier->add(__DIR__.'/classes/ExecutionInputs/class.IntegrityCheckCheckboxInput.js');
+    $minifier->add(__DIR__.'/classes/ExecutionInputs/class.HiddenFieldInput.js');
 
     // ExecutionOutputs
     $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.ExecutionOutput.js');
@@ -42,7 +43,8 @@ class Minifier
     $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.ExecuteButtonOutput.js');
     $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.IntegrityCheckCheckboxOutput.js');
     $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.OutputAreaOutput.js');
-    $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.ScoringMetricResultLines.js');
+    $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.ScoringMetricResultLinesEditQuestion.js');
+    $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.ScoringMetricResultLinesOutputQuestion.js');
 
     // SQL
     $minifier->add(__DIR__.'/classes/SQL/class.SQLResult.js');

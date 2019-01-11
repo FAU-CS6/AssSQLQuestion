@@ -23,7 +23,7 @@ class ilassSQLQuestionPlugin extends ilQuestionsPlugin
 
 		final function getQuestionTypeTranslation()
 		{
-			return $this->txt($this->getQuestionType());
+			return $this->txt('gi_name');
 		}
 }
 ?>

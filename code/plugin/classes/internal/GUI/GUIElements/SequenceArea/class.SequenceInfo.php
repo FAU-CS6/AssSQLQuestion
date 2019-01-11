@@ -17,7 +17,7 @@ class SequenceInfo extends GUIElement
   public function getEditOutput()
   {
 		$tpl = $this->plugin->getTemplate('Mixed/tpl.il_as_qpl_qpisql_m_info.html');
-    $tpl->setVariable("INFO", $this->plugin->txt('sequences_info_text'));
+    $tpl->setVariable("INFO", $this->plugin->txt('ai_sea_eo_info'));
     return $tpl->get();
   }
 
@@ -29,7 +29,10 @@ class SequenceInfo extends GUIElement
    */
   public function getQuestionOutput()
   {
-    return "";
+    // The sequence area is used to display the question/task text itself
+    $tpl = $this->plugin->getTemplate('Mixed/tpl.il_as_qpl_qpisql_m_info.html');
+    $tpl->setVariable("INFO", "<b>" . $this->plugin->txt('ai_sea_qo_task') . "</b><br />" . $this->object->getQuestion());
+    return $tpl->get();
   }
 
   /**

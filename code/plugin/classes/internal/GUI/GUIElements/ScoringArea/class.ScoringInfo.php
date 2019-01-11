@@ -21,7 +21,7 @@ class ScoringInfo extends GUIElement
   public function getEditOutput()
   {
 		$tpl = $this->plugin->getTemplate('Mixed/tpl.il_as_qpl_qpisql_m_info.html');
-    $tpl->setVariable("INFO", $this->plugin->txt('scoring_info_text'));
+    $tpl->setVariable("INFO", $this->plugin->txt('ai_sca_eo_info'));
     return $tpl->get();
   }
 

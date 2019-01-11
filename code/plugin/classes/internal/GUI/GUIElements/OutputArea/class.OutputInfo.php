@@ -21,7 +21,7 @@ class OutputInfo extends GUIElement
   public function getEditOutput()
   {
 		$tpl = $this->plugin->getTemplate('Mixed/tpl.il_as_qpl_qpisql_m_info.html');
-    $tpl->setVariable("INFO", $this->plugin->txt('output_info_text'));
+    $tpl->setVariable("INFO", $this->plugin->txt('ai_oa_eo_info'));
     return $tpl->get();
   }
 
@@ -33,7 +33,7 @@ class OutputInfo extends GUIElement
    */
   public function getQuestionOutput()
   {
-    return "";
+    return "<div class='help-block'><b>" . $this->plugin->txt('ai_oa_name') . ":</b></div>";
   }
 
   /**

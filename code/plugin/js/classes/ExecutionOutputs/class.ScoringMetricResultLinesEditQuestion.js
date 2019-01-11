@@ -1,13 +1,13 @@
 /**
- * @file ExecutionOutput for the result lines scoring metric
+ * @file ExecutionOutput for the result lines scoring metric on edit question page
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
 
  /**
-  * ExecutionOutput for the result lines scoring metric
+  * ExecutionOutput for the result lines scoring metric on edit question page
   */
- class ScoringMetricResultLines extends ExecutionOutput
+ class ScoringMetricResultLinesEditQuestion extends ExecutionOutput
  {
 
    /**

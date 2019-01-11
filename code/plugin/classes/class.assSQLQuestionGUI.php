@@ -92,7 +92,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
-		$form->setDescription($this->plugin->txt('question_edit_info'));
+		$form->setDescription($this->plugin->txt('gi_info'));
 		$form->setMultipart(TRUE);
 		$form->setTableWidth("100%");
 		$form->setId("qpisql");
@@ -183,54 +183,22 @@ class assSQLQuestionGUI extends assQuestionGUI
 	 */
 	public function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_specific_inline_feedback = FALSE)
 	{
-		if (is_null($pass))
-		{
-			$pass = ilObjTest::_getPass($active_id);
-		}
-
-		$solution = $this->object->getSolutionStored($active_id, $pass, null);
-		$value1 = isset($solution["value1"]) ? $solution["value1"] : "";
-		$value2 = isset($solution["value2"]) ? $solution["value2"] : "";
-
 		// Prepare the template
 		$this->prepareTemplate();
 
-		// Get needed values
-
-		// Get the question text
-		$questiontext = $this->object->getQuestion();
+		$questionoutput = "";
 
 		// Get the complete output code
-		$tpl = $this->plugin->getTemplate('tpl.il_as_qpl_qpisql_output_question.html');
+		$html = "";
 
-		// Set the question specific placeholders
-    $tpl->setVariable("QUESTION_TEXT", $questiontext);
-		$tpl->setVariable("SEQUENCE_A", $this->object->getSequence('sequence_a'));
-		$tpl->setVariable("SEQUENCE_C", $this->object->getSequence('sequence_c'));
-		$tpl->setVariable("INTEGRITY_CHECK", $this->object->getIntegrityCheck());
+		foreach ($this->guiAreas as $guiArea)
+    {
+      $questionoutput .= $guiArea->getQuestionOutput();
+    }
 
-		// Set the values to fit the previously entered solutions
-		$tpl->setVariable("SEQUENCE_B", "");
-		$tpl->setVariable("ERROR_BOOL", "");
-		$tpl->setVariable("EXECUTED_BOOL", "");
-		$tpl->setVariable("OUTPUT_RELATION", "");
-
-		// Set error text to fit the language of the user
-		$tpl->setVariable("STATUS_EXECUTION_RUNNING", $this->plugin->txt('status_execution_running'));
-    $tpl->setVariable("ERROR_NO_EXECUTION", $this->plugin->txt('error_no_execution'));
-    $tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('error_db_creation'));
-    $tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('error_integrity_check'));
-    $tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('error_no_visible_result'));
-    $tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('error_running_sequence'));
-
-		// Set the correct Javacsript pagehandler
-		$tpl->setVariable("PAGEHANDLER", 'handlerOutputQuestion');
-
-		$questionoutput = "";
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
 	}
-
 
 	/**
 	 * Get the output for question preview
@@ -253,11 +221,6 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		// Prepare the template
 		$this->prepareTemplate();
-
-		// Get needed values
-
-		// Get the question text
-		$questiontext = $this->object->getQuestion();
 
 		// Get the complete output code
 		$html = "";

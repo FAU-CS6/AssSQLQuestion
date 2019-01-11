@@ -860,7 +860,7 @@ class assSQLQuestion extends assQuestion
 			$maximum_points += $scoring_metric->getPoints();
 		}
 
-		return $maximum_point;
+		return $maximum_points;
 	}
 
 	/**

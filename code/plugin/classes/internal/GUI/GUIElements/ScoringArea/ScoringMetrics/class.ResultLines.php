@@ -22,11 +22,10 @@ class ResultLines extends GUIElement
   public function getEditOutput()
   {
     $tpl = $this->plugin->getTemplate('ScoringArea/ScoringMetrics/ResultLines/tpl.il_as_qpl_qpisql_sca_sm_rl_points_input.html');
-    $tpl->setVariable("INFO", $this->plugin->txt('scoring_metric_result_lines_info'));
-    $tpl->setVariable("POINTS", $this->plugin->txt('points'));
-    $tpl->setVariable("WARNING_NO_EXECUTION", $this->plugin->txt('warning_no_execution'));
-    $tpl->setVariable("OUTPUT_TEXT", $this->plugin->txt('scoring_metric_output_text'));
-    $tpl->setVariable("INFO_TEXT_RESULT_LINES", $this->plugin->txt('scoring_metric_result_lines_info'));
+    $tpl->setVariable("INFO", $this->plugin->txt('ai_sca_eo_sm_rl_info'));
+    $tpl->setVariable("POINTS", $this->plugin->txt('ai_sca_points'));
+    $tpl->setVariable("WARNING_NO_EXECUTION", $this->plugin->txt('ai_sca_eo_no_exec'));
+    $tpl->setVariable("OUTPUT_TEXT", $this->plugin->txt('ai_sca_eo_out_text'));
     return $tpl->get();
   }
 
@@ -38,7 +37,9 @@ class ResultLines extends GUIElement
    */
   public function getQuestionOutput()
   {
-    return "";
+    $tpl = $this->plugin->getTemplate('ScoringArea/ScoringMetrics/ResultLines/tpl.il_as_qpl_qpisql_sca_sm_rl_hidden.html');
+    $tpl->setVariable("VALUE", "false");
+    return $tpl->get();
   }
 
   /**

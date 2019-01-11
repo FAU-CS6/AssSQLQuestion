@@ -17,7 +17,7 @@ class ExecuteButton extends GUIElement
   public function getEditOutput()
   {
 		$tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_execute_button.html');
-		$tpl->setVariable("BUTTONTEXT", $this->plugin->txt('execute_button_text'));
+		$tpl->setVariable("BUTTONTEXT", $this->plugin->txt('ai_sea_exec_text'));
     return $tpl->get();
   }
 
@@ -29,7 +29,9 @@ class ExecuteButton extends GUIElement
    */
   public function getQuestionOutput()
   {
-    return "";
+    $tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_execute_button.html');
+		$tpl->setVariable("BUTTONTEXT", $this->plugin->txt('ai_sea_exec_text'));
+    return $tpl->get();
   }
 
   /**

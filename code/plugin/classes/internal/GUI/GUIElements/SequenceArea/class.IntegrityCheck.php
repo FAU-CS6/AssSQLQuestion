@@ -17,7 +17,7 @@ class IntegrityCheck extends GUIElement
   public function getEditOutput()
   {
 		$tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_integrity_check_input.html');
-    $tpl->setVariable("HEADER", $this->plugin->txt('integrity_check'));
+    $tpl->setVariable("HEADER", $this->plugin->txt('ai_sea_eo_ic'));
     $tpl->setVariable("CHECKED", "");
     return $tpl->get();
   }
@@ -30,7 +30,11 @@ class IntegrityCheck extends GUIElement
    */
   public function getQuestionOutput()
   {
-    return "";
+    $tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_hidden_field.html');
+    $tpl->setVariable("ID", 'integrity_check');
+    $tpl->setVariable("NAME", 'integrity_check');
+    $tpl->setVariable("VALUE", $this->object->getIntegrityCheck());
+    return $tpl->get();
   }
 
   /**

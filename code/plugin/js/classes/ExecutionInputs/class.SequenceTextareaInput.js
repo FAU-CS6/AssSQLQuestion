@@ -9,7 +9,6 @@
   */
  class SequenceTextareaInput extends ExecutionInput
  {
-
    /**
     * Constructor
     *
@@ -36,5 +35,4 @@
    {
      return this.editor.getValue();
    }
-
- }
+}

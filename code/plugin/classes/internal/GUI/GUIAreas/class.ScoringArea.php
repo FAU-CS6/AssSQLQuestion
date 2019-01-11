@@ -39,7 +39,7 @@ class ScoringArea extends GUIArea
 		));
 
     // Set Title, Information and Required
-    $this->setTitle($this->plugin->txt('scoring_info'));
+    $this->setTitle($this->plugin->txt('ai_sca_eo_name'));
     $this->setRequired(true);
     $this->setHTML($this->getEditOutput());
   }
@@ -59,9 +59,9 @@ class ScoringArea extends GUIArea
  		*/
    public function checkInput()
  	 {
- 		 if(isset($_POST["sequence_b"]) && $_POST["sequence_b"] == "")
+ 		 if(isset($_POST["points_result_lines"]) && $_POST["points_result_lines"] > 0)
  		 {
- 			 // $this->setAlert($this->plugin->txt('sequences_info_error'));
+ 			 // $this->setAlert($this->plugin->txt('ai_sca_eo_error'));
  			 return false;
  		 }
 

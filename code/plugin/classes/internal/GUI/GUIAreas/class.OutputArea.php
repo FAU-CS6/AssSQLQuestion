@@ -39,7 +39,7 @@ class OutputArea extends GUIArea
 		));
 
     // Set Title, Information and Required
-    $this->setTitle($this->plugin->txt('sequences_info'));
+    $this->setTitle($this->plugin->txt('ai_oa_name'));
     $this->setRequired(true);
     $this->setHtml($this->getEditOutput());
   }
@@ -59,9 +59,10 @@ class OutputArea extends GUIArea
  		*/
    public function checkInput()
  	 {
- 		 if(isset($_POST["sequence_b"]) && $_POST["sequence_b"] == "")
+ 		 if((isset($_POST["error_bool"]) && $_POST["error_bool"] == "true") ||
+        (isset($_POST["executed_bool"]) && $_POST["executed_bool"] == "false"))
  		 {
- 			 // $this->setAlert($this->plugin->txt('sequences_info_error'));
+ 			 // $this->setAlert($this->plugin->txt('ai_oa_eo_error'));
  			 return false;
  		 }
 

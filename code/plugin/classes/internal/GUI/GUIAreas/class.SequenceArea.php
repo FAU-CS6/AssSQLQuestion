@@ -67,7 +67,7 @@ class SequenceArea extends GUIArea
 		));
 
     // Set Title, Information and Required
-    $this->setTitle($this->plugin->txt('output_info'));
+    $this->setTitle($this->plugin->txt('ai_sea_eo_name'));
     $this->setRequired(true);
     $this->setHtml($this->getEditOutput());
   }
@@ -85,7 +85,7 @@ class SequenceArea extends GUIArea
  	 {
  		 if(isset($_POST["sequence_b"]) && $_POST["sequence_b"] == "")
  		 {
- 			 // $this->setAlert($this->plugin->txt('sequences_info_error'));
+ 			 // $this->setAlert($this->plugin->txt('ai_sea_eo_error'));
  			 return false;
  		 }
 
