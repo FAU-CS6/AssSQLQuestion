@@ -81,6 +81,10 @@ if(!$ilDB->tableExists('il_qpl_qst_qpisql_qd'))
       'type' => 'integer',
       'length' => 1
     ),
+    // The error coded as json array
+    'error' => array(
+      'type' => 'clob'
+    ),
     'executed_bool' => array(
       'type' => 'integer',
       'length' => 1

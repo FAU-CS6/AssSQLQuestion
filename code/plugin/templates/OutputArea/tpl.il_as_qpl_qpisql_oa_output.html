@@ -13,8 +13,9 @@
 <div class="qpisql-hidden-fields">
 
   <input type="hidden" name="error_bool" id="qpisql-error-bool" value="{ERROR_BOOL}" />
+  <input type="hidden" name="error" id="qpisql-error" value='{ERROR}' />
   <input type="hidden" name="executed_bool" id="qpisql-executed-bool" value="{EXECUTED_BOOL}" />
-  <input type="hidden" name="output_relation" id="qpisql-output-relation" value="{OUTPUT_RELATION}" />
+  <input type="hidden" name="output_relation" id="qpisql-output-relation" value='{OUTPUT_RELATION}' />
 
 </div>
 
@@ -33,19 +34,41 @@
 <script>
   // Use the values of the hidden fields to dynamicly generate values of the visible area
   const default_error_bool = document.getElementById("qpisql-error-bool").value;
+  const default_error = document.getElementById("qpisql-error").value;
   const default_executed_bool = document.getElementById("qpisql-executed-bool").value;
   const default_output_relation = document.getElementById("qpisql-output-relation").value;
 
-  // In every case that we do not have a valid ouput relation by default,
-  // we have to output an error that a execution is necessary
-  if(default_error_bool == "true" ||
-     default_executed_bool == "false" ||
-     default_output_relation == "")
+  // In case of the default result being an error
+  if(default_error_bool == "true" && default_error != "")
   {
-    outputAreaOutput.onError(new SQLRunErrorNoExecution());
+    var error = JSON.parse(default_error);
+
+    switch(error.errorType)
+    {
+      case "SQLRunErrorAbstract":
+        outputAreaOutput.onError(new SQLRunErrorAbstract(error.errorMessage));
+        break;
+      case "SQLRunErrorDBCreation":
+        outputAreaOutput.onError(new SQLRunErrorDBCreation(error.errorMessage));
+        break;
+      case "SQLRunErrorIntegrityCheck":
+        outputAreaOutput.onError(new SQLRunErrorIntegrityCheck(error.errorMessage));
+        break;
+      case "SQLRunErrorNoExecution":
+        outputAreaOutput.onError(new SQLRunErrorNoExecution(error.errorMessage));
+        break;
+      case "SQLRunErrorNoVisibleResult":
+        outputAreaOutput.onError(new SQLRunErrorNoVisibleResult(error.errorMessage));
+        break;
+      case "SQLRunErrorRunningSequence":
+        outputAreaOutput.onError(new SQLRunErrorRunningSequence(error.errorMessage, error.sequence));
+        break;
+      default:
+        outputAreaOutput.onError(new SQLRunErrorNoExecution());
+    }
   }
   // Otherwise we can display a result
-  else
+  else if(default_executed_bool == "true" && default_output_relation != "")
   {
     try
     {
@@ -55,6 +78,11 @@
     {
       outputAreaOutput.onError(new SQLRunErrorNoExecution());
     }
+  }
+  // Otherwise
+  else
+  {
+    outputAreaOutput.onError(new SQLRunErrorNoExecution());
   }
 
   window.EXECUTE_HANDLER.registerOutput(outputAreaOutput);

@@ -66,11 +66,6 @@ class assSQLQuestionGUI extends assQuestionGUI
 		{
 			$this->object->loadFromDb($id);
 		}
-
-		// Insert the different GUIAreas
-		array_push($this->guiAreas, new SequenceArea($this->plugin, $this->object));
-		array_push($this->guiAreas, new OutputArea($this->plugin, $this->object));
-		array_push($this->guiAreas, new ScoringArea($this->plugin, $this->object));
 	}
 
 	/**
@@ -191,7 +186,13 @@ class assSQLQuestionGUI extends assQuestionGUI
 		// Get the complete output code
 		$html = "";
 
-		foreach ($this->guiAreas as $guiArea)
+		// Insert the different GUIAreas
+		$guiAreas = array();
+		array_push($guiAreas, new SequenceArea($this->plugin, $this->object));
+		array_push($guiAreas, new OutputArea($this->plugin, $this->object));
+		array_push($guiAreas, new ScoringArea($this->plugin, $this->object));
+
+		foreach ($guiAreas as $guiArea)
     {
       $questionoutput .= $guiArea->getQuestionOutput();
     }
@@ -225,7 +226,13 @@ class assSQLQuestionGUI extends assQuestionGUI
 		// Get the complete output code
 		$html = "";
 
-		foreach ($this->guiAreas as $guiArea)
+		// Insert the different GUIAreas
+		$guiAreas = array();
+		array_push($guiAreas, new SequenceArea($this->plugin, $this->object));
+		array_push($guiAreas, new OutputArea($this->plugin, $this->object));
+		array_push($guiAreas, new ScoringArea($this->plugin, $this->object));
+
+		foreach ($guiAreas as $guiArea)
     {
       $html .= $guiArea->getQuestionOutput();
     }
@@ -491,8 +498,14 @@ class assSQLQuestionGUI extends assQuestionGUI
   {
     global $lng;
 
+		// Insert the different GUIAreas
+		$guiAreas = array();
+		array_push($guiAreas, new SequenceArea($this->plugin, $this->object));
+		array_push($guiAreas, new OutputArea($this->plugin, $this->object));
+		array_push($guiAreas, new ScoringArea($this->plugin, $this->object));
+
 		// Go through the different GUIAreas
-		foreach ($this->guiAreas as $guiArea)
+		foreach ($guiAreas as $guiArea)
 		{
 			$form->addItem($guiArea);
 		}

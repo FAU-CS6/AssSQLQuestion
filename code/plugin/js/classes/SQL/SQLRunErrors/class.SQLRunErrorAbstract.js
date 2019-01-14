@@ -49,4 +49,14 @@ class SQLRunErrorAbstract
   {
     return this.errorMessage;
   }
+
+  /**
+   * Return the error in the form of json
+   *
+   * @return {string} The json string
+   */
+  toJSON()
+  {
+    return JSON.stringify({"errorType": this.errorType, "errorMessage": this.errorMessage});
+  }
 }

@@ -49,6 +49,11 @@ class assSQLQuestion extends assQuestion
 	var $error_bool = false;
 
 	/**
+	 * @var string A json string containing the error of the current sql sequences 
+	 */
+	var $error = "";
+
+	/**
 	 * @var boolean A boolean indicating whether the current questions sequences have been executed (true) or not (false)
 	 */
 	var $executed_bool = false;
@@ -796,6 +801,26 @@ class assSQLQuestion extends assQuestion
 	}
 
 	/**
+	 * Sets the error json of the execution (empty for no errors that have been found)
+	 *
+	 * @param string $error The error json
+	 */
+	function setError($error)
+	{
+		$this->error = $error;
+	}
+
+	/**
+	 * Returns the error json of the execution (empty for no errors that have been found)
+	 *
+	 * @return string The error json
+	 */
+	function getError()
+	{
+		return $this->error;
+	}
+
+	/**
 	 * Returns the execution state (true for code was executed)
 	 *
 	 * @return boolean The execution state
@@ -937,15 +962,16 @@ class assSQLQuestion extends assQuestion
 																				 sequence_c,
 																				 integrity_check,
 																				 error_bool,
+																				 error,
 																				 executed_bool,
 																				 output_relation)
-			VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+			VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
 			array("integer", "text", "text",
-						"text", "integer", "integer",
+						"text", "integer", "integer", "clob",
 						"integer", "clob"),
 			array($this->getId(), $this->getSequence('sequence_a'), $this->getSequence('sequence_b'),
 						$this->getSequence('sequence_c'), $this->getIntegrityCheck(), $this->getErrorBool(),
-						$this->getExecutedBool(), $this->getOutputRelation())
+						$this->getError(), $this->getExecutedBool(), $this->getOutputRelation())
     );
 
 
@@ -997,6 +1023,7 @@ class assSQLQuestion extends assQuestion
 		$this->setSequence('sequence_c', $data_qd['sequence_c']);
 		$this->setIntegrityCheck($data_qd['integrity_check']);
 		$this->setErrorBool($data_qd['error_bool']);
+		$this->setError($data_qd['error']);
 		$this->setExecutedBool($data_qd['executed_bool']);
 		$this->setOutputRelation($data_qd['output_relation']);
 

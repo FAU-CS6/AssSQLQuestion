@@ -16,9 +16,18 @@ class IntegrityCheck extends GUIElement
    */
   public function getEditOutput()
   {
+    // Get any default data
+    $integrity_check = $this->object->getIntegrityCheck();
+
+    // If there is $_POST data use that
+    if(isset($_POST["integrity_check"]))
+    {
+      $integrity_check = $_POST["integrity_check"] == "1";
+    }
+
 		$tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_integrity_check_input.html');
     $tpl->setVariable("HEADER", $this->plugin->txt('ai_sea_eo_ic'));
-    $tpl->setVariable("CHECKED", "");
+    $tpl->setVariable("CHECKED", $integrity_check ? "checked" : "");
     return $tpl->get();
   }
 

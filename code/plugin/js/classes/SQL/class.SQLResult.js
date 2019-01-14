@@ -1,18 +1,18 @@
 /**
- * @file A class representing a single sql result set
+ * @file A class representing a single SQL result set
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  * @version 0.1
  */
 
 /**
- * A single sql result set
+ * A single SQL result set
  * Used to be prepared for changes of sql framework - abstracts the results and offers functions on them
  */
 class SQLResult
 {
   /**
-   * Constructor of sqlResult
-   * Creates an sqlResult out of the complex result array sql.js returns
+   * Constructor of SQLResult
+   * Creates an SQLResult out of the complex result array sql.js returns
    *
    * @param {Array} resultArray The array of a single sql.js result
    */
@@ -26,7 +26,7 @@ class SQLResult
   }
 
   /**
-   * Return the sqlResult in the form of json
+   * Return the SQLResult in the form of json
    *
    * @return {string} The json string
    */
@@ -36,7 +36,7 @@ class SQLResult
   }
 
   /**
-   * Return the sqlResult in the form of a html table
+   * Return the SQLResult in the form of a html table
    *
    * @return {string} The HTML code of the table
    */

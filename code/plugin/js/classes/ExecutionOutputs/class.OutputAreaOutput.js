@@ -32,9 +32,10 @@
    onExecution()
    {
      // Set the hidden fields
-     document.getElementById('qpisql-error-bool').value="false";
-     document.getElementById('qpisql-executed-bool').value="false";
-     document.getElementById('qpisql-output-relation').value="";
+     document.getElementById('qpisql-error-bool').value = "false";
+     document.getElementById('qpisql-error').value = "";
+     document.getElementById('qpisql-executed-bool').value = "false";
+     document.getElementById('qpisql-output-relation').value = "";
 
      // Set the other two qpisql-inner-output-areas to be hidden and emtpy
      // In this case the error output area
@@ -56,9 +57,10 @@
    onError(error)
    {
      // Set the hidden fields
-     document.getElementById('qpisql-error-bool').value="true";
-     document.getElementById('qpisql-executed-bool').value="false";
-     document.getElementById('qpisql-output-relation').value="";
+     document.getElementById('qpisql-error-bool').value = "true";
+     document.getElementById('qpisql-error').value = error.toJSON();
+     document.getElementById('qpisql-executed-bool').value = "false";
+     document.getElementById('qpisql-output-relation').value = "";
 
      // Set the other two qpisql-inner-output-areas to be hidden and emtpy
      // In this case the execution running output area
@@ -80,9 +82,10 @@
    onResult(result)
    {
      // Set the hidden fields
-     document.getElementById('qpisql-error-bool').value="false";
-     document.getElementById('qpisql-executed-bool').value="true";
-     document.getElementById('qpisql-output-relation').value=result.toJSON();
+     document.getElementById('qpisql-error-bool').value = "false";
+     document.getElementById('qpisql-error').value = "";
+     document.getElementById('qpisql-executed-bool').value = "true";
+     document.getElementById('qpisql-output-relation').value = result.toJSON();
 
      // Set the other two qpisql-inner-output-areas to be hidden and emtpy
      // In this case the execution running output area

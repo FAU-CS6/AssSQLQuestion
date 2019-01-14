@@ -41,4 +41,14 @@ class SQLRunErrorRunningSequence extends SQLRunErrorAbstract
   {
     return "(" + this.sequence + ") " + error_running_sequence + " <i>" + this.errorMessage + "</i>";
   }
+
+  /**
+   * Return the error in the form of json
+   *
+   * @return {string} The json string
+   */
+  toJSON()
+  {
+    return JSON.stringify({"errorType": this.errorType, "errorMessage": this.errorMessage, "sequence": this.sequence});
+  }
 }

@@ -16,11 +16,20 @@ class SequenceB extends GUIElement
    */
   public function getEditOutput()
   {
+    // Get any default data
+    $sequence_b = $this->object->getSequence('sequence_b');
+
+    // If there is $_POST data use that
+    if(isset($_POST["sequence_b"]))
+    {
+      $sequence_b = $_POST["sequence_b"];
+    }
+
 		$tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_sequence_input.html');
     $tpl->setVariable("HEADER", $this->plugin->txt('ai_sea_eo_seq_b'));
     $tpl->setVariable("ID", 'sequence_b');
     $tpl->setVariable("NAME", 'sequence_b');
-    $tpl->setVariable("CONTENT", $this->object->getSequence('sequence_b'));
+    $tpl->setVariable("CONTENT", $sequence_b);
     return $tpl->get();
   }
 

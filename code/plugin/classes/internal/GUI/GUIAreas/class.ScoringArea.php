@@ -62,7 +62,7 @@ class ScoringArea extends GUIArea
  		 if(isset($_POST["points_result_lines"]) && $_POST["points_result_lines"] > 0)
  		 {
  			 // $this->setAlert($this->plugin->txt('ai_sca_eo_error'));
- 			 return false;
+ 			 // return false;
  		 }
 
  		 return true;
