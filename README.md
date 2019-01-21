@@ -18,4 +18,3 @@ This wiki can be found at the `/docs` folder. Its main pages are:
 
 - [Installation](docs/installation.md)
 - [CI setup](docs/ci-setup.md)
-- [Mirror repository](docs/mirror-repository.md)

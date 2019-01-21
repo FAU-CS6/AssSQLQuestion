@@ -38,6 +38,6 @@ The default login credentials are:
 
 |Username|Password|
 |:-:|:-:|
-|root|homer|
+|root|homer123|
 
 After start the plugin has to be activate like described above.

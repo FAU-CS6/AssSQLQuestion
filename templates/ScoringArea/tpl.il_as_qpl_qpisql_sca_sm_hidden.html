@@ -1,0 +1,12 @@
+<div class="qpisql-input-area">
+
+  <input type="hidden" name="value_{TYPE}" id="qpisql-scoring-metric-value-{TYPE}" value="{VALUE}" />
+
+  <script>
+    // Create an ExecutionOutput out of this
+    window.EXECUTE_HANDLER.registerOutput(
+      new ScoringMetricOutputQuestion("{TYPE}", {GETTER})
+    );
+  </script>
+
+</div>
