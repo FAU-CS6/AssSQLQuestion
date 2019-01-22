@@ -1,5 +1,6 @@
 <?php
 
+require_once "internal/GUI/GUIAreas/class.QuestionArea.php";
 require_once "internal/GUI/GUIAreas/class.SequenceArea.php";
 require_once "internal/GUI/GUIAreas/class.OutputArea.php";
 require_once "internal/GUI/GUIAreas/class.ScoringArea.php";
@@ -140,6 +141,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 			// Insert the different GUIAreas
 			$guiAreas = array();
+			array_push($guiAreas, new QuestionArea($this->plugin, $this->object));
 			array_push($guiAreas, new SequenceArea($this->plugin, $this->object));
 			array_push($guiAreas, new OutputArea($this->plugin, $this->object));
 			array_push($guiAreas, new ScoringArea($this->plugin, $this->object));
@@ -183,6 +185,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		// Insert the different GUIAreas
 		$guiAreas = array();
+		array_push($guiAreas, new QuestionArea($this->plugin, $this->object));
 		array_push($guiAreas, new SequenceArea($this->plugin, $this->object));
 		array_push($guiAreas, new OutputArea($this->plugin, $this->object));
 		array_push($guiAreas, new ScoringArea($this->plugin, $this->object));
@@ -223,6 +226,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		// Insert the different GUIAreas
 		$guiAreas = array();
+		array_push($guiAreas, new QuestionArea($this->plugin, $this->object));
 		array_push($guiAreas, new SequenceArea($this->plugin, $this->object));
 		array_push($guiAreas, new OutputArea($this->plugin, $this->object));
 		array_push($guiAreas, new ScoringArea($this->plugin, $this->object));
@@ -495,6 +499,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		// Insert the different GUIAreas
 		$guiAreas = array();
+		array_push($guiAreas, new QuestionArea($this->plugin, $this->object));
 		array_push($guiAreas, new SequenceArea($this->plugin, $this->object));
 		array_push($guiAreas, new OutputArea($this->plugin, $this->object));
 		array_push($guiAreas, new ScoringArea($this->plugin, $this->object));

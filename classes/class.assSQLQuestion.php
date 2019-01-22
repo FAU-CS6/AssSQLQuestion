@@ -932,7 +932,7 @@ class assSQLQuestion extends assQuestion
 			{
 				if($solution_metric->getType() == $this->solution_metrics[$i]->getType())
 				{
-					array_splice($this->solution_metrics, $i, $i);
+					array_splice($this->solution_metrics, $i, 1);
 				}
 			}
 

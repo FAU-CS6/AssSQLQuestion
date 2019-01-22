@@ -2,12 +2,16 @@
 require_once __DIR__.'/../../class.GUIElement.php';
 
 /**
- * Represents the info area GUIElement
+ * Represents the question area GUIElement
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  */
-class SequenceInfo extends GUIElement
+class QuestionText extends GUIElement
 {
+  /*
+   * Functions used to get the html code for edit, question and solution output
+   */
+
   /**
    * Returns the html output of the GUI element tailored for the edit page
    *
@@ -16,9 +20,7 @@ class SequenceInfo extends GUIElement
    */
   public function getEditOutput()
   {
-		$tpl = $this->plugin->getTemplate('Mixed/tpl.il_as_qpl_qpisql_m_info.html');
-    $tpl->setVariable("INFO", $this->plugin->txt('ai_sea_eo_info'));
-    return $tpl->get();
+    return "";
   }
 
   /**
@@ -29,7 +31,9 @@ class SequenceInfo extends GUIElement
    */
   public function getQuestionOutput()
   {
-    return "";
+    $tpl = $this->plugin->getTemplate('Mixed/tpl.il_as_qpl_qpisql_m_info.html');
+    $tpl->setVariable("INFO", "<b>" . $this->plugin->txt('ai_sea_qo_task') . "</b><br />" . $this->object->getQuestion());
+    return $tpl->get();
   }
 
   /**
@@ -43,6 +47,10 @@ class SequenceInfo extends GUIElement
     return "";
   }
 
+  /*
+   * Functions used to write POST data to the $object
+   */
+
    /**
     * Writes the POST data of the edit page into the $object
 		*
@@ -50,7 +58,7 @@ class SequenceInfo extends GUIElement
     */
    public function writePostData()
    {
-		 // Do nothing
+     // Do nothing
    }
 }
 ?>

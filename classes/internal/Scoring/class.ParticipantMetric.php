@@ -33,7 +33,7 @@ class ParticipantMetric
   }
 
   /**
-   * Get the type of the SolutionMetric
+   * Get the type of the ParticipantMetric
    *
    * @return string The type of the ScoringMetric
    */
@@ -43,7 +43,7 @@ class ParticipantMetric
   }
 
   /**
-   * Get the value of the SolutionMetric
+   * Get the value of the ParticipantMetric
    *
    * @return string The value of the ScoringMetric
    */
