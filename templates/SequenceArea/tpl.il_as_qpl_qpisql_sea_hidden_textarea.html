@@ -1,0 +1,10 @@
+<div class="qpisql-input-area">
+
+  <textarea id="{ID}" name="{NAME}" style="display:none;">{VALUE}</textarea>
+
+  <script>
+    // Create an ExecutionInput
+    window.EXECUTE_HANDLER.registerInput(new HiddenTextareaInput("{NAME}","{ID}"));
+  </script>
+
+</div>

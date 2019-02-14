@@ -236,7 +236,7 @@ class SQLRun
     {
       return false;
     }
-
+    
     // No pattern matched, so the sequence is full of integrity
     return true;
   }

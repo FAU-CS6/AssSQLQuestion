@@ -41,7 +41,7 @@ class SequenceC extends GUIElement
    */
   public function getQuestionOutput()
   {
-    $tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_hidden_field.html');
+    $tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_hidden_textarea.html');
     $tpl->setVariable("ID", 'sequence_c');
     $tpl->setVariable("NAME", 'sequence_c');
     $tpl->setVariable("VALUE", $this->object->getSequence('sequence_c'));

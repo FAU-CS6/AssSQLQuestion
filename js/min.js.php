@@ -36,6 +36,7 @@ class Minifier
     $minifier->add(__DIR__.'/classes/ExecutionInputs/class.SequenceTextareaInput.js');
     $minifier->add(__DIR__.'/classes/ExecutionInputs/class.IntegrityCheckCheckboxInput.js');
     $minifier->add(__DIR__.'/classes/ExecutionInputs/class.HiddenFieldInput.js');
+    $minifier->add(__DIR__.'/classes/ExecutionInputs/class.HiddenTextareaInput.js');
 
     // ExecutionOutputs
     $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.ExecutionOutput.js');
