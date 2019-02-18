@@ -32,7 +32,7 @@ abstract class ScoringMetric
    */
   protected static function getEditPageInfo($plugin)
   {
-    return "This is an abstract scoring metric that should never be used";
+    throw new Exception("This is an abstract method that should never be used - Has to be implemented by a subclass");
   }
 
   /**
@@ -234,6 +234,19 @@ abstract class ScoringMetric
       new ParticipantMetric(static::$type, // type
                             (string) $_POST["value_".static::$type]) // value
     );
+  }
+
+  /**
+   * Calculate the reached points out of a metric
+   *
+   * @param SolutionMetric[] $solution_metrics The suiting solution metric array (with the pattern solution values)
+   * @param ParticipantMetric[] $participant_metrics The participant metric array to be evaluated
+   * @return float The reached points
+   * @access protected
+   */
+  public static function calculateReachedPoints($solution_metrics, $participant_metrics)
+  {
+    throw new Exception("This is an abstract method that should never be used - Has to be implemented by a subclass");
   }
 }
 ?>

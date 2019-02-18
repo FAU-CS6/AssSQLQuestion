@@ -28,5 +28,29 @@ class ResultLines extends ScoringMetric
   {
     return $plugin->txt('ai_sca_eo_sm_rl_info');
   }
+
+  /**
+   * Calculate the reached points out of a metric
+   *
+   * @param SolutionMetric[] $solution_metrics The suiting solution metric array (with the pattern solution values)
+   * @param ParticipantMetric[] $participant_metrics The participant metric array to be evaluated
+   * @return float The reached points
+   * @access protected
+   */
+  public static function calculateReachedPoints($solution_metrics, $participant_metrics)
+  {
+    // Get the suiting solution and participant metric
+    $solution_metric = static::getSolutionMetric($solution_metrics);
+    $participant_metric = static::getParticipantMetric($participant_metrics);
+
+    // In this Scoring metric the participant metrics value has to be exactly the value of the solution
+    // metric for the participant to receive any points
+    if($solution_metric->getValue() == $participant_metric->getValue())
+    {
+      return $solution_metric->getPoints();
+    }
+
+    return 0;
+  }
 }
 ?>

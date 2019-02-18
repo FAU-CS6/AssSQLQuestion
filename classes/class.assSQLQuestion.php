@@ -7,6 +7,7 @@ require_once "internal/GUI/GUIAreas/class.QuestionArea.php";
 require_once "internal/GUI/GUIAreas/class.SequenceArea.php";
 require_once "internal/GUI/GUIAreas/class.OutputArea.php";
 require_once "internal/GUI/GUIAreas/class.ScoringArea.php";
+require_once "internal/Scoring/ScoringMetrics/ResultLines/class.ResultLines.php";
 
 /**
  * Main defintion of the SQLQuestion plugin
@@ -505,20 +506,22 @@ class assSQLQuestion extends assQuestion
 	 * Calculate the reached points from a solution array
 	 *
 	 * @param	array	('value1' => string, 'value2' => float)
-	 * @return  float	reached points
+	 * @return float The reached points
 	 */
 	protected function calculateReachedPointsForSolution($solution)
 	{
-		// in our example we take the points entered by the student
-		// and adjust them to be in the allowed range
-		$points = (float) $solution['value2'];
-		if ($points <= 0 || $points > $this->getMaximumPoints())
-		{
-			$points = 0;
-		}
+		// Transform value1 of solution into a ParticipantInput
+		$participant_input = isset($solution["value1"]) ? ParticipantInput::fromJSON($solution["value1"]) : new ParticipantInput();
 
-		// return the raw points given to the answer
-		// these points will afterwards be adjusted by the scoring options of a test
+		// Extract the participant metrics array out of $participant_input
+		$participant_metrics = $participant_input->getAllParticipantMetrics();
+
+		// Initialize the points with zero
+		$points = 0;
+
+		// Go through the different ScoringMetrics and sum there points up
+		$points += ResultLines::calculateReachedPoints($this->solution_metrics, $participant_metrics);
+
 		return $points;
 	}
 
