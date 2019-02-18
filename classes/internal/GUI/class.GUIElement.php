@@ -45,18 +45,20 @@ abstract class GUIElement
   /**
    * Returns the html output of the GUI element tailored for the question output page
    *
+	 * @param ParticipantInput $participant_input A ParticipantInput object containing the existing data
    * @return string The html code of the GUI element
    * @access public
    */
-  abstract public function getQuestionOutput();
+  abstract public function getQuestionOutput($participant_input);
 
   /**
    * Returns the html output of the GUI element tailored for the solution output page
    *
+	 * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  abstract public function getSolutionOutput();
+  abstract public function getSolutionOutput($participant_input);
 
 	/**
    * Functions to handle POST data
@@ -68,5 +70,13 @@ abstract class GUIElement
 		* @access public
     */
    abstract public function writePostData();
+
+	 /**
+	  * Writes the POST data of a participants input into a ParticipantInput object
+		*
+		* @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
+		* @access public
+		*/
+	 abstract public function writeParticipantInput($participant_input);
 }
 ?>

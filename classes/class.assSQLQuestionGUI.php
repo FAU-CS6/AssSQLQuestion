@@ -1,9 +1,9 @@
 <?php
-
 require_once "internal/GUI/GUIAreas/class.QuestionArea.php";
 require_once "internal/GUI/GUIAreas/class.SequenceArea.php";
 require_once "internal/GUI/GUIAreas/class.OutputArea.php";
 require_once "internal/GUI/GUIAreas/class.ScoringArea.php";
+require_once "internal/DataStructures/class.ParticipantInput.php";
 
 /**
  * GUI class of the SQLQuestion plugin
@@ -175,6 +175,12 @@ class assSQLQuestionGUI extends assQuestionGUI
 	 */
 	public function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_specific_inline_feedback = FALSE)
 	{
+		// Get the stored solution
+		$solution = $this->object->getSolutionStored($active_id, $pass, null);
+
+		// Transform value1 into a ParticipantInput
+		$participant_input = isset($solution["value1"]) ? ParticipantInput::fromJSON($solution["value1"]) : new ParticipantInput();
+
 		// Prepare the template
 		$this->prepareTemplate();
 
@@ -192,7 +198,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		foreach ($guiAreas as $guiArea)
     {
-      $questionoutput .= $guiArea->getQuestionOutput();
+      $questionoutput .= $guiArea->getQuestionOutput($participant_input);
     }
 
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
@@ -218,6 +224,9 @@ class assSQLQuestionGUI extends assQuestionGUI
 			$solution = array('value1' => null, 'value2' => null);
 		}
 
+		// Transform value1 into a ParticipantInput
+		$participant_input = isset($solution["value1"]) ? ParticipantInput::fromJSON($solution["value1"]) : new ParticipantInput();
+
 		// Prepare the template
 		$this->prepareTemplate();
 
@@ -233,7 +242,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		foreach ($guiAreas as $guiArea)
     {
-      $html .= $guiArea->getQuestionOutput();
+      $html .= $guiArea->getQuestionOutput($participant_input);
     }
 
 		return $html;

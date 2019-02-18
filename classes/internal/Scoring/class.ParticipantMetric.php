@@ -33,6 +33,19 @@ class ParticipantMetric
   }
 
   /**
+   * Serialize a ParticipantMetric object to a JSON string
+   *
+   * @return string The JSON string
+   */
+  function toJSON()
+  {
+    // To use json_encode we need an array containing the values of the object
+    $arr = array('type' => $this->type, 'value' => $this->value);
+
+    return json_encode($arr);
+  }
+
+  /**
    * Get the type of the ParticipantMetric
    *
    * @return string The type of the ScoringMetric

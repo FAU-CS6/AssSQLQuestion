@@ -37,15 +37,16 @@ class ScoringMetrics extends GUIElement
   /**
    * Returns the html output of the GUI element tailored for the question output page
    *
+   * @param ParticipantInput $participant_input A ParticipantInput object containing the existing data
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getQuestionOutput()
+  public function getQuestionOutput($participant_input)
   {
     $html = "";
 
     // Add the html code of all ScoringMetrics
-    $html .= ResultLines::getQuestionOutput($this->plugin, $this->object);
+    $html .= ResultLines::getQuestionOutput($this->plugin, $this->object, $participant_input);
 
     return $html;
   }
@@ -53,15 +54,16 @@ class ScoringMetrics extends GUIElement
   /**
    * Returns the html output of the GUI element tailored for the solution output page
    *
+   * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput()
+  public function getSolutionOutput($participant_input)
   {
     $html = "";
 
     // Add the html code of all ScoringMetrics
-    $html .= ResultLines::getSolutionOutput($this->plugin, $this->object);
+    $html .= ResultLines::getSolutionOutput($this->plugin, $this->object, $participant_input);
 
     return $html;
   }
@@ -77,12 +79,20 @@ class ScoringMetrics extends GUIElement
     */
    public function writePostData()
    {
-     $html = "";
-
-     // Add the html code of all ScoringMetrics
-     $html .= ResultLines::writePostData($this->plugin, $this->object);
-
-     return $html;
+     // Write the POST data in every ScoringMetric
+     ResultLines::writePostData($this->plugin, $this->object);
    }
+
+   /**
+	  * Writes the POST data of a participants input into a ParticipantInput object
+		*
+		* @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
+    * @access public
+		*/
+	 public function writeParticipantInput($participant_input)
+	 {
+     // Write the POST data in every ScoringMetric
+     ResultLines::writeParticipantInput($participant_input);
+ 	 }
 }
 ?>

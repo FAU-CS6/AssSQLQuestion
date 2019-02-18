@@ -53,16 +53,33 @@ class Output extends GUIElement
   /**
    * Returns the html output of the GUI element tailored for the question output page
    *
+   * @param ParticipantInput $participant_input A ParticipantInput object containing the existing data
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getQuestionOutput()
+  public function getQuestionOutput($participant_input)
   {
+    // Get any default data
+    $error_bool = $participant_input->getErrorBool() ? "true" : "false";
+    $error = $participant_input->getError();
+    $executed_bool = $participant_input->getExecutedBool() ? "true" : "false";
+    $output_relation = $participant_input->getOutputRelation();
+
+    // If there is $_POST data use that
+    if(isset($_POST["error_bool"]) && isset($_POST["error"]) &&
+       isset($_POST["executed_bool"]) && isset($_POST["output_relation"]))
+    {
+      $error_bool = $_POST["error_bool"];
+      $error = $_POST["error"];
+      $executed_bool = $_POST["executed_bool"];
+      $output_relation = $_POST["output_relation"];
+    }
+
     $tpl = $this->plugin->getTemplate('OutputArea/tpl.il_as_qpl_qpisql_oa_output.html');
-		$tpl->setVariable("ERROR_BOOL", "");
-    $tpl->setVariable("ERROR", "");
-    $tpl->setVariable("EXECUTED_BOOL", "");
-    $tpl->setVariable("OUTPUT_RELATION", "");
+		$tpl->setVariable("ERROR_BOOL", $error_bool);
+    $tpl->setVariable("ERROR", $error);
+    $tpl->setVariable("EXECUTED_BOOL", $executed_bool);
+    $tpl->setVariable("OUTPUT_RELATION", $output_relation);
     $tpl->setVariable("STATUS_EXECUTION_RUNNING", $this->plugin->txt('ai_oa_st_run'));
     $tpl->setVariable("ERROR_NO_EXECUTION", $this->plugin->txt('ai_oa_er_no_exec'));
     $tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('ai_oa_er_db_crea'));
@@ -75,10 +92,11 @@ class Output extends GUIElement
   /**
    * Returns the html output of the GUI element tailored for the solution output page
    *
+   * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput()
+  public function getSolutionOutput($participant_input)
   {
     return "";
   }
@@ -99,5 +117,19 @@ class Output extends GUIElement
      $this->object->setExecutedBool($_POST["executed_bool"] == "true" ? true : false);
      $this->object->setOutputRelation((string) $_POST["output_relation"]);
    }
+
+   /**
+	  * Writes the POST data of a participants input into a ParticipantInput object
+		*
+		* @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
+    * @access public
+		*/
+	 public function writeParticipantInput($participant_input)
+	 {
+     $participant_input->setErrorBool($_POST["error_bool"] == "true" ? true : false);
+     $participant_input->setError((string) $_POST["error"]);
+     $participant_input->setExecutedBool($_POST["executed_bool"] == "true" ? true : false);
+     $participant_input->setOutputRelation((string) $_POST["output_relation"]);
+ 	 }
 }
 ?>

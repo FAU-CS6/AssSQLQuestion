@@ -2,6 +2,11 @@
 require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 require_once "internal/Scoring/class.ScoringMetric.php";
 require_once "internal/Scoring/class.SolutionMetric.php";
+require_once "internal/DataStructures/class.ParticipantInput.php";
+require_once "internal/GUI/GUIAreas/class.QuestionArea.php";
+require_once "internal/GUI/GUIAreas/class.SequenceArea.php";
+require_once "internal/GUI/GUIAreas/class.OutputArea.php";
+require_once "internal/GUI/GUIAreas/class.ScoringArea.php";
 
 /**
  * Main defintion of the SQLQuestion plugin
@@ -406,7 +411,8 @@ class assSQLQuestion extends assQuestion
 
 
 	/**
-	 * Get a submitted solution array from $_POST
+	 * Get a submitted solution array by generating a new ParticipantInput object,
+	 * passing it to the GUIAreas and let them fill it.
 	 *
 	 * In general this may return any type that can be stored in a php session
 	 * The return value is used by:
@@ -414,16 +420,32 @@ class assSQLQuestion extends assQuestion
 	 * 		saveWorkingData()
 	 * 		calculateReachedPointsForSolution()
 	 *
-	 * @return	array	('value1' => string|null, 'value2' => float|null)
+	 * @return array ('value1' => string|null, 'value2' => float|null) - 'value1' contains the ParticipantInput object serialized to JSON
 	 */
 	protected function getSolutionSubmit()
 	{
-		$value1 = trim(ilUtil::stripSlashes($_POST['question'.$this->getId().'value1']));
-		$value2 = trim(ilUtil::stripSlashes($_POST['question'.$this->getId().'value2']));
+		// Create a new ParticipantInput
+		$participant_input = new ParticipantInput();
+
+		// Insert the different GUIAreas
+		$guiAreas = array();
+		array_push($guiAreas, new QuestionArea($this->plugin, $this));
+		array_push($guiAreas, new SequenceArea($this->plugin, $this));
+		array_push($guiAreas, new OutputArea($this->plugin, $this));
+		array_push($guiAreas, new ScoringArea($this->plugin, $this));
+
+		// Go through the different GUIAreas
+		foreach ($guiAreas as $guiArea)
+		{
+			$guiArea->writeParticipantInput($participant_input);
+		}
+
+		// Set value1 to be $participant_input serialized to JSON
+		$value1 = $participant_input->toJSON();
 
 		return array(
 			'value1' => empty($value1)? null : (string) $value1,
-			'value2' => empty($value2)? null : (float) $value2
+			'value2' => null
 		);
 	}
 
@@ -636,7 +658,7 @@ class assSQLQuestion extends assQuestion
 	 */
 	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
-		// normally nothing needs to be reworked
+		// usually nothing needs to be reworked
 	}
 
 
@@ -720,7 +742,7 @@ class assSQLQuestion extends assQuestion
  	 * Returns the requested sequence (Either sequence_a, sequence_b or sequence_c)
  	 *
 	 * @param string $sequence_name The name of the requested sequence
- 	 * @return string The first sql sequence
+ 	 * @return string The requested sql sequence
  	 */
  	function getSequence($sequence_name)
  	{
@@ -741,7 +763,7 @@ class assSQLQuestion extends assQuestion
  	 * Sets a sequence (Either sequence_a, sequence_b or sequence_c)
  	 *
 	 * @param string $sequence_name The name of the sequence
- 	 * @param string $sequence The first sql sequence
+ 	 * @param string $sequence The requested sql sequence
  	 */
  	function setSequence($sequence_name, $sequence)
  	{
@@ -802,16 +824,6 @@ class assSQLQuestion extends assQuestion
 	}
 
 	/**
-	 * Sets the error json of the execution (empty for no errors that have been found)
-	 *
-	 * @param string $error The error json
-	 */
-	function setError($error)
-	{
-		$this->error = $error;
-	}
-
-	/**
 	 * Returns the error json of the execution (empty for no errors that have been found)
 	 *
 	 * @return string The error json
@@ -819,6 +831,16 @@ class assSQLQuestion extends assQuestion
 	function getError()
 	{
 		return $this->error;
+	}
+
+	/**
+	 * Sets the error json of the execution (empty for no errors that have been found)
+	 *
+	 * @param string $error The error json
+	 */
+	function setError($error)
+	{
+		$this->error = $error;
 	}
 
 	/**
@@ -922,6 +944,8 @@ class assSQLQuestion extends assQuestion
 
 	/**
 	 * Save a single SolutionMetric
+	 *
+   * @param SolutionMetric $solution_metric The SolutionMetric to be set
 	 */
 	function setSingleSolutionMetric($solution_metric)
 	{

@@ -162,11 +162,24 @@ abstract class ScoringMetric
    *
    * @param ilassSQLQuestionPlugin $plugin The plugin object
    * @param assSQLQuestion $object The question object
+   * @param ParticipantInput $participant_input A ParticipantInput object containing the existing data
    * @return string The html code of the GUI element
    * @access public
    */
-  public static function getQuestionOutput($plugin, $object)
+  public static function getQuestionOutput($plugin, $object, $participant_input)
   {
+    // Get the suiting participant_metric
+    $participant_metric = static::getParticipantMetric($participant_input->getAllParticipantMetrics());
+
+    // Set the default value
+    $value = $participant_metric->getValue();
+
+    // If there exsists a POST value use that instead
+    if(isset($_POST["value_".static::$type]))
+    {
+      $value = (string) $_POST["value_".static::$type];
+    }
+
     $tpl = $plugin->getTemplate('ScoringArea/tpl.il_as_qpl_qpisql_sca_sm_hidden.html');
 
     // Set the type an the getter
@@ -174,7 +187,7 @@ abstract class ScoringMetric
     $tpl->setVariable("GETTER", static::$getter);
 
     // Set the default Value
-    $tpl->setVariable("VALUE", "false");
+    $tpl->setVariable("VALUE", $participant_metric->getValue());
 
     return $tpl->get();
   }
@@ -184,10 +197,11 @@ abstract class ScoringMetric
    *
    * @param ilassSQLQuestionPlugin $plugin The plugin object
    * @param assSQLQuestion $object The question object
+   * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  public static function getSolutionOutput($plugin, $object)
+  public static function getSolutionOutput($plugin, $object, $participant_input)
   {
     return "";
   }
@@ -204,7 +218,21 @@ abstract class ScoringMetric
     $object->setSingleSolutionMetric(
       new SolutionMetric(static::$type, // type
                          (integer) $_POST["points_".static::$type], // points
-                         (string) $_POST["value_".static::$type]) //value
+                         (string) $_POST["value_".static::$type]) // value
+    );
+  }
+
+  /**
+   * Writes the POST data of a participants input into a ParticipantInput object
+   *
+   * @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
+   * @access public
+   */
+  public static function writeParticipantInput($participant_input)
+  {
+    $participant_input->setSingleParticipantMetric(
+      new ParticipantMetric(static::$type, // type
+                            (string) $_POST["value_".static::$type]) // value
     );
   }
 }

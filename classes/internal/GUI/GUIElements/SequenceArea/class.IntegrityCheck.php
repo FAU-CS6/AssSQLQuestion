@@ -34,10 +34,11 @@ class IntegrityCheck extends GUIElement
   /**
    * Returns the html output of the GUI element tailored for the question output page
    *
+   * @param ParticipantInput $participant_input A ParticipantInput object containing the existing data
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getQuestionOutput()
+  public function getQuestionOutput($participant_input)
   {
     $tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_hidden_field.html');
     $tpl->setVariable("ID", 'integrity_check');
@@ -49,10 +50,11 @@ class IntegrityCheck extends GUIElement
   /**
    * Returns the html output of the GUI element tailored for the solution output page
    *
+   * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput()
+  public function getSolutionOutput($participant_input)
   {
     return "";
   }
@@ -66,5 +68,16 @@ class IntegrityCheck extends GUIElement
    {
 		 $this->object->setIntegrityCheck(isset($_POST["integrity_check"]) && $_POST["integrity_check"] == "1");
    }
+
+   /**
+	  * Writes the POST data of a participants input into a ParticipantInput object
+		*
+		* @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
+    * @access public
+		*/
+	 public function writeParticipantInput($participant_input)
+	 {
+     // Do nothing
+ 	 }
 }
 ?>

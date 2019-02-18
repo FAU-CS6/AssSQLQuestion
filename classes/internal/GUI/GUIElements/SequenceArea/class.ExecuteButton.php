@@ -24,10 +24,11 @@ class ExecuteButton extends GUIElement
   /**
    * Returns the html output of the GUI element tailored for the question output page
    *
+   * @param ParticipantInput $participant_input A ParticipantInput object containing the existing data
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getQuestionOutput()
+  public function getQuestionOutput($participant_input)
   {
     $tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_execute_button.html');
 		$tpl->setVariable("BUTTONTEXT", $this->plugin->txt('ai_sea_exec_text'));
@@ -37,10 +38,11 @@ class ExecuteButton extends GUIElement
   /**
    * Returns the html output of the GUI element tailored for the solution output page
    *
+   * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput()
+  public function getSolutionOutput($participant_input)
   {
     return "";
   }
@@ -54,5 +56,16 @@ class ExecuteButton extends GUIElement
    {
 		 // Do nothing
    }
+
+   /**
+	  * Writes the POST data of a participants input into a ParticipantInput object
+		*
+		* @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
+    * @access public
+		*/
+	 public function writeParticipantInput($participant_input)
+	 {
+     // Do nothing
+ 	 }
 }
 ?>

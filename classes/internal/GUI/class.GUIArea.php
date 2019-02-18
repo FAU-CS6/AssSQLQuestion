@@ -80,16 +80,17 @@ abstract class GUIArea extends ilCustomInputGUI
   /**
    * Returns the html output of the GUI element tailored for the question output page
    *
+	 * @param ParticipantInput $participant_input A ParticipantInput object containing the existing data
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getQuestionOutput()
+  public function getQuestionOutput($participant_input)
   {
 		$html = "";
 
     foreach ($this->subelements as $subelement)
     {
-      $html .= $subelement->getQuestionOutput();
+      $html .= $subelement->getQuestionOutput($participant_input);
     }
 
 		return $html;
@@ -98,16 +99,17 @@ abstract class GUIArea extends ilCustomInputGUI
   /**
    * Returns the html output of the GUI element tailored for the solution output page
    *
+	 * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput()
+  public function getSolutionOutput($participant_input)
   {
 		$html = "";
 
     foreach ($this->subelements as $subelement)
     {
-      $html .= $subelement->getSolutionOutput();
+      $html .= $subelement->getSolutionOutput($participant_input);
     }
 
 		return $html;
@@ -131,6 +133,19 @@ abstract class GUIArea extends ilCustomInputGUI
    }
 
 	 /**
+	  * Writes the POST data of a participants input into a ParticipantInput object
+		*
+		* @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
+		*/
+	 public function writeParticipantInput($participant_input)
+	 {
+		 foreach ($this->subelements as $subelement)
+		 {
+			 $subelement->writeParticipantInput($participant_input);
+		 }
+ 	 }
+
+	 /**
 	 	* Functions originaly implemented in ilCustomInputGUI that need to be overwritten
     */
 
@@ -149,8 +164,6 @@ abstract class GUIArea extends ilCustomInputGUI
 
 		 return false;
 	 }
-
-
 
 }
 ?>
