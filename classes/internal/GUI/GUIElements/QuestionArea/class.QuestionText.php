@@ -46,7 +46,9 @@ class QuestionText extends GUIElement
    */
   public function getSolutionOutput($participant_input)
   {
-    return "";
+    $tpl = $this->plugin->getTemplate('Mixed/tpl.il_as_qpl_qpisql_m_info.html');
+    $tpl->setVariable("INFO", "<b>" . $this->plugin->txt('ai_sea_qo_task') . "</b><br />" . $this->object->getQuestion());
+    return $tpl->get();
   }
 
   /*

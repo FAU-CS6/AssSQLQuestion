@@ -68,7 +68,13 @@ class SequenceB extends GUIElement
    */
   public function getSolutionOutput($participant_input)
   {
-    return "";
+    // Get any default data
+    $sequence_b = $participant_input->getSequence();
+
+    $tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_sequence_output.html');
+    $tpl->setVariable("HEADER", $this->plugin->txt('ai_sea_qo_seq_b'));
+    $tpl->setVariable("CONTENT", $sequence_b);
+    return $tpl->get();
   }
 
   /*

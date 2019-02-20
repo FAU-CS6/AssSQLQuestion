@@ -274,95 +274,42 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$show_question_text = TRUE
 	)
 	{
-		// get the solution of the user for the active pass or from the last pass if allowed
+		// Initialize a ParticipantInput object with the passtern solution if this call is
+		// to display the pattern solution
+		$participant_input = new ParticipantInput();
+		$participant_input->setSequence($this->object->getSequence('sequence_b'));
+		$participant_input->setErrorBool($this->object->getErrorBool());
+		$participant_input->setError($this->object->getError());
+		$participant_input->setExecutedBool($this->object->getExecutedBool());
+		$participant_input->setOutputRelation($this->object->getOutputRelation());
+		// If we decide to show metrics later we have to add them here, too
+
+		// If we do not want to show the pattern solution override it with the participants solution
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			$solution = $this->object->getSolutionStored($active_id, $pass, true);
-			$value1 = isset($solution["value1"]) ? $solution["value1"] : "";
-			$value2 = isset($solution["value2"]) ? $solution["value2"] : "";
-		}
-		else
-		{
-			// show the correct solution
-			$value1 =  $this->plugin->txt("any_text");
-			$value2 = $this->object->getMaximumPoints();
+			$participant_input = isset($solution["value1"]) ? ParticipantInput::fromJSON($solution["value1"]) : new ParticipantInput();
 		}
 
-		// get the solution template
-		$template = $this->plugin->getTemplate("tpl.il_as_qpl_qpisql_output_solution.html");
-		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		// Prepare the template
+		$this->prepareTemplate();
 
-		if (($active_id > 0) && (!$show_correct_solution))
-		{
-			if ($graphicalOutput)
-			{
-				// copied from assNumericGUI, yet not really understood
-				if($this->object->getStep() === NULL)
-				{
-					$reached_points = $this->object->getReachedPoints($active_id, $pass);
-				}
-				else
-				{
-					$reached_points = $this->object->calculateReachedPoints($active_id, $pass);
-				}
+		// Get the complete output code
+		$html = "";
 
-				// output of ok/not ok icons for user entered solutions
-				// in this example we have ony one relevant input field (points)
-				// so we just need to set the icon beneath this field
-				// question types with partial answers may have a more complex output
-				if ($reached_points == $this->object->getMaximumPoints())
-				{
-					$template->setCurrentBlock("icon_ok");
-					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-					$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-					$template->parseCurrentBlock();
-				}
-				else
-				{
-					$template->setCurrentBlock("icon_ok");
-					$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-					$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-					$template->parseCurrentBlock();
-				}
-			}
-		}
+		// Insert the different GUIAreas
+		$guiAreas = array();
+		array_push($guiAreas, new QuestionArea($this->plugin, $this->object));
+		array_push($guiAreas, new SequenceArea($this->plugin, $this->object));
+		array_push($guiAreas, new OutputArea($this->plugin, $this->object));
+		array_push($guiAreas, new ScoringArea($this->plugin, $this->object));
 
-		// fill the template variables
-		// adapt this to your structure of answers
-		$template->setVariable("LABEL_VALUE1", $this->plugin->txt('label_value1'));
-		$template->setVariable("LABEL_VALUE2", $this->plugin->txt('label_value2'));
+		foreach ($guiAreas as $guiArea)
+    {
+      $html .= $guiArea->getSolutionOutput($participant_input);
+    }
 
-		$template->setVariable("VALUE1", empty($value1) ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" : ilUtil::prepareFormOutput($value1));
-		$template->setVariable("VALUE2", empty($value2) ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" : ilUtil::prepareFormOutput($value2));
-
-		$questiontext = $this->object->getQuestion();
-		if ($show_question_text==true)
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
-
-		$questionoutput = $template->get();
-
-		$feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getGenericFeedbackOutput($active_id, $pass) : "";
-		if (strlen($feedback))
-		{
-			$cssClass = ( $this->hasCorrectSolution($active_id, $pass) ?
-				ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
-			);
-
-			$solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-			$solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
-
-		}
-		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
-
-		$solutionoutput = $solutiontemplate->get();
-		if(!$show_question_only)
-		{
-			// get page object output
-			$solutionoutput = $this->getILIASPage($solutionoutput);
-		}
-		return $solutionoutput;
+		return $html;
 	}
 
 	/**

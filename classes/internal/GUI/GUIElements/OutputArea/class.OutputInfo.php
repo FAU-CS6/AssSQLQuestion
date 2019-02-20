@@ -46,7 +46,7 @@ class OutputInfo extends GUIElement
    */
   public function getSolutionOutput($participant_input)
   {
-    return "";
+    return "<div class='help-block'><b>" . $this->plugin->txt('ai_oa_name') . ":</b></div>";
   }
 
   /*
