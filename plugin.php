@@ -13,5 +13,3 @@ $ilias_max_version = "5.3.999";
 // Main Responsible Person
 $responsible = "Dominik Probst";
 $responsible_mail = "dominik.probst@studium.fau.de";
-
-?>

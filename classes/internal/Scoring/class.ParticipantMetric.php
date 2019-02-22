@@ -7,62 +7,61 @@
  */
 class ParticipantMetric
 {
-  /**
-   * @var string The type of the ScoringMetric (e.g. "functional_dependency")
-   */
-  var $type = "";
+    /**
+     * @var string The type of the ScoringMetric (e.g. "functional_dependency")
+     */
+    public $type = "";
 
-  /**
-   * @var string The participants value of the ScoringMetric
-   */
-  var $value = "";
+    /**
+     * @var string The participants value of the ScoringMetric
+     */
+    public $value = "";
 
-  /**
-   * Constructor
-   *
-   * The construtor of a single ParticipantMetric
-   *
-   * @param string $type The type of the ScoringMetric (e.g. "functional_dependency")
-   * @param string $value The pattern solution value of the ScoringMetric
-   * @access public
-   */
-  function __construct($type, $value)
-  {
-    $this->type = $type;
-    $this->value = $value;
-  }
+    /**
+     * Constructor
+     *
+     * The construtor of a single ParticipantMetric
+     *
+     * @param string $type The type of the ScoringMetric (e.g. "functional_dependency")
+     * @param string $value The pattern solution value of the ScoringMetric
+     * @access public
+     */
+    public function __construct($type, $value)
+    {
+        $this->type = $type;
+        $this->value = $value;
+    }
 
-  /**
-   * Serialize a ParticipantMetric object to a JSON string
-   *
-   * @return string The JSON string
-   */
-  function toJSON()
-  {
-    // To use json_encode we need an array containing the values of the object
-    $arr = array('type' => $this->type, 'value' => $this->value);
+    /**
+     * Serialize a ParticipantMetric object to a JSON string
+     *
+     * @return string The JSON string
+     */
+    public function toJSON()
+    {
+        // To use json_encode we need an array containing the values of the object
+        $arr = array('type' => $this->type, 'value' => $this->value);
 
-    return json_encode($arr);
-  }
+        return json_encode($arr);
+    }
 
-  /**
-   * Get the type of the ParticipantMetric
-   *
-   * @return string The type of the ScoringMetric
-   */
-  function getType()
-  {
-    return $this->type;
-  }
+    /**
+     * Get the type of the ParticipantMetric
+     *
+     * @return string The type of the ScoringMetric
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 
-  /**
-   * Get the value of the ParticipantMetric
-   *
-   * @return string The value of the ScoringMetric
-   */
-  function getValue()
-  {
-    return $this->value;
-  }
+    /**
+     * Get the value of the ParticipantMetric
+     *
+     * @return string The value of the ScoringMetric
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
 }
-?>

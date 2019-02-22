@@ -11,19 +11,18 @@ include_once "./Modules/TestQuestionPool/classes/class.ilQuestionsPlugin.php";
 */
 class ilassSQLQuestionPlugin extends ilQuestionsPlugin
 {
-		final function getPluginName()
-		{
-			return "assSQLQuestion";
-		}
+    final public function getPluginName()
+    {
+        return "assSQLQuestion";
+    }
 
-		final function getQuestionType()
-		{
-			return "assSQLQuestion";
-		}
+    final public function getQuestionType()
+    {
+        return "assSQLQuestion";
+    }
 
-		final function getQuestionTypeTranslation()
-		{
-			return $this->txt('gi_name');
-		}
+    final public function getQuestionTypeTranslation()
+    {
+        return $this->txt('gi_name');
+    }
 }
-?>

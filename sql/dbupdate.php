@@ -12,20 +12,21 @@
  * First part:
  * Checking whether qpisql is register in qpl_qst_type and if not register it
  */
-$res = $ilDB->queryF("SELECT * FROM qpl_qst_type WHERE type_tag = %s",
-                     array('text'),
-                     array('assSQLQuestion'));
+$res = $ilDB->queryF(
+    "SELECT * FROM qpl_qst_type WHERE type_tag = %s",
+    array('text'),
+    array('assSQLQuestion')
+);
 
-if ($res->numRows() == 0)
-{
+if ($res->numRows() == 0) {
     $res = $ilDB->query("SELECT MAX(question_type_id) maxid FROM qpl_qst_type");
     $data = $ilDB->fetchAssoc($res);
     $max = $data["maxid"] + 1;
 
     $affectedRows = $ilDB->manipulateF(
-		    "INSERT INTO qpl_qst_type (question_type_id, type_tag, plugin) VALUES (%s, %s, %s)",
-		    array("integer", "text", "integer"),
-		    array($max, 'assSQLQuestion', 1)
+        "INSERT INTO qpl_qst_type (question_type_id, type_tag, plugin) VALUES (%s, %s, %s)",
+        array("integer", "text", "integer"),
+        array($max, 'assSQLQuestion', 1)
     );
 }
 ?>
@@ -53,9 +54,8 @@ if ($res->numRows() == 0)
  * and the output relation. See class.assSQLQuestion.php (member variables)
  * for more information
  */
-if(!$ilDB->tableExists('il_qpl_qst_qpisql_qd'))
-{
-  $fields = array(
+if (!$ilDB->tableExists('il_qpl_qst_qpisql_qd')) {
+    $fields = array(
     // The id of the question (primary key and foreign key)
     'question_fi' => array(
       'type' => 'integer',
@@ -95,8 +95,8 @@ if(!$ilDB->tableExists('il_qpl_qst_qpisql_qd'))
     )
   );
 
-  $ilDB->createTable("il_qpl_qst_qpisql_qd", $fields);
-  $ilDB->addPrimaryKey("il_qpl_qst_qpisql_qd", array("question_fi"));
+    $ilDB->createTable("il_qpl_qst_qpisql_qd", $fields);
+    $ilDB->addPrimaryKey("il_qpl_qst_qpisql_qd", array("question_fi"));
 }
 
 /**
@@ -107,9 +107,8 @@ if(!$ilDB->tableExists('il_qpl_qst_qpisql_qd'))
  * Containing all scoring metrics of a single question -
  * see class.qpisql.scoringMetric.php for more information
  */
-if(!$ilDB->tableExists('il_qpl_qst_qpisql_qsm'))
-{
-  $fields = array(
+if (!$ilDB->tableExists('il_qpl_qst_qpisql_qsm')) {
+    $fields = array(
     // The id of the question (first part of primary key and foreign key)
     'question_fi' => array(
       'type' => 'integer',
@@ -128,7 +127,7 @@ if(!$ilDB->tableExists('il_qpl_qst_qpisql_qsm'))
     ),
   );
 
-  $ilDB->createTable("il_qpl_qst_qpisql_qsm", $fields);
-  $ilDB->addPrimaryKey("il_qpl_qst_qpisql_qsm", array("question_fi","type"));
+    $ilDB->createTable("il_qpl_qst_qpisql_qsm", $fields);
+    $ilDB->addPrimaryKey("il_qpl_qst_qpisql_qsm", array("question_fi","type"));
 }
 ?>
