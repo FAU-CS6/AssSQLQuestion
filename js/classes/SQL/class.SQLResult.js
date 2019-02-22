@@ -51,7 +51,7 @@ class SQLResult
     for(var i = 0; i < this.columns.length; i++)
     {
       // Insert a new column
-      html += "<td><b>" + this.columns[i] + "</b></td>";
+      html += "<td>" + this.columns[i] + "</td>";
     }
 
     html += "</tr>";

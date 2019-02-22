@@ -28,7 +28,7 @@
   margin-top: 10px;
 }
 
-#qpisql-output-area-error {
+.qpisql-output-area-error {
   border: 1px solid rgb(208,128,128);
   background-color: #ffebeb;
   padding-left: 8px;
@@ -39,7 +39,7 @@
   line-height: 20px;
 }
 
-#qpisql-output-area-execution-running {
+.qpisql-output-area-execution-running {
   border: 1px solid rgb(204,204,204);
   background-color: #fff;
   padding-left: 8px;
@@ -58,6 +58,18 @@
   border-collapse: collapse;
 }
 
+.qpisql-output-table-header {
+  background-color: #f7f7f7;
+  color: rgb(153, 153, 153);
+  text-transform: uppercase;
+}
+
+.qpisql-output-table-header td {
+  background-color: #f7f7f7;
+  color: rgb(153, 153, 153);
+  text-transform: uppercase;
+}
+
 .qpisql-output-table tr td {
   min-width: 50px;
   padding-left: 8px;
@@ -69,9 +81,15 @@
   line-height: 20px;
 }
 
+.qpisql-output-table-tuple td {
+    background-color: #ffffff;
+}
+
+/*
 .qpisql-output-table tr:nth-child(even) {
   background-color: #f2f2f2;
 }
+*/
 
 /**
  * Custom CSS for scoring area on editQuestion page
