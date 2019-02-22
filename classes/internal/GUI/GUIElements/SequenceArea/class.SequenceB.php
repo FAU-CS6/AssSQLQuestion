@@ -88,8 +88,8 @@ class SequenceB extends GUIElement
 
     /**
      * Writes the POST data of the edit page into the $object
-         *
-         * @access public
+     *
+     * @access public
      */
     public function writePostData()
     {
@@ -97,11 +97,11 @@ class SequenceB extends GUIElement
     }
 
     /**
-       * Writes the POST data of a participants input into a ParticipantInput object
-         *
-         * @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
+     * Writes the POST data of a participants input into a ParticipantInput object
+     *
+     * @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
      * @access public
-         */
+     */
     public function writeParticipantInput($participant_input)
     {
         $participant_input->setSequence((string) $_POST['sequence_b']);

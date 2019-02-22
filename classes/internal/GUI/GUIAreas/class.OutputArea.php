@@ -47,18 +47,18 @@ class OutputArea extends GUIArea
     }
 
     /*
-        * Functions originaly implemented in ilCustomInputGUI that need to be overwritten
-    */
+     * Functions originaly implemented in ilCustomInputGUI that need to be overwritten
+     */
 
     /**
-         * Checks the input of the edit page
-         *
-         * (This is an override of the ilCustomInputGUI:checkInput() to be tailored
-         * for the sequences input area of editQuestion)
-         *
-         * @return boolean True if input is ok, False if it is not
-         * @access public
-         */
+     * Checks the input of the edit page
+     *
+     * (This is an override of the ilCustomInputGUI:checkInput() to be tailored
+     * for the sequences input area of editQuestion)
+     *
+     * @return boolean True if input is ok, False if it is not
+     * @access public
+     */
     public function checkInput()
     {
         if ((isset($_POST["error_bool"]) && $_POST["error_bool"] == "true") ||

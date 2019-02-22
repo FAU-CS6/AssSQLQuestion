@@ -20,8 +20,8 @@ abstract class ScoringMetric
     protected static $type = "abstract";
 
     /**
-       * @var string The Javascript funtion to get the value of the sm out of a result
-       */
+     * @var string The Javascript funtion to get the value of the sm out of a result
+     */
     protected static $getter = "function(result) { return 'abstract'; }";
 
     /**

@@ -46,24 +46,20 @@ class ScoringArea extends GUIArea
         $this->setHTML($this->getEditOutput());
     }
 
-    /*
-        * Functions originaly implemented in ilCustomInputGUI that need to be overwritten
-    */
-
     /**
-         * Checks the input of the edit page
-         *
-         * (This is an override of the ilCustomInputGUI:checkInput() to be tailored
-         * for the sequences input area of editQuestion)
-         *
-         * @return boolean True if input is ok, False if it is not
-         * @access public
-         */
+     * Checks the input of the edit page
+     *
+     * (This is an override of the ilCustomInputGUI:checkInput() to be tailored
+     * for the sequences input area of editQuestion)
+     *
+     * @return boolean True if input is ok, False if it is not
+     * @access public
+     */
     public function checkInput()
     {
         if (isset($_POST["points_result_lines"]) && $_POST["points_result_lines"] > 0) {
             // $this->setAlert($this->plugin->txt('ai_sca_eo_error'));
-             // return false;
+            // return false;
         }
 
         return true;

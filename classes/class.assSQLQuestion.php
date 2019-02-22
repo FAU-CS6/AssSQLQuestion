@@ -345,8 +345,10 @@ class assSQLQuestion extends assQuestion
 
     /**
      * Create a new original question in a question pool for a test question
+     *
      * @param int $targetParentId			id of the target question pool
      * @param string $targetQuestionTitle
+     * 
      * @return int|void
      */
     public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = '')

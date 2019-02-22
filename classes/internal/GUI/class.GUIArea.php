@@ -12,8 +12,8 @@ require_once "./Services/Form/classes/class.ilCustomInputGUI.php";
 abstract class GUIArea extends ilCustomInputGUI
 {
     /**
-       * @var ilassSQLQuestionPlugin The plugin object
-       */
+     * @var ilassSQLQuestionPlugin The plugin object
+     */
     protected $plugin = null;
 
     /**
@@ -27,12 +27,12 @@ abstract class GUIArea extends ilCustomInputGUI
     private $subelements = array();
 
     /**
-    * Constructor
-    *
-    * @param ilassSQLQuestionPlugin $plugin The plugin object
-    * @param assSQLQuestion $object The question object
-    * @access public
-    */
+     * Constructor
+     *
+     * @param ilassSQLQuestionPlugin $plugin The plugin object
+     * @param assSQLQuestion $object The question object
+     * @access public
+     */
     public function __construct($plugin, $object)
     {
         // Set plugin and object
@@ -79,7 +79,7 @@ abstract class GUIArea extends ilCustomInputGUI
     /**
      * Returns the html output of the GUI element tailored for the question output page
      *
-       * @param ParticipantInput $participant_input A ParticipantInput object containing the existing data
+     * @param ParticipantInput $participant_input A ParticipantInput object containing the existing data
      * @return string The html code of the GUI element
      * @access public
      */
@@ -97,7 +97,7 @@ abstract class GUIArea extends ilCustomInputGUI
     /**
      * Returns the html output of the GUI element tailored for the solution output page
      *
-       * @param ParticipantInput|null $participant_input A ParticipantInput object containing the participant inputs
+     * @param ParticipantInput|null $participant_input A ParticipantInput object containing the participant inputs
      * @return string The html code of the GUI element
      * @access public
      */
@@ -118,8 +118,8 @@ abstract class GUIArea extends ilCustomInputGUI
 
     /**
      * Writes the POST data of the edit page into the $object
-         *
-         * @access public
+     *
+     * @access public
      */
     public function writePostData()
     {
@@ -130,9 +130,9 @@ abstract class GUIArea extends ilCustomInputGUI
 
     /**
      * Writes the POST data of a participants input into a ParticipantInput object
-       *
-       * @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
-       */
+     *
+     * @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
+     */
     public function writeParticipantInput($participant_input)
     {
         foreach ($this->subelements as $subelement) {
@@ -141,18 +141,18 @@ abstract class GUIArea extends ilCustomInputGUI
     }
 
     /**
-        * Functions originaly implemented in ilCustomInputGUI that need to be overwritten
-    */
+     * Functions originaly implemented in ilCustomInputGUI that need to be overwritten
+     */
 
     /**
-         * Checks the input of the edit page
-         *
-         * (This is an override of the ilCustomInputGUI:checkInput() to be tailored
-         * for the sequences input area of editQuestion)
-         *
-         * @return boolean True if input is ok, False if it is not
+     * Checks the input of the edit page
+     *
+     * (This is an override of the ilCustomInputGUI:checkInput() to be tailored
+     * for the sequences input area of editQuestion)
+     *
+     * @return boolean True if input is ok, False if it is not
      * @access public
-         */
+     */
     public function checkInput()
     {
         throw new Exception("It is necessary to override checkInput in every GUIArea");

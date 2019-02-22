@@ -17,12 +17,12 @@ abstract class GUIElement
     protected $object = null;
 
     /**
-    * Constructor
-    *
-    * @param ilassSQLQuestionPlugin $plugin The plugin object
-    * @param assSQLQuestion $object The question object
-    * @access public
-    */
+     * Constructor
+     *
+     * @param ilassSQLQuestionPlugin $plugin The plugin object
+     * @param assSQLQuestion $object The question object
+     * @access public
+     */
     public function __construct($plugin, $object)
     {
         // Set plugin and object
@@ -45,7 +45,7 @@ abstract class GUIElement
     /**
      * Returns the html output of the GUI element tailored for the question output page
      *
-       * @param ParticipantInput $participant_input A ParticipantInput object containing the existing data
+     * @param ParticipantInput $participant_input A ParticipantInput object containing the existing data
      * @return string The html code of the GUI element
      * @access public
      */
@@ -54,28 +54,28 @@ abstract class GUIElement
     /**
      * Returns the html output of the GUI element tailored for the solution output page
      *
-       * @param ParticipantInput|null $participant_input A ParticipantInput object containing the participant inputs
+     * @param ParticipantInput|null $participant_input A ParticipantInput object containing the participant inputs
      * @return string The html code of the GUI element
      * @access public
      */
     abstract public function getSolutionOutput($participant_input);
 
     /**
-   * Functions to handle POST data
-   */
+     * Functions to handle POST data
+     */
 
     /**
      * Writes the POST data of the edit page into the $object
-         *
-         * @access public
+     *
+     * @access public
      */
     abstract public function writePostData();
 
     /**
      * Writes the POST data of a participants input into a ParticipantInput object
-       *
-       * @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
-       * @access public
-       */
+     *
+     * @param ParticipantInput $participant_input The ParticipantInput object the POST data is written to
+     * @access public
+     */
     abstract public function writeParticipantInput($participant_input);
 }

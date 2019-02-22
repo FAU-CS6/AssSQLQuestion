@@ -17,8 +17,8 @@ require_once "internal/DataStructures/class.ParticipantInput.php";
 class assSQLQuestionGUI extends assQuestionGUI
 {
     /**
-       * Member variables that have to be part of every assQuestionGUI
-       */
+     * Member variables that have to be part of every assQuestionGUI
+     */
 
     /**
      * @var ilassSQLQuestionPlugin The plugin object
@@ -31,13 +31,13 @@ class assSQLQuestionGUI extends assQuestionGUI
     public $object = null;
 
     /**
-       * @const	string URL base path for including used javascript and css files
-       */
+     * @const	string URL base path for including used javascript and css files
+     */
     const QPISQL_URL_PATH = "./Customizing/global/plugins/Modules/TestQuestionPool/Questions/assSQLQuestion";
 
     /**
-       * Member functions that have to be part of every assQuestionGUI
-       */
+     * Member functions that have to be part of every assQuestionGUI
+     */
 
     /**
     * Constructor
@@ -308,9 +308,9 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 
     /**
-    * Sets the ILIAS tabs for this question type
-    * called from ilObjTestGUI and ilObjQuestionPoolGUI
-    */
+     * Sets the ILIAS tabs for this question type
+     * called from ilObjTestGUI and ilObjQuestionPoolGUI
+     */
     public function setQuestionTabs()
     {
         global $DIC;
@@ -389,8 +389,8 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 
     /**
-       * Custom member functions only needed in an assSQLQuestionGUI
-       */
+     * Custom member functions only needed in an assSQLQuestionGUI
+     */
 
     /**
      * Private helper function to prepare the different GUIs by adding required

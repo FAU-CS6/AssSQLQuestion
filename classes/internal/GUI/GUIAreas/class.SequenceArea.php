@@ -75,14 +75,14 @@ class SequenceArea extends GUIArea
     }
 
     /**
-         * Checks the input of the edit page
-         *
-         * (This is an override of the ilCustomInputGUI:checkInput() to be tailored
-         * for the sequences input area of editQuestion)
-         *
-         * @return boolean True if input is ok, False if it is not
-         * @access public
-         */
+     * Checks the input of the edit page
+     *
+     * (This is an override of the ilCustomInputGUI:checkInput() to be tailored
+     * for the sequences input area of editQuestion)
+     *
+     * @return boolean True if input is ok, False if it is not
+     * @access public
+     */
     public function checkInput()
     {
         if (isset($_POST["sequence_b"]) && $_POST["sequence_b"] == "") {
