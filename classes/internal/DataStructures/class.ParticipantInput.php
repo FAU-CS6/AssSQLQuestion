@@ -7,7 +7,7 @@
 class ParticipantInput
 {
 	/**
-	 * @var string The sql sequencethe participant entered
+	 * @var string The sql sequence the participant entered
 	 */
 	var $sequence = "";
 

@@ -681,19 +681,35 @@ class assSQLQuestion extends assQuestion
 		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
 
 		$solution = $this->getSolutionStored($active_id, $pass, true);
-		$value1 = isset($solution['value1']) ? $solution['value1'] : '';
-		$value2 = isset($solution['value2']) ? $solution['value2'] : '';
+
+		// Transform value1 of solution into a ParticipantInput
+		$participant_input = isset($solution["value1"]) ? ParticipantInput::fromJSON($solution["value1"]) : new ParticipantInput();
 
 		$row = $startrow + 1;
 
-		$worksheet->setCell($row, 0, $this->plugin->txt('label_value1'));
+		$worksheet->setCell($row, 0, "Sequence");
 		$worksheet->setBold($worksheet->getColumnCoord(0) . $row);
-		$worksheet->setCell($row, 1, $value1);
+		$worksheet->setCell($row, 1, $participant_input->getSequence());
 		$row++;
 
-		$worksheet->setCell($row, 0, $this->plugin->txt('label_value2'));
+		$worksheet->setCell($row, 0, "Error_Bool");
 		$worksheet->setBold($worksheet->getColumnCoord(0) . $row);
-		$worksheet->setCell($row, 1, $value2);
+		$worksheet->setCell($row, 1, $participant_input->getErrorBool());
+		$row++;
+
+		$worksheet->setCell($row, 0, "Error");
+		$worksheet->setBold($worksheet->getColumnCoord(0) . $row);
+		$worksheet->setCell($row, 1, $participant_input->getError());
+		$row++;
+
+		$worksheet->setCell($row, 0, "Executed_Bool");
+		$worksheet->setBold($worksheet->getColumnCoord(0) . $row);
+		$worksheet->setCell($row, 1, $participant_input->getExecutedBool());
+		$row++;
+
+		$worksheet->setCell($row, 0, "Output_Relation");
+		$worksheet->setBold($worksheet->getColumnCoord(0) . $row);
+		$worksheet->setCell($row, 1, $participant_input->getOutputRelation());
 		$row++;
 
 		return $row + 1;
