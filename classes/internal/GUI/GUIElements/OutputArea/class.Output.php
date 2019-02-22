@@ -93,10 +93,11 @@ class Output extends GUIElement
    * Returns the html output of the GUI element tailored for the solution output page
    *
    * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
+   * @param string $id The ID prefix used to have unique ids for all divs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput($participant_input)
+  public function getSolutionOutput($participant_input, $id)
   {
     // Get any default data
     $error_bool = $participant_input->getErrorBool() ? "true" : "false";
@@ -104,17 +105,13 @@ class Output extends GUIElement
     $executed_bool = $participant_input->getExecutedBool() ? "true" : "false";
     $output_relation = $participant_input->getOutputRelation();
 
-    $tpl = $this->plugin->getTemplate('OutputArea/tpl.il_as_qpl_qpisql_oa_output.html');
+    $tpl = $this->plugin->getTemplate('OutputArea/tpl.il_as_qpl_qpisql_oa_solution.html');
+    $tpl->setVariable("ID", $id);
 		$tpl->setVariable("ERROR_BOOL", $error_bool);
     $tpl->setVariable("ERROR", $error);
     $tpl->setVariable("EXECUTED_BOOL", $executed_bool);
     $tpl->setVariable("OUTPUT_RELATION", $output_relation);
-    $tpl->setVariable("STATUS_EXECUTION_RUNNING", $this->plugin->txt('ai_oa_st_run'));
     $tpl->setVariable("ERROR_NO_EXECUTION", $this->plugin->txt('ai_oa_er_no_exec'));
-    $tpl->setVariable("ERROR_DB_CREATION", $this->plugin->txt('ai_oa_er_db_crea'));
-    $tpl->setVariable("ERROR_INTEGRITY_CHECK", $this->plugin->txt('ai_oa_er_int_che'));
-    $tpl->setVariable("ERROR_NO_VISIBLE_RESULT", $this->plugin->txt('ai_oa_er_no_vis'));
-    $tpl->setVariable("ERROR_RUNNING_SEQUENCE", $this->plugin->txt('ai_oa_er_run_seq'));
     return $tpl->get();
   }
 

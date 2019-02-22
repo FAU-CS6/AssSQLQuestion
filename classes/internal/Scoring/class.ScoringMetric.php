@@ -198,10 +198,11 @@ abstract class ScoringMetric
    * @param ilassSQLQuestionPlugin $plugin The plugin object
    * @param assSQLQuestion $object The question object
    * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
+   * @param string $id The ID prefix used to have unique ids for all divs
    * @return string The html code of the GUI element
    * @access public
    */
-  public static function getSolutionOutput($plugin, $object, $participant_input)
+  public static function getSolutionOutput($plugin, $object, $participant_input, $id)
   {
     return "";
   }

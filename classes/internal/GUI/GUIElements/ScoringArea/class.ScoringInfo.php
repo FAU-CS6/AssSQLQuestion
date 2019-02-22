@@ -41,10 +41,11 @@ class ScoringInfo extends GUIElement
    * Returns the html output of the GUI element tailored for the solution output page
    *
    * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
+   * @param string $id The ID prefix used to have unique ids for all divs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput($participant_input)
+  public function getSolutionOutput($participant_input, $id)
   {
     return "";
   }

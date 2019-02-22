@@ -306,7 +306,8 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		foreach ($guiAreas as $guiArea)
     {
-      $html .= $guiArea->getSolutionOutput($participant_input);
+      $html .= $guiArea->getSolutionOutput($participant_input, // Values to show
+																					 "id" . $this->object->getId() . "cor" . $show_correct_solution); // ID of the Divs
     }
 
 		return $html;

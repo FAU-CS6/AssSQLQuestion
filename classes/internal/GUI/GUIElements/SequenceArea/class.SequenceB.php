@@ -63,15 +63,17 @@ class SequenceB extends GUIElement
    * Returns the html output of the GUI element tailored for the solution output page
    *
    * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
+   * @param string $id The ID prefix used to have unique ids for all divs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput($participant_input)
+  public function getSolutionOutput($participant_input, $id)
   {
     // Get any default data
     $sequence_b = $participant_input->getSequence();
 
     $tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_sequence_output.html');
+    $tpl->setVariable("ID", "sequence_b_" . $id);
     $tpl->setVariable("HEADER", $this->plugin->txt('ai_sea_qo_seq_b'));
     $tpl->setVariable("CONTENT", $sequence_b);
     return $tpl->get();
