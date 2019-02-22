@@ -274,15 +274,8 @@ class assSQLQuestionGUI extends assQuestionGUI
 		$show_question_text = TRUE
 	)
 	{
-		// Initialize a ParticipantInput object with the passtern solution if this call is
-		// to display the pattern solution
-		$participant_input = new ParticipantInput();
-		$participant_input->setSequence($this->object->getSequence('sequence_b'));
-		$participant_input->setErrorBool($this->object->getErrorBool());
-		$participant_input->setError($this->object->getError());
-		$participant_input->setExecutedBool($this->object->getExecutedBool());
-		$participant_input->setOutputRelation($this->object->getOutputRelation());
-		// If we decide to show metrics later we have to add them here, too
+		// If we want to show the pattern solution we have no participant input
+		$participant_input = null;
 
 		// If we do not want to show the pattern solution override it with the participants solution
 		if (($active_id > 0) && (!$show_correct_solution))
@@ -306,8 +299,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 
 		foreach ($guiAreas as $guiArea)
     {
-      $html .= $guiArea->getSolutionOutput($participant_input, // Values to show
-																					 "id" . $this->object->getId() . "cor" . $show_correct_solution); // ID of the Divs
+      $html .= $guiArea->getSolutionOutput($participant_input);
     }
 
 		return $html;

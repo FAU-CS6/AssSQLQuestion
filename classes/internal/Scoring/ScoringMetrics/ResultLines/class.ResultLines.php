@@ -30,6 +30,17 @@ class ResultLines extends ScoringMetric
   }
 
   /**
+   * Get the info text of for the solution page
+   *
+   * @return string The info text shown at the solution page
+   * @access protected
+   */
+  protected static function getSolutionPageInfo($plugin)
+  {
+    return $plugin->txt('ai_sca_so_sm_rl_info');
+  }
+
+  /**
    * Calculate the reached points out of a metric
    *
    * @param SolutionMetric[] $solution_metrics The suiting solution metric array (with the pattern solution values)

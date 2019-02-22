@@ -132,3 +132,32 @@ ai_sca_eo_out_text#:#The value of the scoring metric in your relation:
 
 // The information text informating question creators about the result lines metric
 ai_sca_eo_sm_rl_info#:#<b>Number of Tuples</b><br />One of the simplest metrics that can be used to evaluate queries is the number of tuples in the result. If the result of the examinee has the same number of tuples as the example solution, he will receive all points awarded for this metric. If his number of result tuples is different, then he does not get any points for this metric.
+
+////////////////////////////////////////////////////////////////////////////////////////
+// Strings used in the solution output mode of the scoring area ("ai_sca_so_" prefix) //
+////////////////////////////////////////////////////////////////////////////////////////
+
+// The header for the scoring area in the solution output mode
+ai_sca_so_name#:#Scoring metrics
+
+// The header for the computed value of the scoring metric in the scoring area
+ai_sca_so_computed_value#:#Computed Value
+
+// The header for the points of the scoring metric in the scoring area
+ai_sca_so_points#:#Points
+
+// The header for the expected value of the scoring metric in the scoring area
+ai_sca_so_expected_value#:#Expected Value
+
+// The header for the maximum points of the scoring metric in the scoring area
+ai_sca_so_max_points#:#Max. Points
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Strings used in the solution output mode of the scoring area to describe several scoring metrics ("ai_sca_eo_sm_" prefix) //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Strings used in the solution output mode of the scoring area to describe the result lines metric ("ai_sca_eo_sm_rl_" prefix) //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ai_sca_so_sm_rl_info#:#<b>Number of Tuples</b>

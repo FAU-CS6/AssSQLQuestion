@@ -54,12 +54,11 @@ abstract class GUIElement
   /**
    * Returns the html output of the GUI element tailored for the solution output page
    *
-	 * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
-	 * @param string $id The ID postfix used to have unique ids for all divs
+	 * @param ParticipantInput|null $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  abstract public function getSolutionOutput($participant_input, $id);
+  abstract public function getSolutionOutput($participant_input);
 
 	/**
    * Functions to handle POST data

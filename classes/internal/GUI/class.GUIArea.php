@@ -99,18 +99,17 @@ abstract class GUIArea extends ilCustomInputGUI
   /**
    * Returns the html output of the GUI element tailored for the solution output page
    *
-	 * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
-	 * @param string $id The ID postfix used to have unique ids for all divs
+	 * @param ParticipantInput|null $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput($participant_input, $id)
+  public function getSolutionOutput($participant_input)
   {
 		$html = "";
 
     foreach ($this->subelements as $subelement)
     {
-      $html .= $subelement->getSolutionOutput($participant_input, $id);
+      $html .= $subelement->getSolutionOutput($participant_input);
     }
 
 		return $html;

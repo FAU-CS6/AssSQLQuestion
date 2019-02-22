@@ -36,6 +36,17 @@ abstract class ScoringMetric
   }
 
   /**
+   * Get the info text of for the solution page
+   *
+   * @return string The info text shown at the solution page
+   * @access protected
+   */
+  protected static function getSolutionPageInfo($plugin)
+  {
+    throw new Exception("This is an abstract method that should never be used - Has to be implemented by a subclass");
+  }
+
+  /**
    * Get the corresponding SolutionMetric (Pattern solution value) for
    * this specific ScoringMetric out of a SolutionMetric array
    *
@@ -197,14 +208,42 @@ abstract class ScoringMetric
    *
    * @param ilassSQLQuestionPlugin $plugin The plugin object
    * @param assSQLQuestion $object The question object
-   * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
-   * @param string $id The ID prefix used to have unique ids for all divs
+   * @param ParticipantInput|null $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  public static function getSolutionOutput($plugin, $object, $participant_input, $id)
+  public static function getSolutionOutput($plugin, $object, $participant_input)
   {
-    return "";
+    $tpl = $plugin->getTemplate('ScoringArea/tpl.il_as_qpl_qpisql_sca_sm_output.html');
+
+    // Set the headers
+    $tpl->setVariable("HEADER", static::getSolutionPageInfo($plugin));
+    $tpl->setVariable("HEADER_COMPUTED_VALUE", $plugin->txt('ai_sca_so_computed_value'));
+    $tpl->setVariable("HEADER_POINTS", $plugin->txt('ai_sca_so_points'));
+    $tpl->setVariable("HEADER_EXPECTED_VALUE", $plugin->txt('ai_sca_so_expected_value'));
+    $tpl->setVariable("HEADER_MAX_POINTS", $plugin->txt('ai_sca_so_max_points'));
+
+    // Expected values
+    $tpl->setVariable("EXPECTED_VALUE", static::getSolutionMetric($object->getAllSolutionMetrics())->getValue());
+    $tpl->setVariable("MAX_POINTS", static::getSolutionMetric($object->getAllSolutionMetrics())->getPoints());
+
+    // If we display the pattern solution
+    if(is_null($participant_input))
+    {
+      $tpl->setVariable("COMPUTED_VALUE", static::getSolutionMetric($object->getAllSolutionMetrics())->getValue());
+      $tpl->setVariable("POINTS", static::getSolutionMetric($object->getAllSolutionMetrics())->getPoints());
+    }
+    // If we display the participants solution
+    else
+    {
+      $tpl->setVariable("COMPUTED_VALUE", static::getParticipantMetric($participant_input->getAllParticipantMetrics())->getValue());
+      $solution_metrics = $object->getAllSolutionMetrics();
+      $participant_metrics = $participant_input->getAllParticipantMetrics();
+      $tpl->setVariable("POINTS", static::calculateReachedPoints($solution_metrics,
+                                                                 $participant_metrics));
+    }
+
+    return $tpl->get();
   }
 
   /**

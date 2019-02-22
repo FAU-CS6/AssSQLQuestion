@@ -92,18 +92,28 @@ class Output extends GUIElement
   /**
    * Returns the html output of the GUI element tailored for the solution output page
    *
-   * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
-   * @param string $id The ID prefix used to have unique ids for all divs
+   * @param ParticipantInput|null $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput($participant_input, $id)
+  public function getSolutionOutput($participant_input)
   {
     // Get any default data
-    $error_bool = $participant_input->getErrorBool() ? "true" : "false";
-    $error = $participant_input->getError();
-    $executed_bool = $participant_input->getExecutedBool() ? "true" : "false";
-    $output_relation = $participant_input->getOutputRelation();
+    $id = "id" . $this->object->getId() . "cor1"; // Helper to get unique ids for every div - cor1 is pattern solution
+    $error_bool = $this->object->getErrorBool() ? "true" : "false";
+    $error = $this->object->getError();
+    $executed_bool = $this->object->getExecutedBool() ? "true" : "false";
+    $output_relation = $this->object->getOutputRelation();
+
+    // If we have participant input (= do not use the pattern solution)
+    if(!is_null($participant_input))
+    {
+      $id = "id" . $this->object->getId() . "cor0"; // Helper to get unique ids for every div - cor0 is participant solution
+      $error_bool = $participant_input->getErrorBool() ? "true" : "false";
+      $error = $participant_input->getError();
+      $executed_bool = $participant_input->getExecutedBool() ? "true" : "false";
+      $output_relation = $participant_input->getOutputRelation();
+    }
 
     $tpl = $this->plugin->getTemplate('OutputArea/tpl.il_as_qpl_qpisql_oa_solution.html');
     $tpl->setVariable("ID", $id);

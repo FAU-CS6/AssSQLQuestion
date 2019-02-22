@@ -40,12 +40,11 @@ class QuestionText extends GUIElement
   /**
    * Returns the html output of the GUI element tailored for the solution output page
    *
-   * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
-   * @param string $id The ID prefix used to have unique ids for all divs
+   * @param ParticipantInput|null $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput($participant_input, $id)
+  public function getSolutionOutput($participant_input)
   {
     $tpl = $this->plugin->getTemplate('Mixed/tpl.il_as_qpl_qpisql_m_info.html');
     $tpl->setVariable("INFO", "<b>" . $this->plugin->txt('ai_sea_qo_task') . "</b><br />" . $this->object->getQuestion());

@@ -62,15 +62,21 @@ class SequenceB extends GUIElement
   /**
    * Returns the html output of the GUI element tailored for the solution output page
    *
-   * @param ParticipantInput $participant_input A ParticipantInput object containing the participant inputs
-   * @param string $id The ID prefix used to have unique ids for all divs
+   * @param ParticipantInput|null $participant_input A ParticipantInput object containing the participant inputs
    * @return string The html code of the GUI element
    * @access public
    */
-  public function getSolutionOutput($participant_input, $id)
+  public function getSolutionOutput($participant_input)
   {
     // Get any default data
-    $sequence_b = $participant_input->getSequence();
+    $id = "id" . $this->object->getId() . "cor1"; // Helper to get unique ids for every div - cor1 is pattern solution
+    $sequence_b = $this->object->getSequence('sequence_b');
+
+    if(!is_null($participant_input))
+    {
+      $id = "id" . $this->object->getId() . "cor0"; // Helper to get unique ids for every div - cor0 is participant solution
+      $sequence_b = $participant_input->getSequence();
+    }
 
     $tpl = $this->plugin->getTemplate('SequenceArea/tpl.il_as_qpl_qpisql_sea_sequence_output.html');
     $tpl->setVariable("ID", "sequence_b_" . $id);
