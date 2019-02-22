@@ -40,6 +40,19 @@ class SolutionMetric
   }
 
   /**
+   * Serialize a SolutionMetric object to a JSON string
+   *
+   * @return string The JSON string
+   */
+  function toJSON()
+  {
+    // To use json_encode we need an array containing the values of the object
+    $arr = array('type' => $this->type, 'points' => $this->points, 'value' => $this->value);
+
+    return json_encode($arr);
+  }
+
+  /**
    * Get the type of the SolutionMetric
    *
    * @return string The type of the ScoringMetric
@@ -48,7 +61,7 @@ class SolutionMetric
   {
     return $this->type;
   }
-  
+
   /**
    * Get the points of the SolutionMetric
    *

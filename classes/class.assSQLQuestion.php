@@ -897,6 +897,23 @@ class assSQLQuestion extends assQuestion
 	}
 
 	/**
+	 * Get all SolutionMetrics as JSON string
+	 *
+	 * @return string A JSON string containing all SolutionMetrics
+	 */
+	function getAllSolutionMetricsAsJSON()
+	{
+		$solution_metrics_json = array();
+
+   foreach ($this->solution_metrics as $solution_metric)
+   {
+     array_push($solution_metrics_json, $solution_metric->toJSON());
+   }
+
+   return json_encode($solution_metrics_json);
+	}
+
+	/**
 	 * Get maximum points by add up all SolutionMetrics
 	 *
 	 * @return integer The maxium possible points
@@ -922,6 +939,26 @@ class assSQLQuestion extends assQuestion
 	function setAllSolutionMetrics($solution_metrics)
 	{
 		$this->solution_metrics = $solution_metrics;
+	}
+
+	/**
+	 * Sets all SolutionMetrics by using a JSON string
+	 *
+	 * @param string $json A JSON string containg all SolutionMetrics to be set
+	 */
+	function setAllSolutionMetricsFromJSON($json)
+	{
+		$json_decoded = json_decode($json, true);
+
+		foreach($json_decoded as $solution_metric)
+		{
+			// Decode the inner JSON as well
+			$solution_metric_decoded = json_decode($solution_metric, true);
+
+			$this->setSingleSolutionMetric(new SolutionMetric($solution_metric_decoded['type'],
+																											 $solution_metric_decoded['points'],
+																											 $solution_metric_decoded['value']));
+		}
 	}
 
 	/**
