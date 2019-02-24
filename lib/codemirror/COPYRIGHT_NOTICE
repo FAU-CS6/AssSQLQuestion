@@ -9,4 +9,4 @@ The original license text can be found in the LICENSE file included in this subf
 
 Modifications to original code:
 - We only use the subfolders lib/ mode/ and theme/
-- No further modifications
+- In the mode/ subfolder we deleted all subfolders except the sql/ one

@@ -50,12 +50,12 @@ class Minifier
         // SQL
         $minifier->add(__DIR__.'/classes/SQL/class.SQLResult.js');
         $minifier->add(__DIR__.'/classes/SQL/class.SQLRun.js');
-        $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorAbstract.js');
-        $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorDBCreation.js');
-        $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorIntegrityCheck.js');
-        $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorNoExecution.js');
-        $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorNoVisibleResult.js');
-        $minifier->add(__DIR__.'/classes/SQL/SQLRunErrors/class.SQLRunErrorRunningSequence.js');
+        $minifier->add(__DIR__.'/classes/SQL/Errors/class.SQLRunErrorAbstract.js');
+        $minifier->add(__DIR__.'/classes/SQL/Errors/class.SQLRunErrorDBCreation.js');
+        $minifier->add(__DIR__.'/classes/SQL/Errors/class.SQLRunErrorIntegrityCheck.js');
+        $minifier->add(__DIR__.'/classes/SQL/Errors/class.SQLRunErrorNoExecution.js');
+        $minifier->add(__DIR__.'/classes/SQL/Errors/class.SQLRunErrorNoVisibleResult.js');
+        $minifier->add(__DIR__.'/classes/SQL/Errors/class.SQLRunErrorRunningSequence.js');
 
         return $minifier->minify();
     }
