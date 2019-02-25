@@ -19,91 +19,71 @@ describe("A SQLResult", function() {
     expect(sqlResult.toJSON()).toBe(expectedJSON);
   });
 
-  it("returns the correct number of rows", function() {
-    /*
+  it("is able to get all minimal functional dependencies", function() {
     // Create a valid SQLResult
     var sqlResult = new SQLResult({columns: ["A", "B", "C", "D"],
-                                   values: [["1", "2", "3", "4"],
-                                            ["2", "3", "4", "5"],
-                                            ["3", "4", "5", "6"]]});
+                                   values: [["1", "2", "3", "1"],
+                                            ["2", "2", "3", "5"],
+                                            ["3", "2", "5", "5"]]});
 
-    // Do the test
-    expect(sqlResult.getNumberOfRows()).toBe(3);
+    expect(sqlResult.getAllMinimalFunctionalDependencies().length).toBe(6);
+  });
+
+  it("is able to remove double functional dependencies", function() {
+    var sqlResult = new SQLResult({columns: ["A", "B", "C", "D"],
+                                   values: [["1", "2", "3", "1"],
+                                            ["2", "2", "3", "5"],
+                                            ["3", "2", "5", "5"]]});
+
+    // Create some valid SQLFunctionalDependencies
+    var sqlFD1 = new SQLFunctionalDependency(["A", "B"], ["D"]);
+    var sqlFD2 = new SQLFunctionalDependency(["B", "A"], ["D"]);
+    var sqlFD3 = new SQLFunctionalDependency(["A", "B"], ["C"]);
+    var sqlFD4 = new SQLFunctionalDependency(["A", "D"], ["D"]);
+    var sqlFD5 = new SQLFunctionalDependency(["A", "B"], ["D", "E"]);
+    var sqlFD6 = new SQLFunctionalDependency(["A", "B"], ["E", "D"]);
+    var sqlFD7 = new SQLFunctionalDependency(["A", "B"], ["E", "F"]);
+    var sqlFDs = [sqlFD1,sqlFD2,sqlFD3,sqlFD4,sqlFD5,sqlFD6,sqlFD7];
+
+    expect(sqlResult.removeDoubleFunctionalDependencies(sqlFDs).length).toBe(5);
+  });
+
+  it("is able to remove non minimal dependencies", function() {
+    var sqlResult = new SQLResult({columns: ["A", "B", "C", "D"],
+                                   values: [["1", "2", "3", "1"],
+                                            ["2", "2", "3", "5"],
+                                            ["3", "2", "5", "5"]]});
+
+    // Create some valid SQLFunctionalDependencies
+    var sqlFD1 = new SQLFunctionalDependency(["A"], ["D"]);
+    var sqlFD2 = new SQLFunctionalDependency(["B", "A"], ["D"]);
+    var sqlFD3 = new SQLFunctionalDependency(["A", "B"], ["C"]);
+    var sqlFD4 = new SQLFunctionalDependency(["A", "D"], ["D"]);
+    var sqlFD5 = new SQLFunctionalDependency(["A", "B"], ["D", "E"]);
+    var sqlFD6 = new SQLFunctionalDependency(["A", "B", "C"], ["E", "D"]);
+    var sqlFDs = [sqlFD1,sqlFD2,sqlFD3,sqlFD4,sqlFD5,sqlFD6];
+
+    expect(sqlResult.removeNonMinimalFunctionalDependencies(sqlFDs).length).toBe(3);
   });
 
   it("is able to get all functional dependencies", function() {
-    // Create one valid SQLResult
+    // Create a valid SQLResult
     var sqlResult = new SQLResult({columns: ["A", "B", "C", "D"],
-                                   values: [["1", "2", "3", "4"],
+                                   values: [["1", "2", "3", "1"],
                                             ["2", "2", "3", "5"],
-                                            ["3", "2", "5", "6"]]});
+                                            ["3", "2", "5", "5"]]});
 
-    // Do the test - there should be 7 functional dependencies (A->BCD, C->D, D->ABC)
-    // Of course there are even more functional dependencies in the example. But these are the minimal ones.
-    // (e.g. There is AB->CD, too - But A->BCD allready proves this)
-    expect(sqlResult.getAllFunctionalDependencies()).toEqual([{determinate:['A'], dependent:['B']},
-                                                              {determinate:['A'], dependent:['C']},
-                                                              {determinate:['A'], dependent:['D']},
-                                                              {determinate:['C'], dependent:['B']},
-                                                              {determinate:['D'], dependent:['A']},
-                                                              {determinate:['D'], dependent:['B']},
-                                                              {determinate:['D'], dependent:['C']}]);
-
-    // Second test
-    var sqlResult2 = new SQLResult({columns: ["A", "B", "C", "D"],
-                                    values: [["1", "2", "3", "1"],
-                                             ["2", "2", "3", "5"],
-                                             ["3", "2", "5", "5"]]});
-
-
-    expect(sqlResult2.getAllFunctionalDependencies()).toEqual([{determinate:['A'], dependent:['B']},
-                                                               {determinate:['A'], dependent:['C']},
-                                                               {determinate:['A'], dependent:['D']},
-                                                               {determinate:['C'], dependent:['B']},
-                                                               {determinate:['C','D'], dependent:['A']},
-                                                               {determinate:['C','D'], dependent:['B']},
-                                                               {determinate:['D'], dependent:['B']}]);
-
-                                                               */
-
+    expect(sqlResult.getAllFunctionalDependencies().length).toBe(45);
   });
 
   it("is able to get find functional dependencies", function() {
-    /*
     // Create a valid SQLResult
     var sqlResult = new SQLResult({columns: ["A", "B", "C", "D"],
-                                   values: [["1", "2", "3", "4"],
+                                   values: [["1", "2", "3", "1"],
                                             ["2", "2", "3", "5"],
-                                            ["3", "2", "5", "6"]]});
+                                            ["3", "2", "5", "5"]]});
 
-    // Do the test(s)
-    // If there is no undecided attribute there should be functional dependency being found
-    expect(sqlResult.findFunctionalDependencies(["A","B","C","D"],[])).toEqual([]);
-
-    // If there is only one undecided attribute there should be functional dependency being found, too
-    expect(sqlResult.findFunctionalDependencies(["A","B","C"],["D"])).toEqual([]);
-
-    // Now it should find two functional dependencies (ABC->D AND ABD->C)
-    expect(sqlResult.findFunctionalDependencies(["A","B"],["C","D"])).toEqual([{determinate:['A','B','C'], dependent:['D']},
-                                                                               {determinate:['A','B','D'], dependent:['C']}]);
-
-    // Now we should find six functional dependencies - if you are confused why ABC->D and ABD->C are not part (if its recursive)
-    // This is due to fact that we only search minimal dependencies
-    expect(sqlResult.findFunctionalDependencies(["A"],["B","C","D"])).toEqual([{determinate:['A','B'], dependent:['C']},
-                                                                               {determinate:['A','B'], dependent:['D']},
-                                                                               {determinate:['A','C'], dependent:['B']},
-                                                                               {determinate:['A','C'], dependent:['D']},
-                                                                               {determinate:['A','D'], dependent:['B']},
-                                                                               {determinate:['A','D'], dependent:['C']}]);
-    */
-
-    // Second result
-    var sqlResult2 = new SQLResult({columns: ["A", "B", "C", "D"],
-                                    values: [["1", "2", "3", "1"],
-                                             ["2", "2", "3", "5"],
-                                             ["3", "2", "5", "5"]]});
-
-    expect(sqlResult2.findFunctionalDependencies([],["A","B","C","D"])).toEqual([]);
+    expect(sqlResult.findFunctionalDependencies([],["A","B","C","D"]).length).toBe(45);
   });
 
   it("is able to checkFunctionalDependencies", function() {

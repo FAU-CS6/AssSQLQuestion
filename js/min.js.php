@@ -48,6 +48,7 @@ class Minifier
         $minifier->add(__DIR__.'/classes/ExecutionOutputs/class.ScoringMetricOutputQuestion.js');
 
         // SQL
+        $minifier->add(__DIR__.'/classes/SQL/class.SQLFunctionalDependency.js');
         $minifier->add(__DIR__.'/classes/SQL/class.SQLResult.js');
         $minifier->add(__DIR__.'/classes/SQL/class.SQLRun.js');
         $minifier->add(__DIR__.'/classes/SQL/Errors/class.SQLRunErrorAbstract.js');

@@ -86,9 +86,85 @@ class SQLResult
   }
 
   /**
-   * Get all (minimal) functional dependencies in the result
+   * Get all minimal functional dependencies in the result
    *
-   * @return {Array} All (minimal) functional dependencies ({determinate: [Array], dependent: [Array]}) in the result
+   * Simple addon code for getAllFunctionalDependencies that removes all double functional dependencies
+   * and dependencies like ABC->D if A->D or AB->D is also true
+   *
+   * @return {Array} All SQLFunctionalDependencies in the result
+   */
+  getAllMinimalFunctionalDependencies()
+  {
+    // Get all functional dependencies
+    var allDependencies = this.getAllFunctionalDependencies();
+    var allUniqueDependencies = this.removeDoubleFunctionalDependencies(allDependencies);
+
+    return this.removeNonMinimalFunctionalDependencies(allUniqueDependencies);
+  }
+
+  /**
+   * Helper function to remove all double SQLFunctionalDependencies in an array
+   *
+   * @param {Array} startArray An array containing a bunch of SQLFunctionalDependencies
+   *
+   * @return {Array} The startArray without double SQLFunctionalDependencies
+   */
+  removeDoubleFunctionalDependencies(startArray)
+  {
+    // Remove double entries
+    var allUniqueDependencies = [];
+
+    for(var i = 0; i < startArray.length; i++)
+    {
+      // Search for entries like this that are already part of allUniqueDependencies
+      var doubleEntries = allUniqueDependencies.filter(function(otherDependency) {
+        return startArray[i].equals(otherDependency);
+      });
+
+      if(doubleEntries.length < 1)
+      {
+        allUniqueDependencies.push(startArray[i]);
+      }
+    }
+
+    return allUniqueDependencies;
+  }
+
+  /**
+   * Helper function to remove all non minimal SQLFunctionalDependencies in an array
+   *
+   * @param {Array} startArray An array containing a bunch of SQLFunctionalDependencies
+   *
+   * @return {Array} The startArray without non minimal SQLFunctionalDependencies
+   */
+  removeNonMinimalFunctionalDependencies(startArray)
+  {
+    // Copy the startArray
+    var allDependencies = startArray.slice();
+
+    // Remove none minimal entries
+    for(var i = 0; i < allDependencies.length; i++)
+    {
+      // Search for entries that are more minimal
+      var moreMinimalEntries = allDependencies.filter(function(otherDependency) {
+        return allDependencies[i].isLessMinimalThan(otherDependency);
+      });
+
+      // If there are some remove this entry from allUniqueDependencies
+      if(moreMinimalEntries.length > 0)
+      {
+        allDependencies.splice(i, 1);
+        i--;
+      }
+    }
+
+    return allDependencies;
+  }
+
+  /**
+   * Get all functional dependencies in the result
+   *
+   * @return {Array} All SQLFunctionalDependencies in the result
    */
   getAllFunctionalDependencies()
   {
@@ -102,99 +178,50 @@ class SQLResult
    * @param {Array} currentDeterminate The attributes that are part of the determinate
    * @param {Array} undecidedAttributes The attributes that might become part of the determinate OR be dependent
    *
-   * @return {Array} A array of all (minimal) functional dependencies ({determinate: [Array], dependent: [Array]}) found in this branch of the recursion
+   * @return {Array} A array of all SQLFunctionalDependencies found in this branch of the recursion
    */
   findFunctionalDependencies(currentDeterminate, undecidedAttributes)
   {
-    // If there are no undecidedAttributes the recursion is finished
-    if(undecidedAttributes.length < 1)
-    {
-      return [];
-    }
+    // Currently found functional dependencies
+    var foundDependencies = [];
 
-    // Create a return array
-    var returnArray = [];
-
-    // If there are undecidedAttributes
+    // Iterate through all undecidedAttributes
     for(var i = 0; i < undecidedAttributes.length; i++)
     {
-      // Make a local copy of currentDeterminates
-      var newDeterminate = currentDeterminate.slice();
-
-      // Add the [i] element of undecidedAttributes to it
-      newDeterminate.push(undecidedAttributes[i]);
-
-      // Make two slices of undecidedAttributes
-      // This is an exact copy of undecidedAttributes with the [i] attribute removed
+      // Add the i undecidedAttribute to a local copy of newCurrentDeterminate and
+      // remove it from alocal copy of the undecidedAttributes
+      var newCurrentDeterminate = currentDeterminate.slice();
+      newCurrentDeterminate.push(undecidedAttributes[i]);
       var newUndecidedAttributes = undecidedAttributes.slice();
       newUndecidedAttributes.splice(i, 1);
 
-      // We need to save the positions of the found functional dependencies as we might need them later on
-      var positions = [];
-
-      // Now check whether the (new) determinate if a real determinate for
+      // Check whether the newCurrentDeterminate is part of a functional dependency with any of the undecidedAttributes
       for(var ii = 0; ii < newUndecidedAttributes.length; ii++)
       {
-        // Check whether undecidedAttributes[i] is dependent on the currentDeterminates
-        if(this.checkFunctionalDependency(newDeterminate, [newUndecidedAttributes[ii]]))
+        if(this.checkFunctionalDependency(newCurrentDeterminate,[newUndecidedAttributes[ii]]))
         {
-          // Add the new functional dependency to the return array
-          returnArray.push({determinate: newDeterminate, dependent: [newUndecidedAttributes[ii]]});
-
-          // As this undecidedAttribute is dependent on the currentDeterminate
-          // we will not get any new minimal functional dependencies by adding it to the determinate
-          // (would be a transitive functional dependency) - we can remove it from the newUndecidedAttributes array
-          positions.push(ii);
+          // Add this to the found functional dependencies
+          foundDependencies.push(new SQLFunctionalDependency(newCurrentDeterminate,[newUndecidedAttributes[ii]]));
         }
       }
-      console.log("NewDeterminate:");
-      console.log(newDeterminate);
-      console.log("Positions:");
-      console.log(positions);
-      console.log("newUndecidedAttributes - before slice:")
-      console.log(newUndecidedAttributes);
 
-      // We are only interested in undecidedAttributes with an index higher than i for this recursion
-      // By this we can double functional dependencies
-      // newUndecidedAttributes = newUndecidedAttributes.slice(i);
+      // Start the recursion
+      var recursionReturn = this.findFunctionalDependencies(newCurrentDeterminate,newUndecidedAttributes);
 
-      console.log("newUndecidedAttributes - after slice:")
-      console.log(newUndecidedAttributes);
-
-      var offset = 0;
-
-      // Now we need to remove the positions that are still part of newUndecidedAttributes
-      for(var ii = 0; ii < positions.length; ii++)
+      if(recursionReturn.length > 0)
       {
-        console.log("newUndecidedAttributes - while slice "+ii+" (1):");
-        console.log(newUndecidedAttributes);
-        console.log("Positions - Offset:");
-        console.log(positions[ii] + " - " + offset);
-        if(positions[ii] >= i)
-        {
-            newUndecidedAttributes.splice(positions[ii]-offset, 1);
-
-            offset++;
-        }
-        console.log("newUndecidedAttributes - while slice "+ii+" (2):");
-        console.log(newUndecidedAttributes);
+        foundDependencies = foundDependencies.concat(recursionReturn);
       }
-
-      console.log("newUndecidedAttributes - after splice:")
-      console.log(newUndecidedAttributes);
-
-      // Go deeper into the recursion
-      returnArray.concat(this.findFunctionalDependencies(newDeterminate, newUndecidedAttributes));
     }
 
-    return returnArray;
+    return foundDependencies;
   }
 
   /**
    * Check whether a specific functional dependency exists in the result
    *
    * @param {Array} determinateAttributes The attributes - to be more specific the names of the columns as string - that are part of the (suspected) determinate
-   * @param {Array} dependentAttributes The attributes - to be more specific the names of the columns as string - that are presumably dependent ob the determinate
+   * @param {Array} dependentAttributes The attributes - to be more specific the names of the columns as string - that are presumably dependent on the determinate
    *
    * @return {boolean} True for the dependency being existent in the result - false for it being not exsistent
    */
