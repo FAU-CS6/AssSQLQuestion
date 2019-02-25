@@ -427,6 +427,7 @@ class assSQLQuestionGUI extends assQuestionGUI
 
         // Add path to the plugin file to be accessible in js, too
         $this->tpl->addOnLoadCode("window.QPISQL_URL_PATH = \"".self::QPISQL_URL_PATH."\"");
+
     }
 
     /**

@@ -125,8 +125,8 @@ class SQLResult
      for(var i = 0; i < this.values.length; i++)
      {
        // Read the values
-       determinateValue = new Array(determinatePositions.length);
-       dependentValue = new Array(dependentPositions.length);
+       var determinateValue = new Array(determinatePositions.length);
+       var dependentValue = new Array(dependentPositions.length);
 
        for(var ii = 0; ii < determinatePositions.length; ii++)
        {
@@ -149,7 +149,7 @@ class SQLResult
        if(positionInArray != -1)
        {
          if(determinateValueJSON == determinateValuesJSON[positionInArray] &&
-            dependentValueJSON == dependentValueJSON[positionInArray])
+            dependentValueJSON == dependentValuesJSON[positionInArray])
           {
             // Do nothing ... this is fine
           }
