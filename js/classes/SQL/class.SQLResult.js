@@ -76,13 +76,118 @@ class SQLResult
   }
 
   /**
-   * Get the number of tuples in the sqlResult
+   * Get the number of tuples in the SQLResult
    *
    * @return {number} The number of tuples
    */
   getNumberOfRows()
   {
     return this.values.length;
+  }
+
+  /**
+   * Get all (minimal) functional dependencies in the result
+   *
+   * @return {Array} All (minimal) functional dependencies ({determinate: [Array], dependent: [Array]}) in the result
+   */
+  getAllFunctionalDependencies()
+  {
+    // As recursion is needed for this we pass this to the recursiv helper function
+    return this.findFunctionalDependencies([],this.columns.slice());
+  }
+
+  /**
+   * Recursive helper for getAllFunctionalDependencies()
+   *
+   * @param {Array} currentDeterminate The attributes that are part of the determinate
+   * @param {Array} undecidedAttributes The attributes that might become part of the determinate OR be dependent
+   *
+   * @return {Array} A array of all (minimal) functional dependencies ({determinate: [Array], dependent: [Array]}) found in this branch of the recursion
+   */
+  findFunctionalDependencies(currentDeterminate, undecidedAttributes)
+  {
+    // If there are no undecidedAttributes the recursion is finished
+    if(undecidedAttributes.length < 1)
+    {
+      return [];
+    }
+
+    // Create a return array
+    var returnArray = [];
+
+    // If there are undecidedAttributes
+    for(var i = 0; i < undecidedAttributes.length; i++)
+    {
+      // Make a local copy of currentDeterminates
+      var newDeterminate = currentDeterminate.slice();
+
+      // Add the [i] element of undecidedAttributes to it
+      newDeterminate.push(undecidedAttributes[i]);
+
+      // Make two slices of undecidedAttributes
+      // This is an exact copy of undecidedAttributes with the [i] attribute removed
+      var newUndecidedAttributes = undecidedAttributes.slice();
+      newUndecidedAttributes.splice(i, 1);
+
+      // We need to save the positions of the found functional dependencies as we might need them later on
+      var positions = [];
+
+      // Now check whether the (new) determinate if a real determinate for
+      for(var ii = 0; ii < newUndecidedAttributes.length; ii++)
+      {
+        // Check whether undecidedAttributes[i] is dependent on the currentDeterminates
+        if(this.checkFunctionalDependency(newDeterminate, [newUndecidedAttributes[ii]]))
+        {
+          // Add the new functional dependency to the return array
+          returnArray.push({determinate: newDeterminate, dependent: [newUndecidedAttributes[ii]]});
+
+          // As this undecidedAttribute is dependent on the currentDeterminate
+          // we will not get any new minimal functional dependencies by adding it to the determinate
+          // (would be a transitive functional dependency) - we can remove it from the newUndecidedAttributes array
+          positions.push(ii);
+        }
+      }
+      console.log("NewDeterminate:");
+      console.log(newDeterminate);
+      console.log("Positions:");
+      console.log(positions);
+      console.log("newUndecidedAttributes - before slice:")
+      console.log(newUndecidedAttributes);
+
+      // We are only interested in undecidedAttributes with an index higher than i for this recursion
+      // By this we can double functional dependencies
+      // newUndecidedAttributes = newUndecidedAttributes.slice(i);
+
+      console.log("newUndecidedAttributes - after slice:")
+      console.log(newUndecidedAttributes);
+
+      var offset = 0;
+
+      // Now we need to remove the positions that are still part of newUndecidedAttributes
+      for(var ii = 0; ii < positions.length; ii++)
+      {
+        console.log("newUndecidedAttributes - while slice "+ii+" (1):");
+        console.log(newUndecidedAttributes);
+        console.log("Positions - Offset:");
+        console.log(positions[ii] + " - " + offset);
+        if(positions[ii] >= i)
+        {
+            newUndecidedAttributes.splice(positions[ii]-offset, 1);
+
+            offset++;
+        }
+        console.log("newUndecidedAttributes - while slice "+ii+" (2):");
+        console.log(newUndecidedAttributes);
+      }
+
+      console.log("newUndecidedAttributes - after splice:")
+      console.log(newUndecidedAttributes);
+
+      // Go deeper into the recursion
+      returnArray.concat(this.findFunctionalDependencies(newDeterminate, newUndecidedAttributes));
+    }
+
+    return returnArray;
   }
 
   /**
@@ -95,7 +200,13 @@ class SQLResult
    */
    checkFunctionalDependency(determinateAttributes, dependentAttributes)
    {
-     // At first we have to transform the column names to indices
+     // If at least one of the two attributes lists is empty it is no valid functional dependency
+     if(determinateAttributes.length < 1 || dependentAttributes.length < 1)
+     {
+       return false;
+     }
+
+     // After that check we have to transform the column names to indices
      var determinatePositions = null;
      var dependentPositions = null;
 
