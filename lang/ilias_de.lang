@@ -119,7 +119,7 @@ ai_sca_eo_error#:#Die gesamt mögliche Punktzahl muss höher als 0 sein.
 ai_sca_eo_no_exec#:#Bitte die Ausführung starten.
 
 // The prefix text shown before displaying the real value of a metric
-ai_sca_eo_out_text#:#Das Ergebnis dieser Metrik für Ihrer Relation:
+ai_sca_eo_out_text#:#Das Ergebnis dieser Metrik für Ihre Relation:
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Strings used in the edit mode of the scoring area to describe several scoring metrics ("ai_sca_eo_sm_" prefix) //
