@@ -86,9 +86,20 @@ class SQLResult
   }
 
   /**
+   * Get the names of the columns as JSON string
+   *
+   * @return {string} The names of the columns as JSON string
+   */
+  getColumnNamesAsJSON()
+  {
+    console.log(this.columns);
+    return JSON.stringify(this.columns);
+  }
+
+  /**
    * Get all minimal functional dependencies in the result as JSON string
    *
-   * @return {String} JSON string with all minimal SQLFunctionalDependencies in the result
+   * @return {string} JSON string with all minimal SQLFunctionalDependencies in the result
    */
   getAllMinimalFunctionalDependenciesAsJSON()
   {

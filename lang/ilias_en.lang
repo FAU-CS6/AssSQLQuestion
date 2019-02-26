@@ -117,7 +117,7 @@ ai_sca_eo_info#:#In order to enable an automatic evaluation of the answers, diff
 ai_sca_eo_error#:#The total possible score must be higher than 0.
 
 // The warning displayed in edit mode of scoring area if there was no execution until now
-ai_sca_eo_no_exec#:#To see the value of the scoring metric in your relation, please start an execution.
+ai_sca_eo_no_exec#:#Please start an execution.
 
 // The prefix text shown before displaying the real value of a metric
 ai_sca_eo_out_text#:#The value of the scoring metric in your relation:
@@ -138,7 +138,14 @@ ai_sca_eo_sm_rl_info#:#<b>Number of Tuples</b><br />One of the simplest metrics 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // The information text informating question creators about the functional dependencies metric
-ai_sca_eo_sm_fd_info#:#<b>Functional Dependencies</b><br />This metric uses the functional dependencies of the result to compare the sample solution and the students solution. It is important that only the "minimal" functional dependencies are used (e.g., for A &rArr; C, A &times; B &rArr; C would not be listed). The grading is done using the Jaccard distance: Points = Max. Score * (1-Jaccard distance).
+ai_sca_eo_sm_fd_info#:#<b>Functional Dependencies</b><br />This metric uses the functional dependencies of the result to compare the sample solution and the students solution. It is important that only the "minimal" functional dependencies are used (e.g., for A &rArr; C, A &times; B &rArr; C would not be listed). The grading is done using the Jaccard distance: Points = Max. Score * (1 - Jaccard distance).
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Strings used in the edit mode of the scoring area to describe the column names metric ("ai_sca_eo_sm_cn_" prefix) //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// The information text informing question creators about the column names metric
+ai_sca_eo_sm_cn_info#:#<b>Names of the attributes</b><br />Another very simple metric that simply checks if all the attribute names are present in the result. The order of the attributes is irrelevant. The scoring is done using the Jaccard distance: Points = Max. Score * (1 - Jaccard distance).
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // Strings used in the solution output mode of the scoring area ("ai_sca_so_" prefix) //
@@ -176,3 +183,10 @@ ai_sca_so_sm_rl_info#:#<b>Number of Tuples</b>
 
 // Header of the metric
 ai_sca_so_sm_fd_info#:#<b>Functional Dependencies</b>
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Strings used in the solution output mode of the scoring area to describe the column names metric ("ai_sca_eo_sm_cn_" prefix) //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Header of the metric
+ai_sca_so_sm_cn_info#:#<b>Names of the attributes</b>

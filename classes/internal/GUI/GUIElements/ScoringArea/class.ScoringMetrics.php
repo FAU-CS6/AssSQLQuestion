@@ -6,6 +6,7 @@ require_once __DIR__.'/../../../Scoring/class.ScoringMetric.php';
 
 // All ScoringMetrics to be shown
 require_once __DIR__.'/../../../Scoring/ScoringMetrics/ResultLines/class.ResultLines.php';
+require_once __DIR__.'/../../../Scoring/ScoringMetrics/ColumnNames/class.ColumnNames.php';
 require_once __DIR__.'/../../../Scoring/ScoringMetrics/FunctionalDependencies/class.FunctionalDependencies.php';
 
 /**
@@ -31,6 +32,7 @@ class ScoringMetrics extends GUIElement
 
         // Add the html code of all ScoringMetrics
         $html .= ResultLines::getEditOutput($this->plugin, $this->object);
+        $html .= ColumnNames::getEditOutput($this->plugin, $this->object);
         $html .= FunctionalDependencies::getEditOutput($this->plugin, $this->object);
 
         return $html;
@@ -49,6 +51,7 @@ class ScoringMetrics extends GUIElement
 
         // Add the html code of all ScoringMetrics
         $html .= ResultLines::getQuestionOutput($this->plugin, $this->object, $participant_input);
+        $html .= ColumnNames::getQuestionOutput($this->plugin, $this->object, $participant_input);
         $html .= FunctionalDependencies::getQuestionOutput($this->plugin, $this->object, $participant_input);
 
         return $html;
@@ -67,6 +70,7 @@ class ScoringMetrics extends GUIElement
 
         // Add the html code of all ScoringMetrics
         $html .= ResultLines::getSolutionOutput($this->plugin, $this->object, $participant_input);
+        $html .= ColumnNames::getSolutionOutput($this->plugin, $this->object, $participant_input);
         $html .= FunctionalDependencies::getSolutionOutput($this->plugin, $this->object, $participant_input);
 
         return $html;
@@ -85,6 +89,7 @@ class ScoringMetrics extends GUIElement
     {
         // Write the POST data in every ScoringMetric
         ResultLines::writePostData($this->plugin, $this->object);
+        ColumnNames::writePostData($this->plugin, $this->object);
         FunctionalDependencies::writePostData($this->plugin, $this->object);
     }
 
@@ -98,6 +103,7 @@ class ScoringMetrics extends GUIElement
     {
         // Write the POST data in every ScoringMetric
         ResultLines::writeParticipantInput($participant_input);
+        ColumnNames::writeParticipantInput($participant_input);
         FunctionalDependencies::writeParticipantInput($participant_input);
     }
 }

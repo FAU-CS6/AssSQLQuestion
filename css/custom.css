@@ -82,7 +82,7 @@
 }
 
 .qpisql-output-table-tuple td {
-    background-color: #ffffff;
+  background-color: #ffffff;
 }
 
 /*
@@ -94,38 +94,49 @@
 /**
  * Custom CSS for scoring area on editQuestion page
  */
-.qpisql-scoring-metric-not-executed {
+.qpisql-sm-input-table {
+  width: 100%;
+  border: 0px;
+}
+
+.qpisql-sm-input-table tr td {
+  min-width: 50px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  min-height: 28px;
+}
+
+.qpisql-sm-input-points {
+  vertical-align: middle;
+  width: 50%;
+  font-size: 12px;
+}
+
+.qpisql-sm-input-output-text {
+  border: 1px solid rgb(204,204,204);
+  background-color: #f7f7f7;
+  color: rgb(153, 153, 153);
+  text-transform: uppercase;
+  width: 50%;
   padding-left: 8px;
   padding-right: 8px;
   padding-top: 3px;
   padding-bottom: 3px;
   min-height: 28px;
   line-height: 20px;
-  display: inline;
-  color: #555555;
   font-size: 12px;
-  font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
-  margin-left: 50px;
-  max-width: 50%;
-  float: right;
 }
 
-.qpisql-scoring-metric-executed {
+.qpisql-sm-input-value-text {
+  border: 1px solid rgb(204,204,204);
   padding-left: 8px;
   padding-right: 8px;
   padding-top: 3px;
   padding-bottom: 3px;
   min-height: 28px;
   line-height: 20px;
-  display: inline;
-  color: #555555;
+  background-color: #ffffff;
   font-size: 12px;
-  font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
-  margin-left: 50px;
-  max-width: 50%;
-  float: right;
-}
-
-.qpisql-scoring-metric-executed-inner {
-  display: inline;
 }

@@ -4,39 +4,47 @@
     {INFO}
   </div>
 
-  <select name="points_{TYPE}" class="form-control" size="0">
-    <option value="0" {DEFAULT_POINTS_0}>0</option>
-    <option value="1" {DEFAULT_POINTS_1}>1</option>
-    <option value="2" {DEFAULT_POINTS_2}>2</option>
-    <option value="3" {DEFAULT_POINTS_3}>3</option>
-    <option value="4" {DEFAULT_POINTS_4}>4</option>
-    <option value="5" {DEFAULT_POINTS_5}>5</option>
-    <option value="6" {DEFAULT_POINTS_6}>6</option>
-    <option value="7" {DEFAULT_POINTS_7}>7</option>
-    <option value="8" {DEFAULT_POINTS_8}>8</option>
-    <option value="9" {DEFAULT_POINTS_9}>9</option>
-    <option value="10" {DEFAULT_POINTS_10}>10</option>
-    <option value="11" {DEFAULT_POINTS_11}>11</option>
-    <option value="12" {DEFAULT_POINTS_12}>12</option>
-    <option value="13" {DEFAULT_POINTS_13}>13</option>
-    <option value="14" {DEFAULT_POINTS_14}>14</option>
-    <option value="15" {DEFAULT_POINTS_15}>15</option>
-  </select> {POINTS}
+  <table class="qpisql-sm-input-table">
+    <tr>
+      <td rowspan="0" class="qpisql-sm-input-points">
+        <select name="points_{TYPE}" class="form-control" size="0">
+          <option value="0" {DEFAULT_POINTS_0}>0</option>
+          <option value="1" {DEFAULT_POINTS_1}>1</option>
+          <option value="2" {DEFAULT_POINTS_2}>2</option>
+          <option value="3" {DEFAULT_POINTS_3}>3</option>
+          <option value="4" {DEFAULT_POINTS_4}>4</option>
+          <option value="5" {DEFAULT_POINTS_5}>5</option>
+          <option value="6" {DEFAULT_POINTS_6}>6</option>
+          <option value="7" {DEFAULT_POINTS_7}>7</option>
+          <option value="8" {DEFAULT_POINTS_8}>8</option>
+          <option value="9" {DEFAULT_POINTS_9}>9</option>
+          <option value="10" {DEFAULT_POINTS_10}>10</option>
+          <option value="11" {DEFAULT_POINTS_11}>11</option>
+          <option value="12" {DEFAULT_POINTS_12}>12</option>
+          <option value="13" {DEFAULT_POINTS_13}>13</option>
+          <option value="14" {DEFAULT_POINTS_14}>14</option>
+          <option value="15" {DEFAULT_POINTS_15}>15</option>
+        </select> {POINTS}
+      </td>
+      <td class="qpisql-sm-input-output-text">
+        {OUTPUT_TEXT}
+      </td>
+    </tr>
+    <tr>
+      <td class="qpisql-sm-input-value-text">
+        <div class="qpisql-scoring-metric-not-executed" id="qpisql-scoring-metric-not-executed-{TYPE}" style="display:none">
+          {WARNING_NO_EXECUTION}
+        </div>
 
-  <div class="qpisql-scoring-metric-not-executed" id="qpisql-scoring-metric-not-executed-{TYPE}" style="display:none">
-    {WARNING_NO_EXECUTION}
-  </div>
-
-  <div class="qpisql-scoring-metric-executed" id="qpisql-scoring-metric-executed-{TYPE}" style="display:none">
-
-    {OUTPUT_TEXT}
-
-    <div class="qpisql-scoring-metric-executed-inner"
-         id="qpisql-scoring-metric-output-{TYPE}">
-          {VALUE}
-    </div>
-
-  </div>
+        <div class="qpisql-scoring-metric-executed" id="qpisql-scoring-metric-executed-{TYPE}" style="display:none">
+          <div class="qpisql-scoring-metric-executed-inner"
+               id="qpisql-scoring-metric-output-{TYPE}">
+                {VALUE}
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
 
   <textarea id="qpisql-scoring-metric-value-{TYPE}" name="value_{TYPE}" style="display:none;">{VALUE}</textarea>
 

@@ -22,7 +22,13 @@ class FunctionalDependencies extends ScoringMetric
      * @var string The Javascript to beautifiy (make it more readable) the getter string
      */
     protected static $beautifier = "function(stringToBeautify) {
-      var decoded_json = JSON.parse(stringToBeautify);
+      var decoded_json = '';
+
+      try {
+        decoded_json = JSON.parse(stringToBeautify);
+      } catch (e) {
+        return stringToBeautify;
+      }
 
       var return_string = '';
 

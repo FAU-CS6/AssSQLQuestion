@@ -57,9 +57,26 @@ class ScoringArea extends GUIArea
      */
     public function checkInput()
     {
-        if (isset($_POST["points_result_lines"]) && $_POST["points_result_lines"] > 0) {
+        $points = 0;
+
+        if(isset($_POST["points_result_lines"]))
+        {
+          $points += $_POST["points_result_lines"];
+        }
+
+        if(isset($_POST["points_functional_dependencies"]))
+        {
+          $points += $_POST["points_functional_dependencies"];
+        }
+
+        if(isset($_POST["points_column_names"]))
+        {
+          $points += $_POST["points_column_names"];
+        }
+
+        if ($points <= 0) {
             // $this->setAlert($this->plugin->txt('ai_sca_eo_error'));
-            // return false;
+            return false;
         }
 
         return true;
