@@ -143,7 +143,20 @@ class ExecutionHandler
      {
        if(this.inputs[i].getName() == "integrity_check")
        {
-         return this.inputs[i].getValue();
+         var value = this.inputs[i].getValue();
+
+         if(value === true || value === false)
+         {
+           return value;
+         }
+
+         if(value == "1" || value == 1)
+         {
+           return true;
+         }
+
+         return false;
+
        }
      }
 

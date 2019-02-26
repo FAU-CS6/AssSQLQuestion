@@ -191,6 +191,11 @@ class FunctionalDependencies extends ScoringMetric
       $a = json_decode($a_json, TRUE);
       $b = json_decode($b_json, TRUE);
 
+      if(!is_array($a) || !is_array($b))
+      {
+        return false;
+      }
+
       // At first check whether both have the keys determinateAttributes and dependentAttributes
       if(!array_key_exists("determinateAttributes", $a) || !array_key_exists("dependentAttributes", $a) ||
          !array_key_exists("determinateAttributes", $b) || !array_key_exists("dependentAttributes", $b))
