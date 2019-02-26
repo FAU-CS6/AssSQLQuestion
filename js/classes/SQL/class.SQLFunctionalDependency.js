@@ -162,9 +162,6 @@ class SQLFunctionalDependency
     {
       if(ownDependentAttributes.indexOf(otherDependentAttributes[i]) == -1)
       {
-        console.log(i);
-        console.log(ownDependentAttributes);
-        console.log(otherDependentAttributes);
         return false;
       }
     }

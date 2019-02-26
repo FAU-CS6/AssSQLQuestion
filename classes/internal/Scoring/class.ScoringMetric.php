@@ -247,8 +247,8 @@ abstract class ScoringMetric
     {
         $object->setSingleSolutionMetric(
         new SolutionMetric(static::$type, // type
-                         (integer) $_POST["points_".static::$type], // points
-                         (string) $_POST["value_".static::$type]) // value
+                          (integer) $_POST["points_".static::$type], // points
+                          (string) $_POST["value_".static::$type]) // value
     );
     }
 
@@ -262,7 +262,7 @@ abstract class ScoringMetric
     {
         $participant_input->setSingleParticipantMetric(
         new ParticipantMetric(static::$type, // type
-                            (string) $_POST["value_".static::$type]) // value
+                             (string) $_POST["value_".static::$type]) // value
     );
     }
 

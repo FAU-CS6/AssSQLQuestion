@@ -8,6 +8,7 @@ require_once "internal/GUI/GUIAreas/class.SequenceArea.php";
 require_once "internal/GUI/GUIAreas/class.OutputArea.php";
 require_once "internal/GUI/GUIAreas/class.ScoringArea.php";
 require_once "internal/Scoring/ScoringMetrics/ResultLines/class.ResultLines.php";
+require_once "internal/Scoring/ScoringMetrics/FunctionalDependencies/class.FunctionalDependencies.php";
 
 /**
  * Main defintion of the SQLQuestion plugin
@@ -348,7 +349,7 @@ class assSQLQuestion extends assQuestion
      *
      * @param int $targetParentId			id of the target question pool
      * @param string $targetQuestionTitle
-     * 
+     *
      * @return int|void
      */
     public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = '')
@@ -497,6 +498,7 @@ class assSQLQuestion extends assQuestion
 
         // Go through the different ScoringMetrics and sum there points up
         $points += ResultLines::calculateReachedPoints($this->solution_metrics, $participant_metrics);
+        $points += FunctionalDependencies::calculateReachedPoints($this->solution_metrics, $participant_metrics);
 
         return $points;
     }

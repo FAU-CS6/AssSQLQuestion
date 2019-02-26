@@ -86,12 +86,32 @@ class SQLResult
   }
 
   /**
+   * Get all minimal functional dependencies in the result as JSON string
+   *
+   * @return {String} JSON string with all minimal SQLFunctionalDependencies in the result
+   */
+  getAllMinimalFunctionalDependenciesAsJSON()
+  {
+    // Get the minimal functional dependencies
+    var dependencies = this.getAllMinimalFunctionalDependencies();
+    var dependenciesJSON = [];
+
+    // Iterate through the functional dependencies
+    for(var i = 0; i < dependencies.length; i++)
+    {
+      dependenciesJSON.push(dependencies[i].toJSON());
+    }
+
+    return JSON.stringify(dependenciesJSON);
+  }
+
+  /**
    * Get all minimal functional dependencies in the result
    *
    * Simple addon code for getAllFunctionalDependencies that removes all double functional dependencies
    * and dependencies like ABC->D if A->D or AB->D is also true
    *
-   * @return {Array} All SQLFunctionalDependencies in the result
+   * @return {Array} All minimal SQLFunctionalDependencies in the result
    */
   getAllMinimalFunctionalDependencies()
   {

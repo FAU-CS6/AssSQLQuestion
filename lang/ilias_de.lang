@@ -132,6 +132,13 @@ ai_sca_eo_out_text#:#Das Ergebnis dieser Metrik für Ihrer Relation:
 // The information text informating question creators about the result lines metric
 ai_sca_eo_sm_rl_info#:#<b>Anzahl der Tupel</b><br />Eine der einfachsten Metriken, die zur Bewertung von Anfragen hinzugezogen werden kann ist die Anzahl der Tupel im Ergebnis. Hat das Ergebnis des Prüflings die gleiche Anzahl an Tupeln wie die Musterlösung, so erhält er alle für diese Metrik vergebenen Punkte. Unterscheidet sich seine Anzahl der Ergebnistupel, so bekommt er keine Punkte für diese Metrik.
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Strings used in the edit mode of the scoring area to describe the functional dependencies metric ("ai_sca_eo_sm_fd_" prefix) //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// The information text informating question creators about the functional dependencies metric
+ai_sca_eo_sm_fd_info#:#<b>Funktionale Abhängigkeiten</b><br />Diese Metrik zieht die funktionalen Abhängigkeiten des Ergebnisses heran, um die Musterlösung und die Lösung des Prüflings zu vergleichen. Wichtig dabei ist, dass nur die "minimalen" funktionalen Abhängigkeiten verwendet werden (z.B. bei A->C würde AB->C nicht aufgeführt werden). Die Bepunktung erfolgt dabei mit Hilfe der Jaccard-Metrik: Punkte = Max. Punktzahl * (1-Jaccard-Metrik).
+
 ////////////////////////////////////////////////////////////////////////////////////////
 // Strings used in the solution output mode of the scoring area ("ai_sca_so_" prefix) //
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -159,4 +166,12 @@ ai_sca_so_max_points#:#Max. Punkte
 // Strings used in the solution output mode of the scoring area to describe the result lines metric ("ai_sca_eo_sm_rl_" prefix) //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Header of the metric
 ai_sca_so_sm_rl_info#:#<b>Anzahl der Tupel</b>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Strings used in the solution output mode of the scoring area to describe the functional dependencies metric ("ai_sca_eo_sm_fd_" prefix) //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Header of the metric
+ai_sca_so_sm_fd_info#:#<b>Funktionale Abhängigkeiten</b>
