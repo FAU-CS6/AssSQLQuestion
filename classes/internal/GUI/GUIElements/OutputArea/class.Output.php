@@ -97,8 +97,8 @@ class Output extends GUIElement
     public function getSolutionOutput($participant_input)
     {
         // Get any default data
-    $id = "id" . $this->object->getId() . "cor1"; // Helper to get unique ids for every div - cor1 is pattern solution
-    $error_bool = $this->object->getErrorBool() ? "true" : "false";
+        $id = "id" . $this->object->getId() . "cor1"; // Helper to get unique ids for every div - cor1 is pattern solution
+        $error_bool = $this->object->getErrorBool() ? "true" : "false";
         $error = $this->object->getError();
         $executed_bool = $this->object->getExecutedBool() ? "true" : "false";
         $output_relation = $this->object->getOutputRelation();

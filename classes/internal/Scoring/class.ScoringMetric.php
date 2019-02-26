@@ -25,6 +25,11 @@ abstract class ScoringMetric
     protected static $getter = "function(result) { return 'abstract'; }";
 
     /**
+     * @var string The Javascript to beautifiy (make it more readable) the getter string
+     */
+    protected static $beautifier = "function(stringToBeautify) { return stringToBeautify; }";
+
+    /**
      * Get the info text of for the edit page
      *
      * @return string The info text shown at the edit page
@@ -103,6 +108,7 @@ abstract class ScoringMetric
         $tpl->setVariable("INFO", static::getEditPageInfo($plugin));
         $tpl->setVariable("TYPE", static::$type);
         $tpl->setVariable("GETTER", static::$getter);
+        $tpl->setVariable("BEAUTIFIER", static::$beautifier);
 
         // Set default values
         $value = $solution_metric->getValue();
@@ -206,6 +212,16 @@ abstract class ScoringMetric
     {
         $tpl = $plugin->getTemplate('ScoringArea/tpl.il_as_qpl_qpisql_sca_sm_output.html');
 
+        // Set type, ID and beautifier
+        $tpl->setVariable("TYPE", static::$type);
+        $tpl->setVariable("BEAUTIFIER", static::$beautifier);
+
+        if (!is_null($participant_input)) {
+          $tpl->setVariable("ID", $id = "id" . $object->getId() . "cor0");
+        } else {
+          $tpl->setVariable("ID", $id = "id" . $object->getId() . "cor1");
+        }
+
         // Set the headers
         $tpl->setVariable("HEADER", static::getSolutionPageInfo($plugin));
         $tpl->setVariable("HEADER_COMPUTED_VALUE", $plugin->txt('ai_sca_so_computed_value'));
@@ -228,10 +244,12 @@ abstract class ScoringMetric
             $solution_metrics = $object->getAllSolutionMetrics();
             $participant_metrics = $participant_input->getAllParticipantMetrics();
             $tpl->setVariable("POINTS", static::calculateReachedPoints(
-          $solution_metrics,
-          $participant_metrics
-      ));
+                $solution_metrics,
+                $participant_metrics
+            ));
         }
+
+
 
         return $tpl->get();
     }

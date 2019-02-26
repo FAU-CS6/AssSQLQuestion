@@ -15,13 +15,18 @@
     *
     * @param {string} type The type of the scoring metric - used in the id of the elements to be edited
     * @param {callback} getter The function to get the compute the value of the scoringMetric after a result was issued
+    * @param {callback} beautifier The function to beautify a result
     */
-   constructor(type, getter)
+   constructor(type, getter, beautifier)
    {
      super();
 
      this.type = type;
      this.getter = getter;
+     this.beautifier = beautifier;
+
+     // Beautify any existing content
+     document.getElementById('qpisql-scoring-metric-output-' + this.type).innerHTML = this.beautifier(document.getElementById('qpisql-scoring-metric-output-' + this.type).innerHTML);
    }
 
    /**
@@ -68,7 +73,7 @@
    {
      document.getElementById('qpisql-scoring-metric-not-executed-' + this.type).style.display = "none";
      document.getElementById('qpisql-scoring-metric-executed-' + this.type).style.display = "inherit";
-     document.getElementById('qpisql-scoring-metric-output-' + this.type).innerHTML = this.getter(result);
+     document.getElementById('qpisql-scoring-metric-output-' + this.type).innerHTML = this.beautifier(this.getter(result));
      document.getElementById('qpisql-scoring-metric-value-' + this.type).value = this.getter(result);
    }
 

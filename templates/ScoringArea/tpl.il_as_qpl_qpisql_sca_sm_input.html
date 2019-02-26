@@ -31,7 +31,10 @@
 
     {OUTPUT_TEXT}
 
-    <div class="qpisql-scoring-metric-executed-inner" id="qpisql-scoring-metric-output-{TYPE}">{VALUE}</div>
+    <div class="qpisql-scoring-metric-executed-inner"
+         id="qpisql-scoring-metric-output-{TYPE}">
+          {VALUE}
+    </div>
 
   </div>
 
@@ -40,7 +43,7 @@
   <script>
     // Create an ExecutionOutput out of this
     window.EXECUTE_HANDLER.registerOutput(
-      new ScoringMetricEditQuestion("{TYPE}", {GETTER})
+      new ScoringMetricEditQuestion("{TYPE}", {GETTER}, {BEAUTIFIER})
     );
 
     if({EXECUTED})

@@ -138,7 +138,7 @@ ai_sca_eo_sm_rl_info#:#<b>Number of Tuples</b><br />One of the simplest metrics 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // The information text informating question creators about the functional dependencies metric
-ai_sca_eo_sm_fd_info#:#<b>Functional Dependencies</b><br />This metric uses the functional dependencies of the result to compare the sample solution and the students solution. It is important that only the "minimal" functional dependencies are used (e.g., for A-> C, AB-> C would not be listed). The grading is done using the Jaccard distance: Points = Max. Score * (1-Jaccard distance).
+ai_sca_eo_sm_fd_info#:#<b>Functional Dependencies</b><br />This metric uses the functional dependencies of the result to compare the sample solution and the students solution. It is important that only the "minimal" functional dependencies are used (e.g., for A &rArr; C, A &times; B &rArr; C would not be listed). The grading is done using the Jaccard distance: Points = Max. Score * (1-Jaccard distance).
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // Strings used in the solution output mode of the scoring area ("ai_sca_so_" prefix) //

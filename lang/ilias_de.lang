@@ -137,7 +137,7 @@ ai_sca_eo_sm_rl_info#:#<b>Anzahl der Tupel</b><br />Eine der einfachsten Metrike
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // The information text informating question creators about the functional dependencies metric
-ai_sca_eo_sm_fd_info#:#<b>Funktionale Abhängigkeiten</b><br />Diese Metrik zieht die funktionalen Abhängigkeiten des Ergebnisses heran, um die Musterlösung und die Lösung des Prüflings zu vergleichen. Wichtig dabei ist, dass nur die "minimalen" funktionalen Abhängigkeiten verwendet werden (z.B. bei A->C würde AB->C nicht aufgeführt werden). Die Bepunktung erfolgt dabei mit Hilfe der Jaccard-Metrik: Punkte = Max. Punktzahl * (1-Jaccard-Metrik).
+ai_sca_eo_sm_fd_info#:#<b>Funktionale Abhängigkeiten</b><br />Diese Metrik zieht die funktionalen Abhängigkeiten des Ergebnisses heran, um die Musterlösung und die Lösung des Prüflings zu vergleichen. Wichtig dabei ist, dass nur die "minimalen" funktionalen Abhängigkeiten verwendet werden (z.B. bei A &rArr; C würde A &times; B &rArr; C nicht aufgeführt werden). Die Bepunktung erfolgt dabei mit Hilfe der Jaccard-Metrik: Punkte = Max. Punktzahl * (1-Jaccard-Metrik).
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // Strings used in the solution output mode of the scoring area ("ai_sca_so_" prefix) //

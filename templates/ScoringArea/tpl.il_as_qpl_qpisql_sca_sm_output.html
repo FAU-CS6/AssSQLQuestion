@@ -6,16 +6,23 @@
 
   <table class="qpisql-output-table">
     <tr class="qpisql-output-table-header">
-      <td>{HEADER_COMPUTED_VALUE}</td>
-      <td>{HEADER_EXPECTED_VALUE}</td>
-      <td>{HEADER_POINTS}</td>
-      <td>{HEADER_MAX_POINTS}</td>
+      <td width="30%">{HEADER_COMPUTED_VALUE}</td>
+      <td width="30%">{HEADER_EXPECTED_VALUE}</td>
+      <td width="20%">{HEADER_POINTS}</td>
+      <td width="20%">{HEADER_MAX_POINTS}</td>
     </tr>
     <tr class="qpisql-output-table-tuple">
-      <td>{COMPUTED_VALUE}</td>
-      <td>{EXPECTED_VALUE}</td>
+      <td id="computed-value-{TYPE}-{ID}">{COMPUTED_VALUE}</td>
+      <td id="expected-value-{TYPE}-{ID}">{EXPECTED_VALUE}</td>
       <td>{POINTS}</td>
       <td>{MAX_POINTS}</td>
     </tr>
   </table>
 </div>
+
+<script>
+  var beautifier_{TYPE}_{ID}={BEAUTIFIER};
+
+  document.getElementById('computed-value-{TYPE}-{ID}').innerHTML = beautifier_{TYPE}_{ID}(document.getElementById('computed-value-{TYPE}-{ID}').innerHTML);
+  document.getElementById('expected-value-{TYPE}-{ID}').innerHTML = beautifier_{TYPE}_{ID}(document.getElementById('expected-value-{TYPE}-{ID}').innerHTML);
+</script>

@@ -19,6 +19,11 @@ class ResultLines extends ScoringMetric
     protected static $getter = "function(result) { return result.getNumberOfRows(); }";
 
     /**
+     * @var string The Javascript to beautifiy (make it more readable) the getter string
+     */
+    protected static $beautifier = "function(stringToBeautify) { return stringToBeautify; }";
+
+    /**
      * Get the info text of for the edit page
      *
      * @return string The info text shown at the edit page
@@ -45,7 +50,7 @@ class ResultLines extends ScoringMetric
      *
      * @param SolutionMetric[] $solution_metrics The suiting solution metric array (with the pattern solution values)
      * @param ParticipantMetric[] $participant_metrics The participant metric array to be evaluated
-     * 
+     *
      * @return float The reached points
      *
      * @access public

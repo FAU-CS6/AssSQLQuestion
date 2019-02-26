@@ -19,6 +19,49 @@ class FunctionalDependencies extends ScoringMetric
     protected static $getter = "function(result) { return result.getAllMinimalFunctionalDependenciesAsJSON(); }";
 
     /**
+     * @var string The Javascript to beautifiy (make it more readable) the getter string
+     */
+    protected static $beautifier = "function(stringToBeautify) {
+      var decoded_json = JSON.parse(stringToBeautify);
+
+      var return_string = '';
+
+      for(var i = 0; i < decoded_json.length; i++)
+      {
+        var decoded_inner_json = JSON.parse(decoded_json[i]);
+
+        for(var ii = 0; ii < decoded_inner_json['determinateAttributes'].length; ii++)
+        {
+          return_string += decoded_inner_json['determinateAttributes'][ii];
+
+          if(ii != decoded_inner_json['determinateAttributes'].length - 1)
+          {
+              return_string += ' &times; ';
+          }
+        }
+
+        return_string += ' &rArr; ';
+
+        for(var ii = 0; ii < decoded_inner_json['dependentAttributes'].length; ii++)
+        {
+          return_string += decoded_inner_json['dependentAttributes'][ii];
+
+          if(ii != decoded_inner_json['dependentAttributes'].length - 1)
+          {
+              return_string += ' &times; ';
+          }
+        }
+
+        if(i != decoded_json.length - 1)
+        {
+            return_string += ', ';
+        }
+      }
+
+      return return_string;
+    }";
+
+    /**
      * Get the info text of for the edit page
      *
      * @return string The info text shown at the edit page
@@ -60,18 +103,68 @@ class FunctionalDependencies extends ScoringMetric
         $solution_metric_decoded = json_decode($solution_metric->getValue(), TRUE);
         $participant_metric_decoded = json_decode($participant_metric->getValue(), TRUE);
 
-        // Compute the INTERSECT of both arrays
-        $intersect = array_uintersect($solution_metric_decoded,$participant_metric_decoded,
-                                      [__CLASS__, 'compareFunctionalDependencies']);
+        // Compute the UNION of both
+        $union = array();
 
-        // Compute the DIFF of both arrays as INTERSECT + DIFF = UNION
-        $diff1 = array_udiff($solution_metric_decoded,$participant_metric_decoded,
-                             [__CLASS__, 'compareFunctionalDependencies']);
-        $diff2 = array_udiff($participant_metric_decoded,$solution_metric_decoded,
-                             [__CLASS__, 'compareFunctionalDependencies']);
-        $union = array_merge($intersect, $diff1, $diff2);
+        // Iterate through the $solution_metric_decoded
+        for($i = 0; $i < sizeof($solution_metric_decoded); $i++)
+        {
+          $found = false;
 
-        // throw new Exception("SM ".(string)sizeof($participant_metric_decoded)." Union ".(string)sizeof($union)." Diff1 ".(string)sizeof($diff1)." Diff2 ".(string)sizeof($diff2)." Intersect ".(string)sizeof($intersect));
+          for($ii = 0; $ii < sizeof($union); $ii++)
+          {
+            if(self::compareFunctionalDependencies($union[$ii], $solution_metric_decoded[$i]))
+            {
+              $found = true;
+            }
+          }
+
+          if(!$found)
+          {
+            array_push($union, $solution_metric_decoded[$i]);
+          }
+        }
+
+        // Iterate through the $solution_metric_decoded
+        for($i = 0; $i < sizeof($participant_metric_decoded); $i++)
+        {
+          $found = false;
+
+          for($ii = 0; $ii < sizeof($union); $ii++)
+          {
+            if(self::compareFunctionalDependencies($union[$ii], $participant_metric_decoded[$i]))
+            {
+              $found = true;
+            }
+          }
+
+          if(!$found)
+          {
+            array_push($union, $participant_metric_decoded[$i]);
+          }
+        }
+
+        // Compute the INTERSECT
+        $intersect = array();
+
+        // Iterate through the $solution_metric_decoded
+        for($i = 0; $i < sizeof($solution_metric_decoded); $i++)
+        {
+          $found = false;
+
+          for($ii = 0; $ii < sizeof($participant_metric_decoded); $ii++)
+          {
+            if(self::compareFunctionalDependencies($participant_metric_decoded[$ii], $solution_metric_decoded[$i]))
+            {
+              $found = true;
+            }
+          }
+
+          if($found)
+          {
+            array_push($intersect, $solution_metric_decoded[$i]);
+          }
+        }
 
         // Compute 1 - Jaccard distance
         return (1 - ((sizeof($union) - sizeof($intersect))/sizeof($union))) * $solution_metric->getPoints();
@@ -83,7 +176,7 @@ class FunctionalDependencies extends ScoringMetric
      * @param array $a_json The first functional dependency as JSON string - should look like "{"determinateAttributes":[],"dependentAttributes":[]}"
      * @param array $b_json The second functional dependency as JSON string - should look like "{"determinateAttributes":[],"dependentAttributes":[]}"
      *
-     * @return int 0 for both dependencies being the same - -1 for them being different
+     * @return int true for both dependencies being the same - false for them being different
      *
      * @access public
      */
@@ -91,8 +184,6 @@ class FunctionalDependencies extends ScoringMetric
     {
       $a = json_decode($a_json, TRUE);
       $b = json_decode($b_json, TRUE);
-
-      Log::warning("Test");
 
       // At first check whether both have the keys determinateAttributes and dependentAttributes
       if(!array_key_exists("determinateAttributes", $a) || !array_key_exists("dependentAttributes", $a) ||
@@ -105,7 +196,7 @@ class FunctionalDependencies extends ScoringMetric
       if(sizeof($a["determinateAttributes"]) != sizeof($b["determinateAttributes"]) ||
          sizeof($a["dependentAttributes"]) != sizeof($b["dependentAttributes"]))
       {
-        return -1;
+        return false;
       }
 
       // Save the values in seperate arrays for easier handling
@@ -125,7 +216,7 @@ class FunctionalDependencies extends ScoringMetric
       {
         if($a_determinate[$i] != $b_determinate[$i])
         {
-          return -1;
+          return false;
         }
       }
 
@@ -134,11 +225,11 @@ class FunctionalDependencies extends ScoringMetric
       {
         if($a_dependent[$i] != $b_dependent[$i])
         {
-          return -1;
+          return false;
         }
       }
 
       // Both functional dependencies are equal
-      return 0;
+      return true;
     }
 }
