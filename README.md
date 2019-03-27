@@ -73,7 +73,7 @@ Additionally to the in source documentation there is a documentation educating a
     pdflatex dokumentation.tex
   ```
 
-The CI/CD of this project automatically compiles this file after every commit. The resulting PDF file can be received [here](https://gitlab.tab-e.de/konzmod/uebung/pipelines).
+The CI/CD of this project automatically compiles this file after every commit. The resulting PDF file can be received [here](https://gitlab.tab-e.de/qpisql/assSQLQuestion/pipelines).
 
 ## Addtional Information
 
