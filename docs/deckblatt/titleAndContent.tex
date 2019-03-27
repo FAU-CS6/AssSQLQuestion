@@ -1,0 +1,184 @@
+\pagestyle{empty}
+%
+% Deckblatt
+%
+\begin{figure}[p]
+\begin{tikzpicture}
+	% Rahmen
+	\draw[rounded corners=4mm] (151mm,213mm) -- (151mm,196mm) -- (0mm,196mm) -- (0mm,145mm) -- (151mm,145mm) -- (151mm,63mm);
+	% F
+	\draw (62mm,3mm) -- (62mm,59mm) -- (102mm,59mm) (62mm,31mm) -- (83mm,31mm);
+	% A
+	\draw (73mm,3mm) -- (106mm,58mm) -- (106mm,3mm) (90mm,31mm) -- (106mm,31mm);
+	% U
+	\draw (113mm,58mm) -- (113mm,18mm) arc (180:360:19mm)  -- (151mm,58mm);
+
+	% FAU Logo
+	\node at (25mm,175mm){\includegraphics[keepaspectratio=true,width=35mm]{deckblatt/FAU-Siegel.png}};
+	% Arbeitsart
+	\node at (25mm,151mm){\Large\thethesis};
+	% Titel
+	\node at (97mm,175mm){
+		\parbox{10cm}{
+			\centering \bfseries \itshape \Large \thesisTitleFormatted
+		}
+	};
+	% Autor
+	\node at (97mm,151mm){
+			\bfseries \itshape \Large \myname
+	};
+	
+	\node at (60mm,59mm)[below left,inner sep=0]{
+		\parbox{6cm}{
+			\begin{flushright}
+				\large Lehrstuhl für Informatik 6 \\ (Datenmanagement)
+			\end{flushright}
+		}
+	};
+	\node at (60mm,25mm)[above left]{
+		\parbox{6cm}{
+			\begin{flushright}
+				\large Department Informatik
+			\end{flushright}
+		}
+	};
+	\node at (60mm,-2mm)[above left,inner sep=0]{
+		\parbox{6cm}{
+			\begin{flushright}
+				\large Friedrich Alexander-\\Universität\\Erlangen-Nürnberg
+			\end{flushright}
+		}
+	};
+\end{tikzpicture}
+\end{figure}
+%
+% Titelseite
+%
+\begin{titlepage}
+
+  \begin{center}
+    
+    {\Huge \bfseries
+      \thesistitle{}\\
+    } 
+    
+    \vspace*{1cm}
+    \thethesis{} im Fach Informatik
+    \vspace{2cm}
+    
+    {\large vorgelegt von} \\
+    \vspace*{0.7cm}
+    {\Large \bfseries \myname} \\
+    \vspace*{0.7cm}
+    {\large geb. \birthday{} in \birthplace{}} 
+    
+    \vspace{1.5cm}
+    
+    angefertigt am 
+
+    \vspace{1cm}
+    
+    {\bfseries
+      Lehrstuhl für Informatik 6 (Datenmanagement) \\
+      Department Informatik \\
+      Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)\\
+      }
+    
+    \vspace{0.5cm}
+\end{center}
+\begin{tabbing}
+    Betreuer: \= \corrector{}\\
+    \> \tutor{} 
+\end{tabbing}
+    \vspace{0.25cm}
+    
+\begin{tabbing}
+  Beginn der Arbeit: \startofwork{} \\
+  Abgabe der Arbeit: \dayofdoom{}
+\end{tabbing}
+
+\end{titlepage}
+
+\begin{comment}
+%
+% Leere Seite für doppelseitiges Layout einfügen
+\cleardoubleemptypage
+%
+% Leeres Seitenlayout: Keine Seitennummern, kein Header oder Footer
+%
+Ich versichere, dass ich die Arbeit ohne fremde Hilfe und ohne Benutzung
+anderer als der angegebenen Quellen angefertigt habe und dass diese Arbeit in
+gleicher oder ähnlicher Form noch keiner anderen Prüfungsbehörde
+vorgelegen hat und von dieser als Teil einer Prüfungsleistung angenommen
+wurde. Alle Ausführungen, die wörtlich oder sinngemäß übernommen
+wurden, sind als solche gekennzeichnet.
+
+\vspace{2cm}
+
+\noindent
+Der Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU), vertreten durch
+den Lehrstuhl für Informatik 6 (Datenmanagement), wird für Zwecke der
+Forschung und Lehre ein einfaches, kostenloses, zeitlich und örtlich
+unbeschränktes Nutzungsrecht an den Arbeitsergebnissen des Masterprojektes
+einschließlich etwaiger Schutzrechte und Urheberrechte eingeräumt.
+
+\vspace{2cm}
+Erlangen, den \dayofdoom{}
+
+\vspace{2cm}
+\myname{} \hfill \ 
+
+\end{comment}
+
+\vspace{0,5cm}
+%
+% Leere Seite für doppelseitiges empty Layout einfügen
+\cleardoubleemptypage
+%
+% Seitenlayout mit Seitennummern, allerdings kein Header oder Footer
+\pagestyle{plain}
+%
+% Römische Seitenzahlen
+\pagenumbering{roman}
+% Da wir 6 Seiten ohne Seitennummerierung im Seitenlayout empty verwenden, reicht ein 
+% \usepackage[pdftex,pdfpagelabels,plainpages=false,]{hyperref} nicht mehr aus. Es muss zusätzlich noch der 
+% Seitenzähler auf 7 anstatt wie defaultmäßig auf 1 für die folgend Seiten gesetzt werden.
+\setcounter{page}{7}
+%
+\input{src/abstract}
+%
+% Leere Seite für doppelseitiges plain Layout einfügen
+\cleardoubleplainpage
+%
+% Inhaltsverzeichnis
+\tableofcontents
+%
+% Leere Seite für doppelseitiges plain Layout einfügen
+\cleardoubleplainpage
+%
+% Abbildungsverzeichnis
+\listoffigures
+%
+% Leere Seite für doppelseitiges plain Layout einfügen
+\cleardoubleplainpage
+%
+% Tabellenverzeichnis
+\listoftables
+%
+% Leere Seite für doppelseitiges plain Layout einfügen
+\cleardoubleplainpage
+%
+% Listingverzeichnis
+\lstlistoflistings
+%
+% Leere Seite für doppelseitiges plain Layout einfügen
+\cleardoubleplainpage
+%
+% Seitenlayout mit Seitennummern, Header und Footer
+\pagestyle{headings}
+%
+% Arabische Seitenzahlen
+\pagenumbering{arabic}
+%
+% Seitenzähler auf 1 setzen, das benötigt das Paket hyperref
+\setcounter{page}{1}

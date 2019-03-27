@@ -1,8 +1,8 @@
 stages:
-    - build_docker
+    - build
 
 build_docker:
-    stage: build_docker
+    stage: build
     tags:
         - docker
     script:
@@ -10,3 +10,15 @@ build_docker:
         - docker build --tag="$CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME" .
         - docker push $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
     when: on_success
+
+build_latex:
+    stage: build
+    image: docker.gitlab.tab-e.de/docker/docker-images/latex:wheezy
+    script:
+        - cd docs
+        - pdflatex dokumentation.tex
+    artifacts:
+        name: "Dokumentation"
+        paths:
+            - "docs/*.pdf"
+        expire_in: "2 yrs"

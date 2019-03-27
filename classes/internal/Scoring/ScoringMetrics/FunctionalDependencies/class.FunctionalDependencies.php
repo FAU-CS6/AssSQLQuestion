@@ -211,10 +211,10 @@ class FunctionalDependencies extends ScoringMetric
       }
 
       // Save the values in seperate arrays for easier handling
-      $a_determinate = $a["determinateAttributes"];
-      $a_dependent = $a["dependentAttributes"];
-      $b_determinate = $b["determinateAttributes"];
-      $b_dependent = $b["dependentAttributes"];
+      $a_determinate = array_map('strtolower', $a["determinateAttributes"]);
+      $a_dependent = array_map('strtolower', $a["dependentAttributes"]);
+      $b_determinate = array_map('strtolower', $b["determinateAttributes"]);
+      $b_dependent = array_map('strtolower', $b["dependentAttributes"]);
 
       // Sort the arrays
       sort($a_determinate);

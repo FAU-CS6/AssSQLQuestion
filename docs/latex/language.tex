@@ -1,0 +1,59 @@
+%%%%%%%%%%%%%%%%%%%
+% Sprachcodierung %
+%%%%%%%%%%%%%%%%%%%
+\usepackage[T1]{fontenc}
+% Paket fontenc: Fontencoding T1 festlegen, damit Wörter, die Umlaute
+% enthalten richtig getrennt werden.
+\usepackage[utf8]{inputenc}
+% Paket inputenc: Unterstützung verschiedener Zeichenkodierungen.  Unterstützte
+% Kodierungen sind:
+% ascii		ASCII Kodierung für Zeichen in dem Bereich von 32 bis 127
+% latin1	ISO Latin1
+% latin2	ISO Latin2
+% latin3	ISO Latin3
+% latin4	ISO Latin4
+% latin5	ISO Latin5
+% latin9	ISO Latin9 (definiert die ISO 8859-15 Codierung einschließlich des EURO-Zeichnes: \texteuro)
+% decmulti	DEC Multinational Character Set Encoding für das OpenVMS Betriebssystem
+% cp437		IBM 437 Code Page
+% cp437de	IBM 437 Code Page deutsche Version
+% cp850		IBM 850 Code Page
+% cp852		IBM 852 Code Page
+% cp865		IBM 850 Code Page
+% cp1250	Windows 1250 (Zentral- und Osteuropa) Code Page
+% cp1252	Synonym für ansinew
+% applemac	Macintosh Kodierung
+% next		Next Kodierung
+% ansinew	Windows 3.1 ANSI Kodierung, erweiterung von Latin1
+% Dokumentation zu diesem Paket: /usr/share/doc/texmf/latex/base/inputenc.dvi.ps
+%
+\usepackage[english,ngerman]{babel}
+% Paket babel: Unterstützung für andere Sprachen als amerikanisches Englisch
+% Die Sprachen Englisch, Französich und Deutsch  verwenden. Die zuletzt aufgeführte
+% Sprache ist die Sprache, die beim Start geladen wird. Zwischen den einzelnen
+% Sprachen kann man mittels \selectlanguage{english}, \selectlanguage{ngerman} und
+% \selectlanguage{french} umgeschaltet werden. ngerman steht für die neue, german
+% für die alte deutsche Rechtschreibung.
+% Mittels \iflanguage{sprache}{wahr-Klausel}{falsch-Klausel} kann abgeprüft werden,
+% welche Sprache gerade aktiv ist und demensprechend können Befehle ausgeführt werden.
+% Umlaute und Sonderzeichen mit dem babel Paket:
+% ä = \"a 
+% Ä = \"A
+% ö = \"o 
+% Ö = \"O
+% ü = \"u 
+% Ü = \"U
+% ß = \"s
+% SS = \"S ( groß geschriebene ß als SS wie z.B in STRASSE )
+% Deutsche doppelte Anführungszeichen links unten \glqq
+% Deutsche doppelte Anführungszeichen rechts oben \grqq
+% Deutsche einfache Anführungszeichen links unten \glq
+% Deutsche einfache Anführungszeichen rechts      \grq
+% Französische doppelte Anführungszeichen links  \flqq
+% Französische doppelte Anführungszeichen rechts \frqq
+% Franz<F6>sische einfache Anf<FC>hrungszeichen links  \flq
+% Franz<F6>sische einfache Anf<FC>hrungszeichen rechts \frq
+% Original Anf<FC>hrungszeichen \dq
+% Weitere Spezialbefehle zur Silbentrennung und Lignatur
+% Dokumentation zu diesem Paket: /usr/share/doc/texmf/generic/babel/user.dvi.gz
+\selectlanguage{ngerman}

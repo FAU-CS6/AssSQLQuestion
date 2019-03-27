@@ -1,0 +1,125 @@
+%
+% Diese Datei enthält einige Befehlsdefinitionen
+%
+%%%%%%%%%%%%%%%%%%%%
+% Wörtliche Zitate %
+%%%%%%%%%%%%%%%%%%%%
+%
+% Zitat ohne Referenz auf die Seitenangabe
+\newcommand{\zitat}[2]{\glqq{}\textsl{#1}\grqq{} \refbib{#2}}
+\newcommand{\zitatGross}[2]{\begin{quote}\glqq{}\textsl{#1}\grqq{} \refbib{#2}\end{quote}}
+\newcommand{\zitatRiesig}[2]{\begin{quotation}\glqq{}\textsl{#1}\grqq{} \refbib{#2}\end{quotation}}
+%
+% Zitat mit Referenz auf die Seitenangabe
+\newcommand{\zitatSeite}[3]{\glqq{}\textsl{#1}\grqq{} \refbibpage{#3}{#2}}
+\newcommand{\zitatGrossSeite}[3]{\begin{quote}\glqq{}\textsl{#1}\grqq{} \refbibpage{#3}{#2}\end{quote}}
+\newcommand{\zitatRiesigSeite}[3]{\begin{quotation}\glqq{}\textsl{#1}\grqq{} \refbibpage{#3}{#2}\end{quotation}}
+%
+% Einschübe, Auslassungen und erkannte Fehler in Zitaten
+\newcommand{\auslassung}{[\ldots] }
+\newcommand{\einschub}[1]{[#1] }
+\newcommand{\erkannterFehler}{\einschub{sic!}}
+%
+%%%%%%%%%%%%%%%%%%
+% Formatierungen %
+%%%%%%%%%%%%%%%%%%
+%
+% Formatierungen für Acronyme
+\newcommand{\acronym}[1]{{{#1}}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Zu ändernd Stellen im Dokument %
+% während der Bearbeitung        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\newcommand{\fixme}[1]{{\sffamily\bfseries{\Huge\uppercase{FIXME}}}{\large - #1}\\}
+\newcommand{\frage}[1]{{\sffamily\bfseries{\Huge\scshape\uppercase{FRAGEN}}}{\large - #1}\\}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Befehle für ein Literaturverzeichnis ohne BibTEX %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Quellen aus dem Internet
+\newcommand{\BIBdeWWWorg}[6]{\bibitem[#1]{#2}#3.\ \glqq{}#4\grqq{}.\\\href{#5}{#5}.\\#6.}
+\newcommand{\BIBenWWWorg}[6]{\BIBdeWWWorg{#1}{#2}{#3}{\selectlanguage{english}#4\selectlanguage{ngerman}}{#5}{#6}}
+\newcommand{\BIBenWWWauthor}[7]{\BIBenWWWorg{#1}{#2}{#3,\ #4}{#5}{#6}{#7}}
+\newcommand{\BIBdeWWWauthor}[7]{\BIBdeWWWorg{#1}{#2}{#3,\ #4}{#5}{#6}{#7}}
+%
+% Use with long URLs, which have to be layouted manually.
+% These commands use an additional last argument for a formatted URL
+\newcommand{\BIBdeWWWorgLONG}[7]{\bibitem[#1]{#2}#3.\ \glqq{}#4\grqq{}.\\\href{#5}{#7}.\\#6.}
+\newcommand{\BIBenWWWorgLONG}[7]{\BIBdeWWWorgLONG{#1}{#2}{#3}{\selectlanguage{english}#4\selectlanguage{ngerman}}{#5}{#6}{#7}}
+\newcommand{\BIBenWWWauthorLONG}[8]{\BIBenWWWorgLONG{#1}{#2}{#3,\ #4}{#5}{#6}{#7}{#8}}
+\newcommand{\BIBdeWWWauthorLONG}[8]{\BIBdeWWWorgLONG{#1}{#2}{#3,\ #4}{#5}{#6}{#7}{#8}}
+%
+%
+% Für Freunde des ungenauen Zitierstils: Makro zum Ein- oder Ausblenden von Seitenzahlen
+% Je nach Wunsch auskommentieren
+% 
+\newcommand{\refbib}[1]{\cite{#1}}
+% Mit Seitenzahlen 
+%\newcommand{\refbibpage}[2]{\cite[#1]{#2}}
+% Ohne Seitenzahlen
+\newcommand{\refbibpage}[2]{\cite{#2}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Lokale Erweiterungen %
+% für dieses Dokument  %
+%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Befehle für die Verlinkung ummerhalb des Dokuments
+% \link{text}{link-label}{Kapitel-Name}
+\newcommand{\link}[3]{\emph{#1}\footnote{Siehe: \ref{#2} {#3}}}
+\newcommand{\citeLink}[3]{\emph{#1}$^($\footnote{Siehe: \ref{#2} {#3}}$^)$}
+%
+% Häufig verwendete Akronyme
+\newcommand{\UML}{\acronym{UML}}
+\newcommand{\UMLtwo}{\acronym{UML 2.1}}
+\newcommand{\JAVA}{\acronym{JAVA}}
+\newcommand{\cpp}{\acronym{C++}}
+\newcommand{\C}{\acronym{C}}
+\newcommand{\HSQL}{\acronym{HSQLDB}}
+\newcommand{\SQL}{\acronym{SQL}}
+\newcommand{\code}[1]{\foreignlanguage{english}{\texttt{#1}}}
+%
+% Befehle für den Index
+\newcommand{\highlight}[1]{\emph{#1}\index{#1}}
+\newcommand{\indexwrite}[1]{#1\index{#1}}
+%
+% Grafikbefehle für Softwaremetriken
+\newcommand{\qualityPoint}[5]{\put(#1,#2){\circle*{2}} \put(#3,#4){\makebox(0,0){\scriptsize{(#5)}}}}
+
+%
+% WORKAROUND, damit lstlistoflistings funktioniert:
+% Quelle: http://www.komascript.de/node/477
+%
+%\makeatletter% --> De-TeX-FAQ
+%\renewcommand*{\lstlistoflistings}{%
+%\begingroup
+%\if@twocolumn
+%\@restonecoltrue\onecolumn
+%\else
+%\@restonecolfalse
+%\fi
+%\lol@heading
+%\setlength{\parskip}{\z@}%
+%\setlength{\parindent}{\z@}%
+%\setlength{\parfillskip}{\z@ \@plus 1fil}%
+%\@starttoc{lol}%
+%\if@restonecol\twocolumn\fi
+%\endgroup
+%}
+%\makeatother% --> \makeatletter
+
+% Direktes Einbinden von mit Metapost erzeugten Grafiken ermöglichen
+\DeclareGraphicsRule{*}{mps}{*}{}
+
+% Codeformatierung
+\lstset{language=Java}
+\lstset{basicstyle=\small}
+\definecolor{darkgrey}{rgb}{0.95,0.95,0.95}
+\lstset{backgroundcolor=\color{darkgrey}}
+\lstset{linewidth=\textwidth, showstringspaces=false}
+\lstset{captionpos=b}
+\lstset{tabsize=2}
+\lstset{breaklines=true}

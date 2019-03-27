@@ -1,0 +1,64 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Note: This document can be build  %
+% by using pdflatex and not latex   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Lade Dokumenttyp
+% Die Kommentare zu diesem Befehl sind etwas länglich und stehen in latex/documentclass.tex
+% Das sollte man sich mal durchlesen!
+\documentclass[a4paper, 12pt, BCOR8.25mm, headsepline, final, bibliography=totoc, listof=totoc, index=totoc, parskip=half*, chapterprefix, appendixprefix, captions=nooneline, origlongtable]{scrbook}
+%
+% Lade Unterstützung für die deutsche Sprache
+%
+\input{latex/language}
+%
+% Lade persönliche Daten
+% Dieses Dokument solltest Du auf jeden Fall anpassen, denn hier kommt Dein Name und der Titel Deiner Arbeit hinein.
+% Hier werden Makros definiert, die in den folgenden LaTeX-Dokumenten verwendet werden.
+%
+\input{latex/thesis}
+%
+% Lade Pakete
+%
+\input{latex/packages}
+%
+% Lese selbst definierte Befehle ein. Es steht Dir frei diese sehr hilfreichen Befehle zu verwenden. Du kannst dieses
+% Dokument allerdings auch mit samt dieser Zeile löschen.
+%
+\input{latex/commands}
+%
+% Lese Trennungsregeln
+% Diese Trennungsregeln solltest Du an Dein Dokument anpassen. LaTeX kann viel, aber nicht alles.
+%
+\input{latex/hyphenation}
+%
+%
+% Begin des Dokuments
+%
+\begin{document}
+%
+%%%%%%%%%%%%
+% Vorspann %
+%%%%%%%%%%%%
+%
+\frontmatter
+%
+% Lese Deckblatt, Abstract und Inhaltsverzeichnis
+% In dieser Datei musst Du vermutlich nichts ändern. Das Abstract findest Du in texte/abstract.tex
+%
+\input{deckblatt/titleAndContent}
+%
+%%%%%%%%%%%%%
+% Hauptteil %
+%%%%%%%%%%%%%
+%
+\mainmatter
+\sloppy
+\input{src/toc}
+
+\backmatter
+\bibliographystyle{unsrt}
+\bibliography{bib/literatur}
+%\nocite{*}
+
+\end{document}

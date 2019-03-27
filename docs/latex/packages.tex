@@ -1,0 +1,71 @@
+%%%%%%%%%%%%
+% Tabellen %
+%%%%%%%%%%%%
+% Paket supertabular: Aufteilung von Tabellen auf mehrere Seiten bzw.
+% Einbindung mehrseitige Tabellen. Die sind dann auch wirklich da, wo man sie vom Layout her hinsetzt :-)
+\usepackage{multicol}
+\usepackage{supertabular}
+%
+% Paket colortbl: Farbige Tabellenspalten
+% Documentation:  CTAN:macros/latex/contrib/colortbl
+\usepackage{colortbl}
+%
+% Paket booktabs: Trennlinien für Tabellen
+\usepackage{booktabs}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Programmcode Listings %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings}
+%
+%%%%%%%%%
+% Index %
+%%%%%%%%%
+% Paket makeidx: Zur Erstellung eines Index
+\usepackage{makeidx}
+% Erstellt einen Index
+\makeindex
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bessere Bildunterschrfiten %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[justification=centerlast,format=hang,font=small,labelfont=bf]{caption}
+%
+%%%%%%%%%
+% Farbe %
+%%%%%%%%%
+\usepackage{color}
+%
+%%%%%%%%%%%%
+% Grafiken %
+%%%%%%%%%%%%
+% PDF als Grafiken einbinden
+% Intern lädt dieses Paket das Paket graphicx automatisch.
+%\usepackage[final]{pdfpages}
+% Grafiken einbinden
+\usepackage{graphicx}
+% LaTeX-Inline-Grafiken
+\usepackage{tikz}
+\usetikzlibrary{shapes.multipart,shapes.symbols,positioning,calc,arrows}
+% Mehrere Grafiken in einer figure Umgebung
+%\usepackage{subfigure}
+%
+%%%%%%%%%%%%%%
+% Mathematik %
+%%%%%%%%%%%%%%
+\usepackage{amsmath}
+%
+%%%%%%%%%%%%%%
+% Hyperlinks %
+%%%%%%%%%%%%%%
+% Achtung: Das Paket hyperref ist etwas kritisch. Es redefiniert viele Befehle. Es sollte daher nach allen
+% anderen Paketen geladen werden und man sollte darauf achten, dass einige Befehle evtl. nicht so wie 
+% erwartet funktionieren.
+% Dokumentation zu dieser Problematik: /usr/share/doc/texmf/latex/hyperref/README.gz aus dem Paket tetex-doc
+%
+\usepackage[pdftex,pdfpagelabels,breaklinks=true,pageanchor=true,plainpages=false,pdftitle={\thesistitle},pdfauthor={\myname},pdfsubject={\thesissubject},pdfkeywords={\thesiskeywords},hyperindex=true,colorlinks=false,pdfborder={0 0 0}]{hyperref}
+
+%%%%%%%%%%
+% Andere %
+%%%%%%%%%%
+\usepackage{verbatim}

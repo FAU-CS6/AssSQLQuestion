@@ -1,0 +1,24 @@
+================
+Copyright notice
+================
+
+The code is based on the ILIAS Example Question Plugin Project,
+which can be viewed at https://github.com/ilifau/assExampleQuestion (Version 2.0.0).
+
+The original license text matches the license text used for this project.
+It can be found in the LICENSE file included in this subfolder.
+
+Modifications to original code:
+- The README.md was deleted and replaced with a new one
+- The plugin.php was modified to match the QPI-SQL project
+- The files of the templates/ subfolder have been removed and replaced with new ones
+- The dpupdate.php in the sql/ subfolder was modified to match the QPI-SQL project
+- The ilias_en.lang in the lang/ folder was modified to match the QPI-SQL project
+- An ilias_de.lang file was added in the lang/ folder
+- The class.assExampleQuestion.php, the class.assExampleQuestionGUI.php,
+  the class.ilAssExampleQuestionFeedback.php, the class.ilassExampleQuestionPlugin.php,
+  the export/qti12/class.assExampleQuestionExport.php and the import/qti12/class.assExampleQuestionImport.php
+  in the classes/ subfolder have been renamed and modified to match the QPI-SQL project.
+- A new internal/ subfolder was added in the classes subfolder/
+- The css/, docs/, js/ and lib/ subfolder have been added to the project
+- The .gitlab-ci.yml and the Dockerfile have been added to the project
