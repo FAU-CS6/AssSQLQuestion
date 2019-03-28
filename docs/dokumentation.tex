@@ -22,6 +22,9 @@
 %
 \input{latex/packages}
 %
+% Füge Bibliotheksdatei hinzu
+\addbibresource{bib/literatur.bib}
+%
 % Lese selbst definierte Befehle ein. Es steht Dir frei diese sehr hilfreichen Befehle zu verwenden. Du kannst dieses
 % Dokument allerdings auch mit samt dieser Zeile löschen.
 %
@@ -57,8 +60,9 @@
 \input{src/toc}
 
 \backmatter
-\bibliographystyle{unsrt}
-\bibliography{bib/literatur}
+\printbibliography
+%\bibliographystyle{unsrt}
+%\bibliography{bib/literatur}
 %\nocite{*}
 
 \end{document}
