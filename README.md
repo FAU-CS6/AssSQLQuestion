@@ -65,7 +65,7 @@ There are two different options to install this plugin. One for demonstration an
 1. Press "Activate" for the assSQLQuestion plugin
 
 
-## Dokumentation
+## Documentation
 Additionally to the in source documentation there is a documentation educating about the interaction of components and further informations. Due to the origin of this project this part of the documentation is only available in German. It can be viewed by compiling the `dokumentation.tex` in the `docs/` folder with *pdflatex* or a comparable Latex compiler.
 
   ```
