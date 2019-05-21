@@ -69,8 +69,29 @@
 % Andere %
 %%%%%%%%%%
 \usepackage{verbatim}
+\usepackage{float}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % Biblatex statt Natbib %
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[backend=biber, style=numeric, citestyle=numeric-comp]{biblatex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Eigene Settings %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Listings-Richtlinie
+\lstset{
+    basicstyle=\ttfamily,
+    frame=single,
+    numbers=left,
+	stepnumber=1,            
+	numbersep=10pt,           
+	numberstyle=\tiny,       
+	breaklines=true,
+	xleftmargin=19pt,
+    framexleftmargin=15pt,
+    framexrightmargin=-3pt,
+    framexbottommargin=4pt,
+    framextopmargin=4pt,
+}
