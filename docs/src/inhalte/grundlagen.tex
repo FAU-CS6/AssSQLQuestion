@@ -3,12 +3,27 @@ Bevor in den folgenden Kapiteln Einblicke in die interne Struktur des Plugins (s
 \section{Anforderungen}
 \label{sec:anforderungen}
 
-Grundlage für das \eigenname{\textbf{Q}uestion \textbf{P}lugin for \textbf{I}lias - \textbf{SQL} \textbf{(QPI-SQL)}} Projekt war die Idee, ein Plugin für \eigenname{ILIAS} zu entwickeln, dass es Studenten ermöglicht \eigenname{SQL} direkt in einem eigens entwickelten Fragentyp auszuführen und dabei auch eine automatische Korrektur der Antwort zu ermöglichen. Einige weitere Anforderungen kristallisierten sich in der Anfangsphase des Projektes heraus. So sollte das Plugin keine anderen Plugins in \eigenname{ILIAS} voraussetzen, das von den Studenten eingegebene \eigenname{SQL} nicht serverseitig ausführen und auch keine clientseitigen Technologien nutzen, die nicht zum Standard eines aktuellen Webbrowsers gehören. Die Unabhängigkeit von anderen Plugins verhindert, dass sich Administratoren mehr als nötig in ihre \eigenname{ILIAS} Umgebung installieren müssen. Die verbotene serverseitige Ausführung von studentischem \eigenname{SQL} verhindert unkontrollierte Eingriffe auf die Integrität des Servers. Und die Fokussierung auf clientseitige Technolgien die zum Standard eines Webbrowsers gehören, ermöglicht es das Plugin weitgehend unabhängig von einer Geräteart zu betreiben.
+Grundlage für das \eigenname{\textbf{Q}uestion \textbf{P}lugin for \textbf{I}lias - \textbf{SQL} \textbf{(QPI-SQL)}} Projekt war die Idee, ein Plugin für \eigenname{ILIAS} zu entwickeln, dass es Studenten ermöglicht \eigenname{SQL} direkt in einem eigens entwickelten Fragentyp auszuführen und dabei auch eine automatische Korrektur der Antwort zu ermöglichen. Einige weitere Anforderungen kristallisierten sich in der Anfangsphase des Projektes heraus:
 
-\section{Schnittstellen}
+\begin{description}
+    \item[Unabhängigkeit von Plugins] 
+    Das zu entwickelnde Plugin für \eigenname{ILIAS} soll keine anderen Plugins in \eigenname{ILIAS} voraussetzen. So wird verhindert, dass Adminstratoren mehr als nötig in ihre \eigenname{ILIAS} Umgebung installieren müssen.
+    
+    \item[Keine serverseitige Ausführung von \eigenname{SQL}] 
+    Wenn Studenten \eigenname{SQL} Code schrieben und diesen auch ausführen können sollen, so darf diese Ausführung nicht serverseitig erfolgen. So kann die Integrität des Servers besser geschützt werden.
+    
+    \item[Verwendung von standardisierten Webtechnologien] 
+    Um eine Nutzung des Plugins unabhängig von Gerät und Browser zu ermöglichen, soll das Plugin auf Seiten des Clients nur Technologien nutzen, die zum allgemeinen Standard eines aktuellen Browsers gehören.
+    
+    \item[Anpassbarkeit der automatischen Korrektur über Metriken] 
+    Die automatische Korrektur von \eigenname{SQL} ist eines der Kernelemente des zu entwickelnden Plugins. Dem Ersteller von Fragen soll dabei die Möglichkeit gegeben werden die Bewertungskriterien zu steuern. Dazu soll die Bewertung auf Basis von unterschiedlichen Metriken erfolgen, die vom Ersteller gewichtet werden können. Als Basis für die Metriken soll  Wahl et al. \cite{WahlAndreas} dienen.
+\end{description}
+
+
+\section{Abhängigkeiten}
 \label{sec:schnittstellen}
 
-Eine der zwei grundlegenden Schnittstellen des \eigenname{QPI-SQL} Projektes ist die Plugin-API von \eigenname{ILIAS}. Während sich diese Schnittstelle direkt aus den Anforderungen ableiten lässt stellte die Anforderung, dass \eigenname{SQL} zwar von Studenten ausgeführt werden soll, aber dabei weder serverseitige Datenbanken zur Verfügung stehen, noch clientseitige Programme oder Browserplugins, die Grundlage für die Verwendung der zweite elementaren Schnittstelle. Als anerkannter Webstandard bietet Javascript die Möglichkeit dynamische Berechnungen direkt im Browser auszuführen. \eigenname{SQL.js} ist eine zu Javascript kompilierte Variante des Datenbanksystems \eigenname{SQLite} (s. \cite{SQLjs}) und bietet somit im Rahmen der Anforderungen die Möglichkeit \eigenname{SQL} auszuführen.
+Eine der zwei grundlegenden Abhängigkeiten des \eigenname{QPI-SQL} Projektes ist die Plugin-API von \eigenname{ILIAS}. Während sich diese Schnittstelle direkt aus den Anforderungen ableiten lässt stellte die Anforderung, dass \eigenname{SQL} zwar von Studenten ausgeführt werden soll, aber dabei weder serverseitige Datenbanken zur Verfügung stehen, noch clientseitige Programme oder Browserplugins, die Grundlage für die Verwendung der zweite Abhängigkeit. Als anerkannter Webstandard bietet Javascript die Möglichkeit dynamische Berechnungen direkt im Browser auszuführen. \eigenname{SQL.js} ist eine zu Javascript kompilierte Variante des Datenbanksystems \eigenname{SQLite} (s. \cite{SQLjs}) und bietet somit im Rahmen der Anforderungen die Möglichkeit \eigenname{SQL} auszuführen.
 
 Dieses Kapitel gibt einen kurzen Überblick über die Verwendung der \eigenname{ILIAS} Schnittstelle (s. Kapitel \ref{subsec:ilias-plugin-api}) und SQL.js (s. Kapitel \ref{subsec:sql-js}). Dabei wird auch auf die Quellen verwiesen, die in der Entwicklung des \eigenname{SQL}-Frageplugins Verwendung fanden. 
 
