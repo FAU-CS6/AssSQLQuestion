@@ -60,7 +60,7 @@ Basierend auf unterschiedlichen Ausgangssituationen und Bedürfnissen, bietet \e
     
     \subsubsection{7. - 9. Schritt}
 
-        Anschließend muss \eigenname{assSQLQuestion} aktiviert werden. Eine kurze Anleitung dazu ist in \textbf{Kapitel \ref{subsec:installation-bestehende-instanz}} zu finden.
+        Anschließend muss \eigenname{assSQLQuestion} aktiviert werden. Eine kurze Anleitung dazu ist in \textbf{Kapitel \ref{subsec:aktivierung-des-plugins}} zu finden.
 
 
 \subsection{Installation bei einer bestehenden ILIAS Instanz}
@@ -72,7 +72,7 @@ Basierend auf unterschiedlichen Ausgangssituationen und Bedürfnissen, bietet \e
     
     \subsubsection{2. - 4. Schritt}
         
-        Nun muss \eigenname{assSQLQuestion} aktiviert werden. Eine kurze Anleitung dazu ist in \textbf{Kapitel \ref{subsec:installation-bestehende-instanz}} zu finden.
+        Nun muss \eigenname{assSQLQuestion} aktiviert werden. Eine kurze Anleitung dazu ist in \textbf{Kapitel \ref{subsec:aktivierung-des-plugins}} zu finden.
 
 
 \subsection{Aktivierung des Plugins}
@@ -80,7 +80,7 @@ Basierend auf unterschiedlichen Ausgangssituationen und Bedürfnissen, bietet \e
 
     \subsubsection{1. Schritt}
     
-        Um das Plugin zu aktiveren muss unter dem Menüpunkt \glqq\textit{Administration}\grqq\ der Unterpunkt \glqq\textit{Plugins}\grqq\ aufgerufen werden.
+        Um das Plugin zu aktivieren, muss unter dem Menüpunkt \glqq\textit{Administration}\grqq\ der Unterpunkt \glqq\textit{Plugins}\grqq\ aufgerufen werden.
         
             \begin{figure}[H]
                 \begin{center}
@@ -134,13 +134,13 @@ Dabei sei zu erwähnen, dass der Fragetyp, den \eigenname{assSQLQuestion} bereit
 
     Der erste \eigenname{assSQLQuestion} spezifische Teil beim Anlegen einer \glqq\textit{Interaktive SQL Frage}\grqq\ sind die \glqq\textit{SQL-Sequenzen}\grqq . Dabei besteht eine \glqq\textit{Interaktive SQL Frage}\grqq\ aus bis zu drei verschiedenen dieser Sequenzen - genauer Sequenz A, B und C. Bei einer späteren Ausführung werden diese drei Sequenzen gemäß Ihrer alphabetischen Reihenfolge ausgeführt. Die Sequenzen A und C werden vom Fragenersteller vorgegeben und sind für den Teilnehmer nicht zu sehen. Sequenz B soll vom Teilnehmer später selbst erarbeitet werden. Der Fragenersteller muss dazu eine Musterlösung für diese Sequenz bereitstellen, auf deren Basis später der Teilnehmer bewertet wird. Es ist hier ebenfalls zu erwähnen, dass die automatische Korrektur von \eigenname{assSQLQuestion} nicht die Anfragen an sich bewertet, sondern die letzte sichtbare Ausgabe der SQL-Sequenzen vergleicht.
     
-    Des weiteren gehört auch der sogenannte \glqq\textit{Integritätscheck}\grqq\ zum Block der \glqq\textit{SQL-Sequenzen}\grqq . Ist dieser aktiviert, werden Veränderungen an der Datenbank in Sequenz B verhindert, indem die Schlüsselworte \glqq CREATE TABLE\grqq\ , \glqq ALTER TABLE\grqq\ , \glqq DROP TABLE\grqq\ , \glqq INSERT INTO\grqq\ , \glqq UPDATE\grqq\  or \glqq DELETE FROM\grqq\ eine erfolgreiche Ausführung verhindern.
+    Des Weiteren gehört auch der sogenannte \glqq\textit{Integritätscheck}\grqq\ zum Block der \glqq\textit{SQL-Sequenzen}\grqq . Ist dieser aktiviert, werden Veränderungen an der Datenbank in Sequenz B verhindert, indem die Schlüsselworte \glqq CREATE TABLE\grqq\ , \glqq ALTER TABLE\grqq\ , \glqq DROP TABLE\grqq\ , \glqq INSERT INTO\grqq\ , \glqq UPDATE\grqq\  und \glqq DELETE FROM\grqq\ eine erfolgreiche Ausführung verhindert wird.
     
     Diese freie Definition wurde bewusst gewählt, um \glqq\textit{Interaktive SQL Frage}\grqq\ von zweierlei Art zu ermöglichen:
     
     \subsubsection{Frage zu einer SELECT-Anfrage}
     
-        In diesem Fall nutzt der Fragenersteller Sequenz A um die Datenbank mit Inhalten zu füllen und für eine SQL Anfrage vorzubereiten. Sequenz B ist der Teil der vom Testteilnehmer beantwortet werden muss, der Ersteller füllt dennoch eine beispielhafte Sequenz ein, die als Musterlösung zu werten ist. Sequenz C wird nicht benötigt und bleibt dementsprechend leer. Da bei einer SELECT-Anfrage keine Veränderungen erwünscht sind, sollte auch der Integritätscheck aktiviert werden.
+        In diesem Fall nutzt der Fragenersteller Sequenz A um die Datenbank mit Inhalten zu füllen und für eine SQL Anfrage vorzubereiten. Sequenz B ist der Teil, der vom Testteilnehmer beantwortet werden muss. Der Ersteller trägt dabei jedoch eine beispielhafte Sequenz ein, die als Musterlösung zu werten ist. Sequenz C wird nicht benötigt und bleibt dementsprechend leer. Da bei einer SELECT-Anfrage keine Veränderungen erwünscht sind, sollte auch der Integritätscheck aktiviert werden.
         
         \begin{figure}[H]
             \begin{center}
@@ -152,7 +152,7 @@ Dabei sei zu erwähnen, dass der Fragetyp, den \eigenname{assSQLQuestion} bereit
         
     \subsubsection{Frage zu CREATE TABLE, INSERT INTO, DELETE FROM, UPDATE, usw.}
     
-        Auch in diesem Fall kann der Frageersteller Sequenz A nutzen um die Datenbank mit Inhalten zu füllen. Dies ist aber von der gewünschten Fragestellung abhängig. Sequenz B ist wieder die Sequenz, die Teilnehmer im Test selbst schreiben müssen. Da die Frage die Fähigkeiten des Teilnehmers prüfen soll CREATE TABLE, INSERT INTO, DELETE FROM, UPDATE und ähnliche Anfragen zu beantworten, wird Sequenz B in den meisten Fällen keine SELECT-Anfrage enthalten. Hier ist es wichtig, dass der Testersteller dann in Sequenz C eine Ausgabe erzeugt, da sonst keine Bewertung der Antwort möglich ist. Der Integritätscheck darf dabei nicht aktiviert sein.
+        Auch in diesem Fall kann der Frageersteller Sequenz A nutzen um die Datenbank mit Inhalten zu füllen. Dies ist aber von der gewünschten Fragestellung abhängig. Sequenz B ist wieder die Sequenz, die Teilnehmer im Test selbst schreiben müssen. Da die Frage die Fähigkeiten des Teilnehmers prüfen soll CREATE TABLE, INSERT INTO, DELETE FROM, UPDATE und ähnliche Anfragen zu nutzen, wird Sequenz B in den meisten Fällen keine SELECT-Anfrage enthalten. Hier ist es wichtig, dass der Testersteller dann in Sequenz C eine Ausgabe erzeugt, da sonst keine Bewertung der Antwort möglich ist. Der Integritätscheck darf dabei nicht aktiviert sein.
         
         \begin{figure}[H]
             \begin{center}
@@ -164,7 +164,7 @@ Dabei sei zu erwähnen, dass der Fragetyp, den \eigenname{assSQLQuestion} bereit
         
 \subsection{Teil 2: Die Ausgabe}
             
-        Die Ausgabe wird bei einem Druck auf \glqq\textit{Ausführen}\grqq\ (Englische Spracheeinstellung: \glqq\textit{Execute}\grqq ) automatisch erzeugt. Bei der Erstellung einer Frage ist zu beachten, dass in der Ausgabe keine Fehlermeldung anzeigen werden darf. Außerdem ist es selbstverständlich hilfreich die Ausgabe auf ein erwartetes Ergebnis zu überprüfen.
+        Die Ausgabe wird bei einem Druck auf \glqq\textit{Ausführen}\grqq\ (Englische Spracheeinstellung: \glqq\textit{Execute}\grqq ) automatisch erzeugt. Bei der Erstellung einer Frage ist zu beachten, dass in der Ausgabe keine Fehlermeldung anzeigt werden darf. Außerdem ist es selbstverständlich hilfreich die Ausgabe auf ein erwartetes Ergebnis zu überprüfen.
         
         \begin{figure}[H]
             \begin{center}
