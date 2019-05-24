@@ -1,4 +1,4 @@
-Das \eigenname{QPI-SQL} Projekt hatte zum Ziel ein Fragenplugin für \eigenname{ILIAS} zu entwickeln, mit dem das \eigenname{SQL} Wissen von Testteilnehmern abgeprüft werden kann. Dieses Plugin trägt, nach den Namensschema, dass \eigenname{ILIAS} vorgibt, den Namen \eigenname{assSQLQuestion}. 
+Das \eigenname{QPI-SQL} Projekt hatte zum Ziel ein Fragenplugin für \eigenname{ILIAS} zu entwickeln, mit dem das \eigenname{SQL} Wissen von Testteilnehmern abgeprüft werden kann. Dieses Plugin trägt, nach den Namensschema das \eigenname{ILIAS} vorgibt, den Namen \eigenname{assSQLQuestion}. 
 Während dieses Kapitel nicht den Umfang hat, um jedes Detail der internen Struktur von \eigenname{assSQLQuestion} näher zu erläutern, konzentriert es sich auf die dort zu findenden Besonderheiten. Dabei wird auf der einen Seite erläutert, wie der \eigenname{Javascript} Code aufgebaut ist (s. Kapitel \ref{sec:javascript}). Auf der anderen Seite wird die Besonderheit der GUI Klassen von \eigenname{assSQLQuestion} näher aufgeschlüsselt (s. Kapitel \ref{sec:gui-klassen}).
 
 \section{Javascript}
@@ -8,7 +8,7 @@ Die Struktur des \eigenname{Javascript} Codes in \eigenname{assSQLQuestion} ist 
 
 Auf der einen Seite stehen hier die sogenannten \eigenname{ExecutionInputs} und \eigenname{ExecutionOutputs}. Dies sind Javascript Klassen, die implementiert wurden, um das Einlesen von Daten aus \eigenname{HTML} Elementen (\eigenname{ExecutionInputs}), so wie die Ausgabe in selbige (\eigenname{ExecutionOutputs}), von der eigentlichen Javascript Logik zu trennen.
 
-In Abbildung \ref{fig:execution-inputs} ist eine Übersicht über die \eigenname{ExecutionInputs} zu sehen. Mit Hilfe von \eigenname{HiddenFieldInput} können Inhalte aus versteckten Feldern ausgelesen werden, während \eigenname{HiddenTextareaInput} die selbe Aufgabe für unsichtbare Textbereiche übernimmt. Der aktuelle Wert des Kontrollkästchens zum Setzten eines Integritätschecks kann mit \eigenname{IntegrityCheckCheckboxInput} ausgelesen werden, während die wichtigste Eingabe - die Eingabe von \eigenname{SQL} Sequenzen - über \eigenname{SequenceTextareaInput} abgerufen werden kann.
+In Abbildung \ref{fig:execution-inputs} ist eine Übersicht über die \eigenname{ExecutionInputs} zu sehen. Mit Hilfe von \eigenname{HiddenFieldInput} können Inhalte aus versteckten Feldern ausgelesen werden, während \eigenname{HiddenTextareaInput} dieselbe Aufgabe für unsichtbare Textbereiche übernimmt. Der aktuelle Wert des Kontrollkästchens zum Setzten eines Integritätschecks kann mit \eigenname{IntegrityCheckCheckboxInput} ausgelesen werden, während die wichtigste Eingabe - die Eingabe von \eigenname{SQL} Sequenzen - über \eigenname{SequenceTextareaInput} abgerufen werden kann.
 
     \begin{figure}[H]
         \begin{center}
@@ -57,7 +57,7 @@ Im Gegensatz zu \eigenname{assExampleQuestion} und \eigenname{assCodeQuestion}, 
 
 Die Idee hinter der Struktur dieser Klassen basiert darauf, dass sich die GUI von Fragenplugins in \eigenname{ILIAS} in drei Szenen einteilt. Eine Szene beschreibt die GUI beim Anlegen und Bearbeiten einer Szene, eine Zweite beschreibt die Fragenvorschau, so wie die Anzeige der eigentlichen Frage in einem Test, und eine Dritte betrifft die Anzeige der Lösung.
 
-Dabei besitzt \eigenname{assSQLQuestion} vier GUI Bereiche, die sich in jeder dieser Szenen wiederholen (s.Abbildung \ref{fig:gui-bereiche}). Einmal gibt es den Bereich der die Frage wiedergibt - die \eigenname{QuestionArea} (Blau). Als zweites gibt es den Bereich der die \eigenname{SQL}-Sequenzen enthält, genannt \eigenname{SequenceArea} (Orange). Dann gibt es den Bereich der die Ausgabe beinhaltet, die  \eigenname{OutputArea} (Grün). Und es gibt die \eigenname{ScoringArea}, welche die Metriken umschließt (Gelb). 
+Dabei besitzt \eigenname{assSQLQuestion} vier GUI Bereiche, die sich in jeder dieser Szenen wiederholen (s.Abbildung \ref{fig:gui-bereiche}). Einmal gibt es den Bereich der die Frage wiedergibt - die \eigenname{QuestionArea} (Blau). Als zweites gibt es den Bereich der die \eigenname{SQL}-Sequenzen enthält, genannt \eigenname{SequenceArea} (Orange). Dann gibt es den Bereich der die Ausgabe beinhaltet, die  \eigenname{OutputArea} (Grün). Und es gibt die \eigenname{ScoringArea}, welche die Metriken umschließt (Gelb).  
 
     \begin{figure}[H]
         \begin{center}
