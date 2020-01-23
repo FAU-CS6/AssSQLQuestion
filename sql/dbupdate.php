@@ -117,7 +117,7 @@ if (!$ilDB->tableExists('il_qpl_qst_qpisql_qsm')) {
     // The type of the scoring metric (second part of the primary key - has to be unique for a single question)
     'type' => array(
       'type' => 'text',
-      'length' => 256
+      'length' => 128
     ),
     'points' => array(
       'type' => 'integer'
