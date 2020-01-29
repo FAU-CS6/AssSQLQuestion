@@ -92,7 +92,6 @@ class SQLResult
    */
   getColumnNamesAsJSON()
   {
-    console.log(this.columns);
     return JSON.stringify(this.columns);
   }
 
