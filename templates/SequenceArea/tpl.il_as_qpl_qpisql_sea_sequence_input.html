@@ -5,7 +5,7 @@
   </div>
 
   <!-- Sequence input -->
-  <textarea id="{ID}" name="{NAME}" data-contains-code class="qpisql-code-input-box" cols="80" rows="10">{CONTENT}</textarea>
+  <textarea id="{ID}" name="{NAME}" data-contains-code class="qpisql-code-input-box noRTEditor" cols="80" rows="10" form="form_qpisql" onchange="console.log('Test 1')">{CONTENT}</textarea>
 
   <script>
     // Create a coding box out of the textarea
@@ -24,6 +24,16 @@
 
     // Create an ExecutionOutput out of this
     window.EXECUTE_HANDLER.registerOutput(new SequenceTextareaOutput(editor_{ID}));
+
+    // Fix conflicts with RTEditor
+    if (editor_{ID}.display.input.textarea)  {
+        editor_{ID}.display.input.textarea.className = "noRTEditor"
+    }
+    document.getElementById('{ID}').setAttribute('data-has-editor', true)
+
+    editor_{ID}.on('change',function(cMirror){
+        document.getElementById('{ID}').value = cMirror.getValue();
+    })
   </script>
 
 </div>
