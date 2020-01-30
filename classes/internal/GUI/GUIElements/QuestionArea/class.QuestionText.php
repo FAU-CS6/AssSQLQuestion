@@ -5,6 +5,9 @@ require_once __DIR__.'/../../class.GUIElement.php';
  * Represents the question area GUIElement
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
+ *
+ * @ilctrl_iscalledby QuestionText: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls QuestionText: ilFormPropertyDispatchGUI
  */
 class QuestionText extends GUIElement
 {

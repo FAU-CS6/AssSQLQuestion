@@ -5,6 +5,9 @@ require_once __DIR__.'/../../class.GUIElement.php';
  * Represents the integrityCheck GUIElement
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
+ *
+ * @ilctrl_iscalledby IntegrityCheck: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls IntegrityCheck: ilFormPropertyDispatchGUI
  */
 class IntegrityCheck extends GUIElement
 {

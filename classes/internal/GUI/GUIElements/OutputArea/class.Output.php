@@ -5,6 +5,9 @@ require_once __DIR__.'/../../class.GUIElement.php';
  * Represents the actual output element
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
+ *
+ * @ilctrl_iscalledby Output: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls Output: ilFormPropertyDispatchGUI
  */
 class Output extends GUIElement
 {

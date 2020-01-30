@@ -5,6 +5,9 @@ require_once __DIR__.'/../../class.GUIElement.php';
  * Represents the info area GUIElement
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
+ *
+ * @ilctrl_iscalledby OutputInfo: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls OutputInfo: ilFormPropertyDispatchGUI
  */
 class OutputInfo extends GUIElement
 {

@@ -8,6 +8,9 @@ require_once __DIR__.'/../GUIElements/OutputArea/class.Output.php';
  * Represents the output area used in assSQLQuestionGUI
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
+ *
+ * @ilctrl_iscalledby ScoringArea: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls ScoringArea: ilFormPropertyDispatchGUI
  */
 class OutputArea extends GUIArea
 {

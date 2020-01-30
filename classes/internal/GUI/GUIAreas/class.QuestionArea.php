@@ -7,6 +7,9 @@ require_once __DIR__.'/../GUIElements/QuestionArea/class.QuestionText.php';
  * Represents the area used in assSQLQuestionGUI to display the question
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
+ *
+ * @ilctrl_iscalledby QuestionArea: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls QuestionArea: ilFormPropertyDispatchGUI
  */
 class QuestionArea extends GUIArea
 {

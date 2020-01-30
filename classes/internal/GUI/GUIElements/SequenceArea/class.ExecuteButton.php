@@ -5,6 +5,9 @@ require_once __DIR__.'/../../class.GUIElement.php';
  * Represents the execute button GUIElement
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
+ *
+ * @ilctrl_iscalledby ExecuteButton: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls ExecuteButton: ilFormPropertyDispatchGUI
  */
 class ExecuteButton extends GUIElement
 {

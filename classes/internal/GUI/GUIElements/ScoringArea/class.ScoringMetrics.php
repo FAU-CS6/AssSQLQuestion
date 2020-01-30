@@ -13,6 +13,9 @@ require_once __DIR__.'/../../../Scoring/ScoringMetrics/FunctionalDependencies/cl
  * Represents the quantity of ScoringMetrics
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
+ *
+ * @ilctrl_iscalledby ScoringMetrics: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls ScoringMetrics: ilFormPropertyDispatchGUI
  */
 class ScoringMetrics extends GUIElement
 {

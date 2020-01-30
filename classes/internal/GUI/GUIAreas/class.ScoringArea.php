@@ -8,6 +8,9 @@ require_once __DIR__.'/../GUIElements/ScoringArea/class.ScoringMetrics.php';
  * Represents the scoring area used in assSQLQuestionGUI
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
+ *
+ * @ilctrl_iscalledby ScoringArea: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls ScoringArea: ilFormPropertyDispatchGUI
  */
 class ScoringArea extends GUIArea
 {

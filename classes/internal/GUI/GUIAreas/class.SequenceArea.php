@@ -12,6 +12,9 @@ require_once __DIR__.'/../GUIElements/SequenceArea/class.ExecuteButton.php';
  * Represents the sequence area used in assSQLQuestionGUI
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
+ *
+ * @ilctrl_iscalledby SequenceArea: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls SequenceArea: ilFormPropertyDispatchGUI
  */
 class SequenceArea extends GUIArea
 {

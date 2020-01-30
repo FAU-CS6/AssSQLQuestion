@@ -8,6 +8,9 @@ require_once "./Services/Form/classes/class.ilCustomInputGUI.php";
  * the all the same areas.
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
+ *
+ * @ilctrl_iscalledby GUIArea: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls GUIArea: ilFormPropertyDispatchGUI
  */
 abstract class GUIArea extends ilCustomInputGUI
 {

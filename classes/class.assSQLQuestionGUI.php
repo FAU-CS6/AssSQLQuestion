@@ -13,6 +13,7 @@ require_once "internal/DataStructures/class.ParticipantInput.php";
  * @ingroup ModulesTestQuestionPool
  *
  * @ilctrl_iscalledby assSQLQuestionGUI: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls assSQLQuestionGUI: ilFormPropertyDispatchGUI
  */
 class assSQLQuestionGUI extends assQuestionGUI
 {
