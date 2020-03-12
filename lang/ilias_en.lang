@@ -8,7 +8,7 @@
 gi_name#:#Interactive SQL Question
 
 // A short information text introducing users to the question type
-gi_info#:#This question type makes it possible to interactively check the SQL skills of participants. The examinees are given the opportunity to execute their SQL queries directly in the browser on the basis of SQL.js and thus receive direct feedback on the functionality of their written queries. The levies are assessed fully automatically based on various metrics on the output relation.
+gi_info#:#This question type makes it possible to interactively check the SQL skills of participants. The examinees are given the opportunity to execute their SQL queries directly in the browser on the basis of SQL.js and thus receive direct feedback on the functionality of their written queries. The levies are assessed fully automatically based on various metrics on the output relation. <br /><b>Warning: This plugin is in an early development phase. The use of the plugin is without any warranty of the developer and at the users own risk.</b>
 
 ///////////////////////////////////////////////////////////////
 // Strings used in the different output areas ("ai_" prefix) //

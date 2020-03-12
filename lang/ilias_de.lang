@@ -8,7 +8,7 @@
 gi_name#:#Interaktive SQL Frage
 
 // A short information text introducing users to the question type
-gi_info#:#Dieser Fragentyp ermöglicht es die SQL Kenntnisse von Teilnehmern interaktiv zu prüfen. Den Prüflingen wird dabei die Möglichkeit gegeben ihre SQL Anfragen direkt im Browser auf Basis von SQL.js auszuführen und so eine direkte Rückmeldung zu der Funktionalität ihrer geschriebenen Anfragen zu erhalten. Bewertet werden die Abgaben dabei vollautomatisch auf Basis verschiedener Metriken über die Ausgaberelation.
+gi_info#:#Dieser Fragentyp ermöglicht es die SQL Kenntnisse von Teilnehmern interaktiv zu prüfen. Den Prüflingen wird dabei die Möglichkeit gegeben ihre SQL Anfragen direkt im Browser auf Basis von SQL.js auszuführen und so eine direkte Rückmeldung zu der Funktionalität ihrer geschriebenen Anfragen zu erhalten. Bewertet werden die Abgaben dabei vollautomatisch auf Basis verschiedener Metriken über die Ausgaberelation.<br /><b>Hinweis: Dieses Plugin befindet sich noch in einer frühen Entwicklungsphase. Die Verwendung des Plugins erfolgt ohne jede Gewährleistung des Entwicklers und auf eigene Gefahr des Nutzers.</b>
 
 ///////////////////////////////////////////////////////////////
 // Strings used in the different output areas ("ai_" prefix) //
