@@ -144,7 +144,7 @@ if (!$ilDB->tableExists('il_qpl_qst_qpisql_qsm')) {
 /**
  * Table "il_qpl_qst_qpisql_qd"
  */
-if (!$ilDB->tableExists('il_qpl_qst_qpisql_qd')) {
+if ($ilDB->tableExists('il_qpl_qst_qpisql_qd')) {
    $ilDB->modifyTableColumn('il_qpl_qst_qpisql_qd', 'sequence_a', array('type' => 'clob'));
    $ilDB->modifyTableColumn('il_qpl_qst_qpisql_qd', 'sequence_b', array('type' => 'clob'));
    $ilDB->modifyTableColumn('il_qpl_qst_qpisql_qd', 'sequence_c', array('type' => 'clob'));
