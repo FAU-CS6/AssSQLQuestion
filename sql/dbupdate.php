@@ -131,3 +131,22 @@ if (!$ilDB->tableExists('il_qpl_qst_qpisql_qsm')) {
     $ilDB->addPrimaryKey("il_qpl_qst_qpisql_qsm", array("question_fi","type"));
 }
 ?>
+<#3>
+<?php
+/**
+ * Third part:
+ * Updating the sequences to support bigger SQL statements without being cropped
+ *
+ * Supported data types in ilDB:
+ * text, integer, float, date, time, timestamp, clob, blob in
+ */
+
+/**
+ * Table "il_qpl_qst_qpisql_qd"
+ */
+if (!$ilDB->tableExists('il_qpl_qst_qpisql_qd')) {
+   $ilDB->modifyTableColumn('il_qpl_qst_qpisql_qd', 'sequence_a', array('type' => 'clob'));
+   $ilDB->modifyTableColumn('il_qpl_qst_qpisql_qd', 'sequence_b', array('type' => 'clob'));
+   $ilDB->modifyTableColumn('il_qpl_qst_qpisql_qd', 'sequence_c', array('type' => 'clob'));
+}
+?>
