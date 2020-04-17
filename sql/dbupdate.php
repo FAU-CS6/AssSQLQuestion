@@ -150,3 +150,22 @@ if ($ilDB->tableExists('il_qpl_qst_qpisql_qd')) {
    $ilDB->modifyTableColumn('il_qpl_qst_qpisql_qd', 'sequence_c', array('type' => 'clob'));
 }
 ?>
+<#4>
+<?php
+/**
+ * 4th part:
+ * Something went totally wrong with the commits - so we have to inclode No. 3 a second time
+ *
+ * Supported data types in ilDB:
+ * text, integer, float, date, time, timestamp, clob, blob in
+ */
+
+/**
+ * Table "il_qpl_qst_qpisql_qd"
+ */
+if ($ilDB->tableExists('il_qpl_qst_qpisql_qd')) {
+   $ilDB->modifyTableColumn('il_qpl_qst_qpisql_qd', 'sequence_a', array('type' => 'clob'));
+   $ilDB->modifyTableColumn('il_qpl_qst_qpisql_qd', 'sequence_b', array('type' => 'clob'));
+   $ilDB->modifyTableColumn('il_qpl_qst_qpisql_qd', 'sequence_c', array('type' => 'clob'));
+}
+?>

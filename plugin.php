@@ -4,7 +4,7 @@
 $id = "qpisql";
 
 // Version of the Plugin
-$version = "0.0.76";
+$version = "0.0.77";
 
 // Supported Ilias Versions
 $ilias_min_version = "5.4.0";
