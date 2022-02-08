@@ -9,8 +9,8 @@ require_once __DIR__.'/../GUIElements/OutputArea/class.Output.php';
  *
  * @author Dominik Probst <dominik.probst@studium.fau.de>
  *
- * @ilctrl_iscalledby ScoringArea: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
- * @ilCtrl_Calls ScoringArea: ilFormPropertyDispatchGUI
+ * @ilctrl_iscalledby OutputArea: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
+ * @ilCtrl_Calls OutputArea: ilFormPropertyDispatchGUI
  */
 class OutputArea extends GUIArea
 {

@@ -14,7 +14,25 @@ There are two different options to install this plugin. One for demonstration an
 
 1. Copy the content of this repository into the `Customizing/global/plugins/Modules/TestQuestionPool/Questions/assSQLQuestion` subfolder of your ILIAS installation. It might be necessary to create the subfolders if they do not exist.
 
-1. Access Adminstration -> Plugins
+1. Access Adminstration -> Extending ILIAS -> Plugins
+
+1. Press "Install" for the assSQLQuestion plugin
+
+1. Press "Activate" for the assSQLQuestion plugin
+
+### Installation for testing purposes
+
+1. Install Docker-compose on your device
+
+1. Start the test installation of ILIAS by executing `docker-compose up` in the root folder of this repository and write down the login data for ILIAS, which will be displayed in the console at the end of the installation process.
+
+1. Prepare the plugin subfolder by executing `docker exec [NAME_OF_THE_ILIAS_CONTAINER] mkdir -p /var/www/html/Customizing/global/plugins/Modules/TestQuestionPool/Questions/`
+
+1. Copy the content of this repository into the container by executing `docker cp . [NAME_OF_THE_ILIAS_CONTAINER]:/var/www/html/Customizing/global/plugins/Modules/TestQuestionPool/Questions/assSQLQuestion` in the root folder of this repository
+
+1. Access the ILIAS installation at `localhost:8080`
+
+1. Access Adminstration -> Extending ILIAS -> Plugins
 
 1. Press "Install" for the assSQLQuestion plugin
 
@@ -28,7 +46,6 @@ Additionally to the in source documentation there is a documentation educating a
     pdflatex dokumentation.tex
   ```
 
+## Additional Information
 
-## Addtional Information
-
-***QPI-SQL*** is a project started by Dominik Probst (Email: [me@dominik-probst.de](mailto:me@dominik-probst.de)) as part of his master's degree in 2018. The accompanying chair is the [*Chair of Computer Science 6*](https://www.cs6.tf.fau.eu) at [*Friedrich-Alexander University Erlangen-Nuremberg*](https://www.fau.eu/).
+***QPI-SQL*** is a project started by Dominik Probst (https://cs6.tf.fau.eu/dp) as part of his master's degree in 2018. The accompanying chair is the [*Chair of Computer Science 6*](https://www.cs6.tf.fau.eu) at [*Friedrich-Alexander University Erlangen-Nuremberg*](https://www.fau.eu/).
