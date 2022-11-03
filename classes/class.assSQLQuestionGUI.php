@@ -340,7 +340,7 @@ class assSQLQuestionGUI extends assQuestionGUI
                 );
             }
 
-            $this->addTab_QuestionPreview($ilTabs);
+            $this->addTab_Question($ilTabs);
         }
 
         $force_active = false;
