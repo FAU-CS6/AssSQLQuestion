@@ -8,7 +8,7 @@ $version = "0.0.78";
 
 // Supported Ilias Versions
 $ilias_min_version = "5.4.0";
-$ilias_max_version = "7.5.999";
+$ilias_max_version = "7.999";
 
 // Main Responsible Person
 $responsible = "Dominik Probst";

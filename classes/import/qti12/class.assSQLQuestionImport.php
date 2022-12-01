@@ -15,9 +15,10 @@ class assSQLQuestionImport extends assQuestionImport
      * @param object $tst_object A reference to the parent test object
      * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
      * @param array $import_mapping An array containing references to included ILIAS objects
+     * @param array $solutionhints
      * @access public
      */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping, array $solutionhints = [])
     {
         global $ilUser, $ilLog;
 
